@@ -25,3 +25,15 @@ Open `public/index.html` in a browser.
 
 ## Version Control
 Git is used for source control.
+
+## Commit Message Convention
+
+This project follows the Conventional Commits specification.
+
+Format:
+<type>: <description>
+
+Example:
+feat: add budget based recommendation
+fix: resolve price calculation bug
+docs: add source analysis
