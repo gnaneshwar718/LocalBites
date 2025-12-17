@@ -1,6 +1,6 @@
 import js from "@eslint/js";
 import globals from "globals";
-
+import prettier from "eslint-config-prettier";
 export default [
   {
     ignores: [
@@ -21,6 +21,7 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
+      ...prettier.rules,
       "no-console": "off",
       "strict": ["error", "global"]
     }
