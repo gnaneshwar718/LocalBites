@@ -23,17 +23,47 @@ LocalBites is a traveler-focused web application for discovering authentic local
 ## How to Run
 Open `public/index.html` in a browser.
 
-## Version Control
-Git is used for source control.
+## Source Analysis & Code Quality
 
-## Commit Message Convention
+This project follows modern development best practices:
 
-This project follows the Conventional Commits specification.
+- **ESLint** for JavaScript linting
+- **Stylelint** for CSS linting
+- **Prettier** for consistent formatting
+- **Husky + lint-staged** to enforce linting and formatting before commits
 
-Format:
-<type>: <description>
+These tools ensure clean, readable, and maintainable code.
 
-Example:
-feat: add budget based recommendation
-fix: resolve price calculation bug
-docs: add source analysis
+## Version Control & Git Workflow
+
+- Git is used for source control
+- Automated checks prevent:
+  - Invalid commit messages
+  - Linting errors
+  - Poor formatting
+
+##  Commit Message Convention
+
+This project follows the **Conventional Commits** specification.
+
+### Format
+<type>: <short description>
+
+
+
+### Examples
+feat: add budget-based food recommendations
+fix: resolve eslint browser globals issue
+docs: update project documentation
+chore: setup linting and git hooks
+
+
+
+Commits that do not follow this format are automatically blocked.
+
+
+
+## Contributors
+
+- **B Rakshitha**
+- **Gnaneshwar P**
