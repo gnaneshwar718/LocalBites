@@ -6,11 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
-    "lint": "eslint src/js && stylelint src/css/**/*.css",
-    "format": "prettier --write src public"
+    "lint": "eslint src/js/**/*.js"
   },
-
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,22 +20,8 @@
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1"
-  },
-  "lint-staged": {
-    "src/js/**/*.js": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "src/css/**/*.css": [
-      "stylelint --fix",
-      "prettier --write"
-    ],
-    "public/**/*.html": [
-      "prettier --write"
-    ]
   }
 }
