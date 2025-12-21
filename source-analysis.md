@@ -9,15 +9,15 @@ This document explains the source structure, development environment, tooling de
 ## 2. Application Type
 
 LocalBites is a **static web application** built using:
+
 - HTML for structure
 - CSS for styling
 - JavaScript for client-side logic
 
- All logic runs in the browser.
-
-
+All logic runs in the browser.
 
 ### Reasoning
+
 - Keeps HTML separate from logic and styling
 - Improves maintainability and readability
 - Scales well if features are added later
@@ -32,6 +32,7 @@ LocalBites is a **static web application** built using:
 - **Version Manager:** NVM (Node Version Manager)
 
 ### Why NVM?
+
 - Ensures consistent Node.js version across systems
 - Avoids environment-specific issues
 - Makes the project reproducible on any machine
@@ -64,7 +65,9 @@ ESLint runs automatically before commits using Git hooks.
 The project uses **Husky** and **lint-staged** to automate checks.
 
 ### Pre-commit Checks
+
 Before any commit:
+
 - JavaScript is linted and auto-fixed
 - CSS is linted and auto-fixed
 - Code is formatted consistently
@@ -78,10 +81,12 @@ If errors cannot be fixed automatically, the commit is blocked.
 The project follows the **Conventional Commits** specification.
 
 ### Enforced Using
+
 - Husky (commit-msg hook)
 - Commitlint
 
 ### Example Valid Commits
+
 feat: add local food recommendation logic
 fix: resolve eslint browser globals issue
 docs: add source analysis documentation

@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "prepare": "husky install",
-    "lint": "eslint src/js/**/*.js"
+    "lint": "eslint src/js/**/*.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
@@ -21,8 +23,20 @@
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1"
+  },
+  "lint-staged": {
+    "src/js/**/*.js": [
+      "eslint"
+    ],
+    "src/css/**/*.css": [
+      "stylelint"
+    ],
+    "**/*.{js,css,html,json,md}": [
+      "prettier --write"
+    ]
   }
 }

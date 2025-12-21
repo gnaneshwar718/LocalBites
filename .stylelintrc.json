@@ -3,7 +3,6 @@
   "rules": {
     "no-empty-source": true,
     "color-named": "never",
-    "color-function-notation": "none",
-    "string-quotes": "single"
+    "color-function-notation": "modern"
   }
 }
