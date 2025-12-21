@@ -59,17 +59,6 @@ ESLint runs automatically before commits using Git hooks.
 
 ---
 
-### 5.3 Prettier (Formatting)
-
-- Ensures consistent formatting for:
-  - JavaScript
-  - CSS
-  - HTML
-- Removes formatting differences between developers
-- Integrated with Git hooks
-
----
-
 ## 6. Git Hooks & Automation
 
 The project uses **Husky** and **lint-staged** to automate checks.

@@ -4,7 +4,7 @@
   "description": "LocalBites is a traveler-focused web application for discovering authentic local food spots.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "husky install",
     "lint": "eslint src/js/**/*.js"
   },
@@ -20,6 +20,7 @@
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
+    "jest": "^30.2.0",
     "prettier": "^3.7.4",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1"
