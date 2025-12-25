@@ -4,6 +4,7 @@
   "description": "LocalBites is a traveler-focused web application for discovering authentic local food spots.",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "jest",
     "prepare": "husky install",
     "lint": "eslint src/js/**/*.js",
@@ -41,5 +42,9 @@
     "**/*.{js,css,html,json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "express": "^5.2.1"
   }
 }
