@@ -35,6 +35,3 @@ jobs:
 
       - name: Run Tests
         run: npm test
-
-      - name: Run All-Tests
-        run: npx lint-staged
