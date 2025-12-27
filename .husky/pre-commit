@@ -1,1 +1,12 @@
-npx lint-staged
+#!/bin/sh
+npx eslint .
+npx stylelint "**/*.css"
+
+STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.js$')
+
+if [ -n "$STAGED_JS_FILES" ]; then
+  echo "Running tests for changed files..."
+  node --experimental-vm-modules node_modules/jest/bin/jest.js --bail --findRelatedTests $STAGED_JS_FILES
+else
+  npm test
+fi
