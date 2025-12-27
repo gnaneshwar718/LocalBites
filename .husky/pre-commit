@@ -1,12 +1,24 @@
 #!/bin/sh
-npx eslint .
-npx stylelint "**/*.css"
 
-STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.js$')
+# Get staged JS files (allow empty)
+STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.js$' || true)
 
+# ESLint
 if [ -n "$STAGED_JS_FILES" ]; then
-  echo "Running tests for changed files..."
-  node --experimental-vm-modules node_modules/jest/bin/jest.js --bail --findRelatedTests $STAGED_JS_FILES
+  echo "Running ESLint on staged JS files..."
+  npx eslint $STAGED_JS_FILES || exit 1
 else
-  npm test
+  echo "No JS files staged, skipping ESLint"
+fi
+
+# Stylelint (always check project CSS)
+echo "Running Stylelint on project CSS..."
+npx stylelint "src/css/**/*.css" || exit 1
+
+# Jest
+if [ -n "$STAGED_JS_FILES" ]; then
+  echo "Running tests for changed JS files..."
+  node --experimental-vm-modules node_modules/jest/bin/jest.js --bail --findRelatedTests $STAGED_JS_FILES || exit 1
+else
+  echo "No JS changes, skipping tests"
 fi
