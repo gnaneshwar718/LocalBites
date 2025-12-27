@@ -6,18 +6,37 @@ const container = document.getElementById('container');
 const mobileSignUp = document.getElementById('mobile-signUp');
 const mobileSignIn = document.getElementById('mobile-signIn');
 
+const showMessage = (formId, text, type) => {
+  const messageElement = document.getElementById(`${formId}-message`);
+  if (messageElement) {
+    messageElement.textContent = text;
+    messageElement.className = `message message-${type}`;
+    messageElement.style.display = 'block';
+  }
+};
+
+const clearMessages = () => {
+  document.querySelectorAll('.message').forEach((msg) => {
+    msg.style.display = 'none';
+    msg.textContent = '';
+  });
+};
+
 signUpButton.addEventListener('click', () => {
   container.classList.add('right-panel-active');
+  clearMessages();
 });
 
 signInButton.addEventListener('click', () => {
   container.classList.remove('right-panel-active');
+  clearMessages();
 });
 
 if (mobileSignUp) {
   mobileSignUp.addEventListener('click', (e) => {
     e.preventDefault();
     container.classList.add('right-panel-active');
+    clearMessages();
   });
 }
 
@@ -25,8 +44,19 @@ if (mobileSignIn) {
   mobileSignIn.addEventListener('click', (e) => {
     e.preventDefault();
     container.classList.remove('right-panel-active');
+    clearMessages();
   });
 }
+
+document.querySelectorAll('input').forEach((input) => {
+  input.addEventListener('input', () => {
+    const formId = input.closest('form').id.split('-')[0];
+    const messageElement = document.getElementById(`${formId}-message`);
+    if (messageElement) {
+      messageElement.style.display = 'none';
+    }
+  });
+});
 
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -38,7 +68,7 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   ).value;
 
   if (password !== retypePassword) {
-    alert('Passwords do not match!');
+    showMessage('signup', 'Passwords do not match!', 'error');
     return;
   }
 
@@ -51,14 +81,17 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      alert('Sign up successful! Please sign in.');
-      container.classList.remove('right-panel-active');
+      showMessage('signup', 'Sign up successful! Please sign in.', 'success');
+      setTimeout(() => {
+        container.classList.remove('right-panel-active');
+        clearMessages();
+      }, 2000);
     } else {
-      alert(data.message || 'Sign up failed');
+      showMessage('signup', data.message || 'Sign up failed', 'error');
     }
   } catch (error) {
     console.error('Error:', error);
-    alert('An error occurred during sign up.');
+    showMessage('signup', 'An error occurred during sign up.', 'error');
   }
 });
 
@@ -76,13 +109,15 @@ document.getElementById('signin-form').addEventListener('submit', async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      alert(`Welcome back, ${data.user.name}!`);
-      window.location.href = '/';
+      showMessage('signin', `Welcome back, ${data.user.name}!`, 'success');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1500);
     } else {
-      alert(data.message || 'Sign in failed');
+      showMessage('signin', data.message || 'Sign in failed', 'error');
     }
   } catch (error) {
     console.error('Error:', error);
-    alert('An error occurred during sign in.');
+    showMessage('signin', 'An error occurred during sign in.', 'error');
   }
 });

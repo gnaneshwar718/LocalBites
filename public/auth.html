@@ -1,86 +1,73 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LocalBites - Sign In / Sign Up</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="/css/auth.css" />
-  </head>
 
-  <body>
-    <div class="container" id="container">
-      <div class="form-container sign-up-container">
-        <form id="signup-form">
-          <h1>Create Account</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LocalBites - Sign In / Sign Up</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
 
-          <input type="text" id="signup-name" placeholder="Name" required />
-          <input type="email" id="signup-email" placeholder="Email" required />
-          <input
-            type="password"
-            id="signup-password"
-            placeholder="Password"
-            required
-          />
-          <input
-            type="password"
-            id="signup-retype-password"
-            placeholder="Retype Password"
-            required
-          />
-          <button type="submit">Sign Up</button>
-          <p class="mobile-only">
-            Already have an account? <a href="#" id="mobile-signIn">Sign In</a>
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form id="signup-form">
+        <h1>Create Account</h1>
+        <div id="signup-message" class="message"></div>
+        <input type="text" id="signup-name" placeholder="Name" required />
+        <input type="email" id="signup-email" placeholder="Email" required />
+        <input type="password" id="signup-password" placeholder="Password" required />
+        <input type="password" id="signup-retype-password" placeholder="Retype Password" required />
+        <button type="submit">Sign Up</button>
+        <p class="mobile-only">
+          Already have an account? <a href="#" id="mobile-signIn">Sign In</a>
+        </p>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form id="signin-form">
+        <h1>Sign in</h1>
+        <div id="signin-message" class="message"></div>
+        <input type="email" id="signin-email" placeholder="Email" required />
+        <input type="password" id="signin-password" placeholder="Password" required />
+        <a href="#">Forgot your password?</a>
+        <button type="submit">Sign In</button>
+        <p class="mobile-only">
+          Don't have an account? <a href="#" id="mobile-signUp">Sign Up</a>
+        </p>
+      </form>
+    </div>
+
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Come join us!</h1>
+          <p>
+            We are so excited to have you here. If you haven’t already, create
+            an account, Sign in to discover local restaurants, explore hidden
+            food gems, and plan your next bite with ease.
           </p>
-        </form>
-      </div>
-      <div class="form-container sign-in-container">
-        <form id="signin-form">
-          <h1>Sign in</h1>
-          <input type="email" id="signin-email" placeholder="Email" required />
-          <input
-            type="password"
-            id="signin-password"
-            placeholder="Password"
-            required
-          />
-          <a href="#">Forgot your password?</a>
-          <button type="submit">Sign In</button>
-          <p class="mobile-only">
-            Don't have an account? <a href="#" id="mobile-signUp">Sign Up</a>
+          <p> Already have an account?</p>
+          <button class="ghost" id="signIn">
+            Sign in
+          </button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Welcome Back!</h1>
+          <p>
+            We are so happy to have you here. It’s great to see
+            you again. Jump back in and explore your favorite local food spots
+            with LocalBites.
           </p>
-        </form>
-      </div>
-
-      <div class="overlay-container">
-        <div class="overlay">
-          <div class="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>
-              Welcome back! we are so happy to have you here. It’s great to see
-              you again. Jump back in and explore your favorite local food spots
-              with LocalBites.
-            </p>
-            <button class="ghost" id="signIn">
-              Already have an account? Sign in.
-            </button>
-          </div>
-          <div class="overlay-panel overlay-right">
-            <h1>Come join us!</h1>
-            <p>
-              We are so excited to have you here. If you haven’t already, create
-              an account, Sign in to discover local restaurants, explore hidden
-              food gems, and plan your next bite with ease.
-            </p>
-            <button class="ghost" id="signUp">No account yet? Sign up.</button>
-          </div>
+          <p>No account yet?</p>
+          <button class="ghost" id="signUp"> Sign up</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="/js/auth.js"></script>
-  </body>
+  <script src="/js/auth.js"></script>
+</body>
+
 </html>
