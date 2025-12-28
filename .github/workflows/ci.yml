@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint . --debug
+        run: npx eslint .
 
       - name: Run Stylelint
         run: npx stylelint "src/css/**/*.css"
