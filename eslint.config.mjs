@@ -3,7 +3,6 @@ import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 
 export default [
-  /* ---------- Ignore generated & config ---------- */
   {
     ignores: [
       'node_modules/**',
@@ -13,7 +12,6 @@ export default [
     ],
   },
 
-  /* ---------- Browser JS (App code) ---------- */
   {
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
     languageOptions: {
@@ -31,7 +29,6 @@ export default [
     },
   },
 
-  /* ---------- Jest Test Files ---------- */
   {
     files: ['src/js/**/*.test.js'],
     languageOptions: {
@@ -48,7 +45,6 @@ export default [
     },
   },
 
-  /* ---------- Node (CommonJS) ---------- */
   {
     files: ['server.js', 'commitlint.config.js'],
     languageOptions: {
@@ -65,7 +61,7 @@ export default [
     },
   },
 
-  /* ---------- Node (ESM .mjs files) ---------- */
+
   {
     files: ['**/*.mjs'],
     languageOptions: {
