@@ -90,27 +90,32 @@ input {
 }
 
 .message {
-  margin: 0.625rem 0;
-  padding: 0.625rem;
+  margin: 0.25rem 0;
+  padding: 0.5rem;
   border-radius: 0.3125rem;
   font-size: 0.8125rem;
-  display: none;
   width: 100%;
   text-align: center;
+  min-height: 2.25rem;
+  visibility: hidden;
+  border: 0.0625rem solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .message-error {
-  display: block;
+  visibility: visible;
   background-color: #ffebee;
   color: #c62828;
-  border: 0.0625rem solid #ef9a9a;
+  border-color: #ef9a9a;
 }
 
 .message-success {
-  display: block;
+  visibility: visible;
   background-color: #e8f5e9;
   color: #2e7d32;
-  border: 0.0625rem solid #a5d6a7;
+  border-color: #a5d6a7;
 }
 
 .container {
@@ -155,6 +160,7 @@ input {
 }
 
 @keyframes show {
+
   0%,
   49.99% {
     opacity: 0;
@@ -279,7 +285,7 @@ footer i {
   display: none;
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .container {
     min-height: 31.25rem;
     width: 100%;
@@ -339,7 +345,7 @@ footer i {
   }
 }
 
-@media (width <= 480px) {
+@media (width <=480px) {
   h1 {
     font-size: 1.5rem;
   }
