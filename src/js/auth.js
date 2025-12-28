@@ -11,14 +11,15 @@ const showMessage = (formId, text, type) => {
   if (messageElement) {
     messageElement.textContent = text;
     messageElement.className = `message message-${type}`;
-    messageElement.style.display = 'block';
+    messageElement.style.visibility = 'visible';
   }
 };
 
 const clearMessages = () => {
   document.querySelectorAll('.message').forEach((msg) => {
-    msg.style.display = 'none';
+    msg.style.visibility = 'hidden';
     msg.textContent = '';
+    msg.className = 'message';
   });
 };
 
@@ -53,7 +54,7 @@ document.querySelectorAll('input').forEach((input) => {
     const formId = input.closest('form').id.split('-')[0];
     const messageElement = document.getElementById(`${formId}-message`);
     if (messageElement) {
-      messageElement.style.display = 'none';
+      messageElement.style.visibility = 'hidden';
     }
   });
 });
