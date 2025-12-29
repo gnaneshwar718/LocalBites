@@ -8,7 +8,6 @@ describe('auth.js', () => {
   let signUpButton, signInButton, container, signupForm, signinForm;
 
   beforeEach(() => {
-    // Set up our document body
     document.body.innerHTML = `
       <div id="container">
         <div class="form-container sign-up-container">
@@ -36,10 +35,8 @@ describe('auth.js', () => {
       </div>
     `;
 
-    // Mock fetch
     global.fetch = jest.fn();
 
-    // Reset modules to re-run the script for each test
     jest.resetModules();
     require('./auth.js');
 
@@ -76,13 +73,8 @@ describe('auth.js', () => {
       })
     );
 
-    // Use a helper to resolve the async submit handler
-    // Since the handler is async and attached via addEventListener,
-    // we need to wait for the promises to resolve.
-
     signupForm.dispatchEvent(new Event('submit'));
 
-    // Wait for the async flow
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(global.fetch).toHaveBeenCalledWith(
