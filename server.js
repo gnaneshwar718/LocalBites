@@ -1,4 +1,5 @@
 'use strict';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -6,54 +7,83 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
+const PATHS = {
+  PUBLIC: path.join(__dirname, 'public'),
+  PAGES: path.join(__dirname, 'public', 'pages'),
+  CSS: path.join(__dirname, 'src', 'css'),
+  JS: path.join(__dirname, 'src', 'js'),
+};
+
+const ROUTES = {
+  HOME: '/',
+  AUTH: '/auth',
+  SIGNUP: '/signup',
+  SIGNIN: '/signin',
+};
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/css', express.static(path.join(__dirname, 'src/css')));
-app.use('/js', express.static(path.join(__dirname, 'src/js')));
+
+app.use(express.static(PATHS.PUBLIC));
+app.use('/css', express.static(PATHS.CSS));
+app.use('/js', express.static(PATHS.JS));
 
 const users = [];
-    
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+
+const sendPage = (res, fileName) => {
+  res.sendFile(path.join(PATHS.PAGES, fileName));
+};
+
+const findUserByEmail = (email) => users.find((user) => user.email === email);
+
+const isValidSignup = ({ name, email, password }) =>
+  Boolean(name && email && password);
+
+app.get(ROUTES.HOME, (req, res) => {
+  sendPage(res, 'index.html');
 });
 
-app.get('/auth', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'auth.html'));
+app.get(ROUTES.AUTH, (req, res) => {
+  sendPage(res, 'auth.html');
 });
 
-app.post('/signup', (req, res) => {
+app.post(ROUTES.SIGNUP, (req, res) => {
   const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
+  if (!isValidSignup(req.body)) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const existingUser = users.find((u) => u.email === email);
-  if (existingUser) {
+  if (findUserByEmail(email)) {
     return res.status(400).json({ message: 'User already exists' });
   }
 
   users.push({ name, email, password });
   console.log('New user signed up:', email);
+
   res.status(201).json({ message: 'User created successfully' });
 });
 
-app.post('/signin', (req, res) => {
+app.post(ROUTES.SIGNIN, (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find((u) => u.email === email && u.password === password);
-  if (user) {
-    console.log('User signed in:', email);
-    res.status(200).json({
-      message: 'Sign in successful',
-      user: { name: user.name, email: user.email },
-    });
-  } else {
-    res.status(401).json({ message: 'Invalid credentials' });
+  const user = findUserByEmail(email);
+
+  if (!user || user.password !== password) {
+    return res.status(401).json({ message: 'Invalid credentials' });
   }
+
+  console.log('User signed in:', email);
+
+  res.status(200).json({
+    message: 'Sign in successful',
+    user: {
+      name: user.name,
+      email: user.email,
+    },
+  });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
