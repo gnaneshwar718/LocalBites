@@ -59,6 +59,7 @@ app.post(ROUTES.SIGNUP, (req, res) => {
   }
 
   users.push({ name, email, password });
+
   res.status(201).json({ message: 'User created successfully' });
 });
 
