@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import "@testing-library/jest-dom";
 import { fireEvent } from "@testing-library/dom";
 import fs from "fs";

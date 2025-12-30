@@ -6,9 +6,7 @@ on:
       - master
       - main
   pull_request:
-    branches:    
-      - master
-      - main
+    branches: ["*"]
 
 
 jobs:
@@ -33,5 +31,5 @@ jobs:
       - name: Run Stylelint
         run: npx stylelint "src/css/**/*.css"
 
-      - name: Run Testcases
+      - name: Run tests
         run: npm test
