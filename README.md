@@ -4,9 +4,9 @@ LocalBites is a traveler-focused web application for discovering authentic local
 
 ## Tech Stack
 
-- HTML5
-- CSS3
-- JavaScript (ES6)
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="17" height="17" alt="HTML Logo"> HTML  
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" width="17" height="17" alt="CSS Logo"> CSS  
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="17" height="17" alt="JS Logo"> JavaScript
 
 ## Development Environment
 
@@ -17,11 +17,41 @@ LocalBites is a traveler-focused web application for discovering authentic local
 
 ## Folder Structure
 
-- public/ → HTML files
-- src/css → Stylesheets
-- src/js → JavaScript logic
-- assets/ → Images & icons
-- docs/ → Documentation
+```text
+LocalBites/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── .husky/
+│   ├── commit-msg
+│   └── pre-commit
+│
+├── node_modules/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── css/
+│   │   └── style.css
+│   │
+│   └── js/
+│       ├── script.js
+│       ├── sum.js
+│       └── sum.test.js
+│
+├── .gitignore
+├── .prettierignore
+├── .prettierrc.json
+├── .stylelintrc.json
+├── commitlint.config.js
+├── eslint.config.mjs
+├── package-lock.json
+├── package.json
+├── README.md
+└── source-analysis.md
+```
 
 ## How to Run
 
@@ -52,14 +82,18 @@ This project follows the **Conventional Commits** specification.
 
 ### Format
 
+```
 <type>: <short description>
+```
 
 ### Examples
 
+```
 feat: add budget-based food recommendations
 fix: resolve eslint browser globals issue
 docs: update project documentation
 chore: setup linting and git hooks
+```
 
 Commits that do not follow this format are automatically blocked.
 
