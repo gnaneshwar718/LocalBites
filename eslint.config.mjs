@@ -16,7 +16,7 @@ export default [
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
       },
@@ -24,7 +24,6 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
-      strict: ['error', 'global'],
       'no-console': 'off',
     },
   },
