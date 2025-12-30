@@ -30,12 +30,13 @@ export default [
   },
 
   {
-    files: ['src/js/**/*.test.js'],
+    files: ['src/js/**/*.test.js', 'tests/**/*.test.mjs', 'tests/**/*.mjs'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.jest,
+        ...globals.browser,
       },
     },
     rules: {
