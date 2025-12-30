@@ -59,8 +59,6 @@ app.post(ROUTES.SIGNUP, (req, res) => {
   }
 
   users.push({ name, email, password });
-  console.log('New user signed up:', email);
-
   res.status(201).json({ message: 'User created successfully' });
 });
 
@@ -72,8 +70,6 @@ app.post(ROUTES.SIGNIN, (req, res) => {
   if (!user || user.password !== password) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
-
-  console.log('User signed in:', email);
 
   res.status(200).json({
     message: 'Sign in successful',
