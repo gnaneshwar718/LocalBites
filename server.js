@@ -19,6 +19,7 @@ const ROUTES = {
   AUTH: '/auth',
   SIGNUP: '/signup',
   SIGNIN: '/signin',
+  EXPLORE: '/explore',
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +46,10 @@ app.get(ROUTES.HOME, (req, res) => {
 
 app.get(ROUTES.AUTH, (req, res) => {
   sendPage(res, 'auth.html');
+});
+
+app.get(ROUTES.EXPLORE, (req, res) => {
+  sendPage(res, 'explore.html');
 });
 
 app.post(ROUTES.SIGNUP, (req, res) => {

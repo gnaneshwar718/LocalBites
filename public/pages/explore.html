@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Restaurants - LocalBites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/explore.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="header-layout container">
+        <div class="logo"><a href="/">LocalBites</a></div>
+        <nav class="nav-links">
+          <a href="/explore" class="active">Explore</a>
+          <a href="#">Budget Planner</a>
+          <a href="#">Culture</a>
+          <a href="#">About</a>
+        </nav>
+        <div class="profile-link">
+          <a href="/auth">Profile</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="container container-wide">
+        <div class="explore-header">
+          <div class="explore-title-group">
+            <h1>Popular Local Discoveries</h1>
+            <p>
+              Recent recommendations from our community of local food experts.
+            </p>
+          </div>
+          <div class="explore-actions">
+            <div class="search-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                id="restaurantSearch"
+                placeholder="Search by name or cuisine..."
+              />
+            </div>
+            <button id="filterBtn" class="btn btn-outline">Filter</button>
+          </div>
+        </div>
+
+        <div class="restaurant-grid" id="restaurantGrid">
+          <!-- Restaurant cards will be injected here -->
+          <div class="loading">Loading amazing spots...</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content filter-modal-content">
+        <button class="modal-close filter-modal-close" aria-label="Close modal">
+          &times;
+        </button>
+        <div class="modal-info">
+          <h2>Filter Restaurants</h2>
+          <div class="filter-section">
+            <h3>Cuisine</h3>
+            <div class="filter-options" id="cuisineFilters">
+              <button class="filter-chip active" data-cuisine="all">All</button>
+              <button class="filter-chip" data-cuisine="South Indian">
+                South Indian
+              </button>
+              <button class="filter-chip" data-cuisine="Andhra">Andhra</button>
+              <button class="filter-chip" data-cuisine="Continental">
+                Continental
+              </button>
+              <button class="filter-chip" data-cuisine="American">
+                American
+              </button>
+              <button class="filter-chip" data-cuisine="Burgers">
+                Burgers
+              </button>
+            </div>
+          </div>
+          <div class="filter-section">
+            <h3>Meal Type</h3>
+            <div class="filter-options" id="mealTypeFilters">
+              <button class="filter-chip active" data-mealtype="all">
+                All
+              </button>
+              <button class="filter-chip" data-mealtype="breakfast">
+                Breakfast
+              </button>
+              <button class="filter-chip" data-mealtype="lunch">Lunch</button>
+              <button class="filter-chip" data-mealtype="dinner">Dinner</button>
+              <button class="filter-chip" data-mealtype="snacks">
+                Snacks & Cafe
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="applyFiltersBtn" class="btn btn-primary w-full">
+              Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <div class="modal-body" id="modalBody">
+          <!-- Detail content injected here -->
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span>LocalBites</span>
+          </div>
+          <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Terms & Agreement</a>
+            <a href="#">Town Links</a>
+            <a href="#">Advertise</a>
+            <a href="#">FAQ</a>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          Copyright &copy; 2025 by LocalBites, All Rights Reserved
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+    <script type="module" src="/js/explore.js"></script>
+  </body>
+</html>
