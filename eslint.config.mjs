@@ -16,9 +16,10 @@ export default [
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
+        process: 'readonly',
       },
     },
     rules: {
