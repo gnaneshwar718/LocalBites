@@ -1,3 +1,115 @@
 body {
+  font-family: Montserrat, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f6f5f7;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
   background-color: #fff;
+  padding: 1.25rem 3.125rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff4b2b;
+}
+
+nav a {
+  margin-left: 1.25rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+nav a:hover {
+  color: #ff4b2b;
+}
+
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 3.125rem;
+  background:
+    linear-gradient(rgb(0 0 0 / 50%), rgb(0 0 0 / 50%)),
+    url('https://b.zmtcdn.com/data/dish_photos/309/f96ee16f38356b1a78a643ae021b2309.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 1.875rem;
+}
+
+.btn {
+  padding: 0.75rem 1.875rem;
+  background-color: #ff4b2b;
+  color: #fff;
+  border: none;
+  border-radius: 1.5625rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.22s;
+  display: inline-block;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+@media (width <= 768px) {
+  header {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  nav a {
+    margin: 0 0.625rem;
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}
+
+@media (width <= 480px) {
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
