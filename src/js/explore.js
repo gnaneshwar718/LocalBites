@@ -2,17 +2,14 @@ import { RESTAURANTS } from '/data/restaurants.js';
 
 class ExplorePage {
   constructor() {
-    // Elements
     this.grid = document.getElementById('restaurantGrid');
     this.searchInput = document.getElementById('restaurantSearch');
     this.filterBtn = document.getElementById('filterBtn');
 
-    // Modals
     this.detailModal = document.getElementById('detailModal');
     this.filterModal = document.getElementById('filterModal');
     this.modalBody = document.getElementById('modalBody');
 
-    // Filter State
     this.filters = {
       search: '',
       cuisine: 'all',
@@ -30,7 +27,6 @@ class ExplorePage {
   }
 
   setupEventListeners() {
-    // Search
     if (this.searchInput) {
       this.searchInput.addEventListener('input', (e) => {
         this.filters.search = e.target.value.toLowerCase().trim();
@@ -38,14 +34,12 @@ class ExplorePage {
       });
     }
 
-    // Filter Modal Open
     if (this.filterBtn) {
       this.filterBtn.addEventListener('click', () =>
         this.openModal(this.filterModal)
       );
     }
 
-    // Close Modals
     document.querySelectorAll('.modal-close, .modal-backdrop').forEach((el) => {
       el.addEventListener('click', (e) => {
         const modal = e.target.closest('.modal');
@@ -55,7 +49,6 @@ class ExplorePage {
       });
     });
 
-    // ESC Key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         const activeModal = document.querySelector('.modal.active');
@@ -63,7 +56,6 @@ class ExplorePage {
       }
     });
 
-    // Cuisine & Meal Type Chips
     const cuisineFilters = document.getElementById('cuisineFilters');
     if (cuisineFilters) {
       cuisineFilters.addEventListener('click', (e) => {
@@ -84,7 +76,6 @@ class ExplorePage {
       });
     }
 
-    // Apply Filters
     const applyFiltersBtn = document.getElementById('applyFiltersBtn');
     if (applyFiltersBtn) {
       applyFiltersBtn.addEventListener('click', () => {
@@ -93,7 +84,6 @@ class ExplorePage {
       });
     }
 
-    // Detail Modal Trigger
     if (this.grid) {
       this.grid.addEventListener('click', (e) => {
         const card = e.target.closest('.restaurant-card');
@@ -150,7 +140,6 @@ class ExplorePage {
     article.className = 'restaurant-card';
     article.dataset.id = restaurant.id;
 
-    // Image wrapper
     const imageWrapper = document.createElement('div');
     imageWrapper.className = 'card-image-wrapper';
 
@@ -161,11 +150,9 @@ class ExplorePage {
 
     imageWrapper.appendChild(img);
 
-    // Content
     const content = document.createElement('div');
     content.className = 'card-content';
 
-    // Header
     const header = document.createElement('div');
     header.className = 'card-header';
 
@@ -179,12 +166,10 @@ class ExplorePage {
     header.appendChild(title);
     header.appendChild(price);
 
-    // Cuisine
     const cuisine = document.createElement('div');
     cuisine.className = 'card-cuisine';
     cuisine.textContent = restaurant.cuisine;
 
-    // Footer
     const footer = document.createElement('div');
     footer.className = 'card-footer';
 
@@ -215,21 +200,17 @@ class ExplorePage {
 
     this.modalBody.innerHTML = '';
 
-    // Image
     const img = document.createElement('img');
     img.src = res.image;
     img.alt = res.name;
     img.className = 'modal-img';
 
-    // Info container
     const info = document.createElement('div');
     info.className = 'modal-info';
 
-    // Title
     const title = document.createElement('h2');
     title.textContent = res.name;
 
-    // Meta
     const meta = document.createElement('div');
     meta.className = 'modal-meta';
     meta.innerHTML = `
@@ -238,7 +219,6 @@ class ExplorePage {
             <span><i class="fa-solid fa-location-dot"></i> ${res.location}</span>
         `;
 
-    // Description
     const description = document.createElement('div');
     description.className = 'modal-description';
 
@@ -251,7 +231,6 @@ class ExplorePage {
     description.appendChild(descPara);
     description.appendChild(specialtyPara);
 
-    // Footer
     const footer = document.createElement('div');
     footer.className = 'modal-footer';
 
@@ -294,10 +273,8 @@ class ExplorePage {
   }
 }
 
-// Export for testing
 export { ExplorePage, RESTAURANTS };
 
-// Initialize on DOM Load if not in test environment
 if (
   typeof window !== 'undefined' &&
   (typeof process === 'undefined' || process.env.NODE_ENV !== 'test')
