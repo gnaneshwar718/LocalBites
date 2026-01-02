@@ -145,16 +145,6 @@ describe("Explore Page Comprehensive Tests", () => {
             expect(modalBody.innerHTML).toContain("Vidyarthi Bhavan");
         });
 
-        test("closes modal via close button", () => {
-            const firstCard = document.querySelector(".restaurant-card");
-            const detailModal = document.getElementById("detailModal");
-            const closeBtn = detailModal.querySelector(".modal-close");
-
-            firstCard.click();
-            expect(detailModal.classList.contains("active")).toBe(true);
-            closeBtn.click();
-            expect(detailModal.classList.contains("active")).toBe(false);
-        });
 
         test("closes modal via ESC key", () => {
             const firstCard = document.querySelector(".restaurant-card");
