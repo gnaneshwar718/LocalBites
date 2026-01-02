@@ -21,15 +21,9 @@ describe("Explore Page Comprehensive Tests", () => {
     beforeEach(async () => {
         document.documentElement.innerHTML = htmlContent;
         process.env.NODE_ENV = 'test';
-
-        // Import the class
         const module = await import('./explore.js');
         ExplorePage = module.ExplorePage;
-
-        // Create instance
         exploreInstance = new ExplorePage();
-
-        // Inject test data directly
         exploreInstance.restaurants = TEST_RESTAURANTS;
         exploreInstance.renderRestaurants();
     });
