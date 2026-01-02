@@ -8,7 +8,9 @@ export default [
       'node_modules/**',
       'dist/**',
       'build/**',
-      'coverage/**'
+      'coverage/**',
+      'playwright.config.js',
+      'tests/**/*.spec.js',
     ],
   },
 
