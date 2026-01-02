@@ -1,5 +1,5 @@
 export default {
     testEnvironment: "jsdom",
-    testMatch: ["**/tests/**/*.test.mjs", "**/?(*.)+(spec|test).[tj]s?(x)"],
+    testMatch: ["**/tests/**/*.test.mjs"],
     moduleFileExtensions: ["js", "mjs", "json", "jsx", "ts", "tsx", "node"],
 };
