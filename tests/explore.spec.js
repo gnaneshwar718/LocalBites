@@ -40,7 +40,6 @@ test.describe('Explore Page - UI Tests', () => {
       });
 
       expect(gridStyles.display).toBe('grid');
-      // Should have multiple columns defined
       expect(gridStyles.gridTemplateColumns.split(' ').length).toBeGreaterThan(
         1
       );
@@ -130,7 +129,7 @@ test.describe('Explore Page - UI Tests', () => {
       await page.locator('#applyFiltersBtn').click();
 
       const cards = page.locator('.restaurant-card');
-      await expect(cards).toHaveCount(2); // Vidyarthi Bhavan and MTR
+      await expect(cards).toHaveCount(2);
     });
 
     test('should filter by meal type (breakfast)', async ({ page }) => {
@@ -139,7 +138,7 @@ test.describe('Explore Page - UI Tests', () => {
       await page.locator('#applyFiltersBtn').click();
 
       const cards = page.locator('.restaurant-card');
-      await expect(cards).toHaveCount(4); // Vidyarthi, MTR, Koshy's, Hole in the Wall
+      await expect(cards).toHaveCount(4);
     });
 
     test('should apply combined filters (cuisine + meal type)', async ({
@@ -151,7 +150,7 @@ test.describe('Explore Page - UI Tests', () => {
       await page.locator('#applyFiltersBtn').click();
 
       const cards = page.locator('.restaurant-card');
-      await expect(cards).toHaveCount(2); // Vidyarthi Bhavan and MTR
+      await expect(cards).toHaveCount(2);
     });
 
     test('should highlight active filter chips', async ({ page }) => {
@@ -165,10 +164,8 @@ test.describe('Explore Page - UI Tests', () => {
 
   test.describe('Combined Search and Filters', () => {
     test('should work with search + cuisine filter', async ({ page }) => {
-      // Search for "Rooms" (MTR)
       await page.locator('#restaurantSearch').fill('Rooms');
 
-      // Apply South Indian filter
       await page.locator('#filterBtn').click();
       await page.locator('[data-cuisine="South Indian"]').click();
       await page.locator('#applyFiltersBtn').click();
@@ -266,8 +263,6 @@ test.describe('Explore Page - UI Tests', () => {
         };
       });
 
-      // It should take up almost full width (98% according to CSS)
-      // We'll check if it's at least 90% to be safe
       expect(geometry.width / geometry.viewportWidth).toBeGreaterThan(0.9);
     });
 
@@ -277,7 +272,6 @@ test.describe('Explore Page - UI Tests', () => {
       const cards = page.locator('.restaurant-card');
       await expect(cards).toHaveCount(6);
 
-      // Grid should still be visible
       const grid = page.locator('#restaurantGrid');
       await expect(grid).toBeVisible();
     });
