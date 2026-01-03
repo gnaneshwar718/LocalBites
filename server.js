@@ -17,6 +17,7 @@ const PATHS = {
 const ROUTES = {
   HOME: '/',
   AUTH: '/auth',
+  CULTURE: '/culture',
   SIGNUP: '/signup',
   SIGNIN: '/signin',
 };
@@ -45,6 +46,10 @@ app.get(ROUTES.HOME, (req, res) => {
 
 app.get(ROUTES.AUTH, (req, res) => {
   sendPage(res, 'auth.html');
+});
+
+app.get(ROUTES.CULTURE, (req, res) => {
+  sendPage(res, 'culture.html');
 });
 
 app.post(ROUTES.SIGNUP, (req, res) => {

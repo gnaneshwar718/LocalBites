@@ -1,0 +1,268 @@
+.culture-hero {
+  background-color: var(--color-secondary);
+  padding: 4rem 2rem;
+}
+
+.culture-hero-content {
+  max-width: 75rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.culture-hero-text h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.culture-hero-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  max-width: 35rem;
+}
+
+.culture-hero-image {
+  width: 100%;
+  height: 25rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 10%);
+}
+
+.culture-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.culture-hero-image.carousel {
+  position: relative;
+  cursor: pointer;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(255 255 255 / 90%);
+  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 20%);
+}
+
+.carousel-control:hover {
+  background-color: var(--color-brand);
+  color: var(--color-secondary);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-control.prev {
+  left: 1rem;
+}
+
+.carousel-control.next {
+  right: 1rem;
+}
+
+.carousel-control i {
+  font-size: 1rem;
+}
+
+.must-try-section {
+  padding: 4rem 2rem;
+  background-color: var(--color-accent);
+}
+
+.must-try-container {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.must-try-container h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 3rem;
+  text-align: left;
+}
+
+.dishes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.dish-card {
+  background-color: var(--color-secondary);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 8%);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.dish-card:hover {
+  transform: translateY(-0.5rem) scale(1.02);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 15%);
+}
+
+.dish-card.active {
+  transform: translateY(-0.5rem) scale(1.02);
+  box-shadow: 0 0.75rem 2rem rgb(255 75 43 / 30%);
+  border: 0.125rem solid var(--color-brand);
+}
+
+.dish-image {
+  width: 100%;
+  height: 15rem;
+  overflow: hidden;
+  background-color: #e0e0e0;
+}
+
+.dish-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.dish-card:hover .dish-image img {
+  transform: scale(1.1);
+}
+
+.dish-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dish-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.dish-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.view-story {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-brand);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: gap 0.3s ease;
+}
+
+.view-story:hover {
+  gap: 0.75rem;
+}
+
+.view-story i {
+  font-size: 0.875rem;
+  transition: transform 0.3s ease;
+}
+
+.view-story:hover i {
+  transform: translateX(0.25rem);
+}
+
+@media (width <= 1024px) {
+  .dishes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 768px) {
+  .culture-hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .culture-hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .culture-hero-text p {
+    font-size: 1rem;
+  }
+
+  .culture-hero-image {
+    height: 18rem;
+  }
+
+  .dishes-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .must-try-container h2 {
+    font-size: 2rem;
+  }
+
+  .must-try-section {
+    padding: 3rem 1rem;
+  }
+
+  .culture-hero {
+    padding: 3rem 1rem;
+  }
+}
