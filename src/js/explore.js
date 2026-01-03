@@ -186,7 +186,13 @@ class ExplorePage {
     clone.querySelector('.card-price').textContent = `₹${res.price}`;
 
     const btn = clone.querySelector('.btn-primary');
-    btn.onclick = () => alert('Booking feature coming soon!');
+    btn.onclick = () => {
+      const query = encodeURIComponent(`${res.name} ${res.location} Bengaluru`);
+      window.open(
+        `https://www.google.com/maps/search/?api=1&query=${query}`,
+        '_blank'
+      );
+    };
 
     this.modalBody.appendChild(clone);
     this.openModal(this.detailModal);
