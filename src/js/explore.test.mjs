@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { RESTAURANTS as TEST_RESTAURANTS } from '/data/restaurants.js';
+import { RESTAURANTS as TEST_RESTAURANTS } from '../data/restaurants.js';
 
 describe("Explore Page Comprehensive Tests", () => {
     let htmlContent;
