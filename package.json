@@ -16,6 +16,8 @@
     "prepare": "husky",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
     "test:ui": "playwright test",
+    "test:ui:headed": "playwright test --headed",
+    "test:ui:debug": "playwright test --debug",
     "test:watch": "node watch-tests.mjs",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "validate": "npm run lint:all && npm test",
