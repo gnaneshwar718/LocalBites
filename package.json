@@ -17,7 +17,7 @@
     "lint:all": "npm run lint && npm run lint:css",
     "format": "npm run lint:fix && npm run lint:css:fix",
     "prepare": "husky",
-    "test": "vitest run",
+    "test": "jest",
     "test:watch": "vitest",
     "test:ui": "playwright test",
     "test:ui:headed": "playwright test --headed",

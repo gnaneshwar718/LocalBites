@@ -112,6 +112,67 @@
       </div>
     </div>
 
+    <template id="restaurant-card-template">
+      <article class="restaurant-card">
+        <div class="card-image-wrapper">
+          <img src="" alt="" loading="lazy" />
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3></h3>
+            <span class="card-price"></span>
+          </div>
+          <div class="card-cuisine"></div>
+          <div class="card-footer">
+            <span class="rating">
+              <i class="fa-solid fa-star"></i>
+              <span class="value"></span>
+            </span>
+            <span class="tag">
+              <i class="fa-solid fa-location-dot"></i>
+              <span class="value"></span>
+            </span>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-modal-template">
+      <img src="" alt="" class="modal-img" />
+      <div class="modal-info">
+        <h2></h2>
+        <div class="modal-meta">
+          <span class="rating">
+            <i class="fa-solid fa-star"></i>
+            <span class="value"></span>
+          </span>
+          <span class="meta-cuisine">
+            <i class="fa-solid fa-utensils"></i>
+            <span class="value"></span>
+          </span>
+          <span class="meta-location">
+            <i class="fa-solid fa-location-dot"></i>
+            <span class="value"></span>
+          </span>
+        </div>
+        <div class="modal-description">
+          <p class="desc-text"></p>
+          <p class="specialty-text">
+            <strong>Specialty:</strong>
+            <span class="value"></span>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <span class="card-price" style="font-size: 1.5rem"></span>
+          <button class="btn btn-primary">Visit Spot</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="no-results-template">
+      <div class="no-results">No restaurants found matching your criteria.</div>
+    </template>
+
     <script src="/js/script.js"></script>
     <script type="module" src="/js/explore.js"></script>
   </body>
