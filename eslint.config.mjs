@@ -62,6 +62,21 @@ export default [
     },
   },
 
+  {
+    files: ['vite.config.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...prettier.rules,
+    },
+  },
+
 
   {
     files: ['**/*.mjs'],
@@ -75,6 +90,22 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+    },
+  },
+
+  {
+    files: ['**/*.test.mjs'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
+
+  {
+    files: ['src/js/auth.js', 'src/js/script.js'],
+    rules: {
+      strict: 'off',
     },
   },
 ];
