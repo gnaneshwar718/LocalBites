@@ -1,4 +1,4 @@
-import { RESTAURANTS } from '/data/restaurants.js';
+import { RESTAURANTS } from '../data/restaurants.js';
 
 class ExplorePage {
   constructor() {
