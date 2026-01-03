@@ -1,12 +1,6 @@
-import { describe, test, expect, beforeAll, beforeEach } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
 import { RESTAURANTS as TEST_RESTAURANTS } from '/data/restaurants.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 describe("Explore Page Comprehensive Tests", () => {
     let htmlContent;

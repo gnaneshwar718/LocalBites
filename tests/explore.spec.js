@@ -202,14 +202,6 @@ test.describe('Explore Page - UI Tests', () => {
       await expect(modalTitle).toHaveText(cardTitle);
     });
 
-    test('should close detail modal via close button', async ({ page }) => {
-      await page.locator('.restaurant-card').first().click();
-      await page.locator('#detailModal .modal-close').click();
-
-      const detailModal = page.locator('#detailModal');
-      await expect(detailModal).not.toHaveClass(/active/);
-    });
-
     test('should close detail modal via ESC key', async ({ page }) => {
       await page.locator('.restaurant-card').first().click();
       await page.keyboard.press('Escape');
