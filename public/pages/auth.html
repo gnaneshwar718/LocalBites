@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>LocalBites - Sign In / Sign Up</title>
+    <link rel="stylesheet" href="/css/auth.css" />
+  </head>
+
+  <body>
+    <main class="container" id="container">
+      <section class="form-container sign-up-container">
+        <form id="signup-form">
+          <h1>Create Account</h1>
+          <div id="signup-message" class="message"></div>
+
+          <input type="text" id="signup-name" placeholder="Name" required />
+          <input type="email" id="signup-email" placeholder="Email" required />
+          <input
+            type="password"
+            id="signup-password"
+            placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            id="signup-retype-password"
+            placeholder="Retype Password"
+            required
+          />
+
+          <button type="submit">Sign Up</button>
+
+          <p class="mobile-only">
+            Already have an account?
+            <a href="#" id="mobile-signIn">Sign In</a>
+          </p>
+        </form>
+      </section>
+
+      <section class="form-container sign-in-container">
+        <form id="signin-form">
+          <h1>Sign In</h1>
+          <div id="signin-message" class="message"></div>
+
+          <input type="email" id="signin-email" placeholder="Email" required />
+          <input
+            type="password"
+            id="signin-password"
+            placeholder="Password"
+            required
+          />
+
+          <a href="#">Forgot your password?</a>
+          <button type="submit">Sign In</button>
+
+          <p class="mobile-only">
+            Don't have an account?
+            <a href="#" id="mobile-signUp">Sign Up</a>
+          </p>
+        </form>
+      </section>
+
+      <section class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>Come join us!</h1>
+            <p>
+              Create an account to discover local restaurants, hidden food gems,
+              and plan your next bite.
+            </p>
+            <p>Already have an account?</p>
+            <button class="ghost" id="signIn">Sign In</button>
+          </div>
+
+          <div class="overlay-panel overlay-right">
+            <h1>Welcome Back!</h1>
+            <p>Jump back in and explore your favorite local food spots.</p>
+            <p>No account yet?</p>
+            <button class="ghost" id="signUp">Sign Up</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/auth.js"></script>
+  </body>
+</html>
