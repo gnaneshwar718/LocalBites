@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
+app.use('/assets', express.static(path.join(__dirname, 'src', 'Assets')));
 
 const users = [];
 
