@@ -7,19 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/culture.css" />
   </head>
 
   <body>
-    <div id="header-placeholder"></div>
+    <app-header></app-header>
 
     <main>
       <section class="culture-hero">
@@ -83,22 +84,64 @@
             >
               <div class="dish-image">
                 <img
-                  src="https://images.unsplash.com/photo-1694849789325-914b71ab4075?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="https://images.unsplash.com/photo-1694849789325-914b71ab4075?q=80&w=1074&auto=format&fit=crop"
                   alt="Masala Dosa"
                 />
               </div>
               <div class="dish-content">
                 <h3>Masala Dosa</h3>
                 <p>
-                  A crispy, savory crepe made from fermented rice and lentil
-                  batter, served with a spicy potato filling.
+                  A thick, crispy fermented crepe filled with spiced potatoes.
+                  Bengaluru's version is distinctively golden, butter-rich, and
+                  served with spicy coconut chutney and sambar.
                 </p>
-                <a
-                  href="https://en.wikipedia.org/wiki/Central_Tiffin_Room"
-                  target="_blank"
-                  class="view-story"
-                  >View Story <i class="fa-solid fa-arrow-right"></i
-                ></a>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">MTR</span>
+                        <a
+                          href="https://maps.google.com/?q=MTR+Lalbagh+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View MTR on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">CTR - Shri Sagar</span>
+                        <a
+                          href="https://maps.google.com/?q=CTR+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View CTR - Shri Sagar on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Vidyarthi Bhavan</span>
+                        <a
+                          href="https://maps.google.com/?q=Vidyarthi+Bhavan+Gandhi+Bazaar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Vidyarthi Bhavan on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
 
@@ -116,34 +159,124 @@
               <div class="dish-content">
                 <h3>Bisi Bele Bath</h3>
                 <p>
-                  A spicy, aromatic rice dish cooked with lentils, vegetables,
-                  and a special blend of spices unique to Karnataka.
+                  A wholesome "hot lentil rice" dish made with rice, lentils,
+                  vegetables, and a complex spice blend featuring tamarind and
+                  jaggery. It's a cornerstone of Karnataka's culinary heritage.
                 </p>
-                <a href="" target="_blank" class="view-story"
-                  >View Story <i class="fa-solid fa-arrow-right"></i
-                ></a>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">MTR</span>
+                        <a
+                          href="https://maps.google.com/?q=MTR+Lalbagh+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View MTR on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Halli Mane</span>
+                        <a
+                          href="https://maps.google.com/?q=Halli+Mane+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Halli Mane on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Maiyas</span>
+                        <a
+                          href="https://maps.google.com/?q=Maiyas+Jayanagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Maiyas on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
 
-            <article class="dish-card" id="Birayani" data-dish-id="mysore-pak">
+            <article class="dish-card" id="biryani" data-dish-id="biryani">
               <div class="dish-image">
                 <img
-                  src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlyeWFuaXxlbnwwfHwwfHx8MA%3D%3D"
+                  src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop"
                   alt="Biryani"
                 />
               </div>
               <div class="dish-content">
                 <h3>Biryani</h3>
                 <p>
-                  Meghana Foods is a famous Bengaluru chain celebrated for its
-                  flavourful, robust, Hyderabadi-style biryanis, known for
-                  generous portions, spicy masala, and options like Chicken,
-                  Mutton, Prawns,and popular vegetarian versions such as Paneer
-                  or Mushroom Biryani
+                  Bengaluru's biryani scene is famous for its spicy
+                  Hyderabadi-style and the unique local Donne Biryani. Meghana
+                  Foods is legendary for its flavour-packed, robust spice
+                  profile and generous portions.
                 </p>
-                <a href="" target="_blank" class="view-story"
-                  >View Story <i class="fa-solid fa-arrow-right"></i
-                ></a>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Meghana Foods</span>
+                        <a
+                          href="https://maps.google.com/?q=Meghana+Foods+Koramangala+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Meghana Foods on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name"
+                          >Shivaji Military Hotel</span
+                        >
+                        <a
+                          href="https://maps.google.com/?q=Shivaji+Military+Hotel+Jayanagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Shivaji Military Hotel on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Nagarjuna</span>
+                        <a
+                          href="https://maps.google.com/?q=Nagarjuna+Residency+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Nagarjuna on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
 
@@ -154,19 +287,65 @@
             >
               <div class="dish-image">
                 <img
-                  src="data:image/jpeg;base64,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"
+                  src="https://images.unsplash.com/photo-1626132646501-f5188f6c6f0d?auto=format&fit=crop&q=80&w=800"
                   alt="Ragi Mudde"
                 />
               </div>
               <div class="dish-content">
                 <h3>Ragi Mudde</h3>
                 <p>
-                  Nutritious finger millet balls, a staple food in rural
-                  Karnataka, traditionally served with sambar or spicy curries.
+                  Nutritious finger millet balls, a staple of Old Mysore
+                  region's agricultural roots. It is traditionally served with
+                  spicy saaru or bassaru and is known for its incredible health
+                  benefits.
                 </p>
-                <a href="" target="_blank" class="view-story"
-                  >View Story <i class="fa-solid fa-arrow-right"></i
-                ></a>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Mudde Madappa Mess</span>
+                        <a
+                          href="https://maps.google.com/?q=Mudde+Madappa+Mess+Gandhinagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Mudde Madappa Mess on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Halli Mane</span>
+                        <a
+                          href="https://maps.google.com/?q=Halli+Mane+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Halli Mane on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Kamat Lokaruchi</span>
+                        <a
+                          href="https://maps.google.com/?q=Kamat+Lokaruchi+Mysore+Road+Karnataka"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Kamat Lokaruchi on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
 
@@ -182,11 +361,57 @@
                 <p>
                   Soft, fluffy steamed rice cakes paired with crispy fried
                   lentil donuts, a beloved breakfast combination across South
-                  India.
+                  India celebrated for its perfect contrast of textures.
                 </p>
-                <a href="" target="_blank" class="view-story"
-                  >View Story <i class="fa-solid fa-arrow-right"></i
-                ></a>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name"
+                          >Brahmin's Coffee Bar</span
+                        >
+                        <a
+                          href="https://maps.google.com/?q=Brahmins+Coffee+Bar+Basavanagudi+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Brahmin's Coffee Bar on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Taaza Thindi</span>
+                        <a
+                          href="https://maps.google.com/?q=Taaza+Thindi+Jayanagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Taaza Thindi on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Veena Stores</span>
+                        <a
+                          href="https://maps.google.com/?q=Veena+Stores+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Veena Stores on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
 
@@ -205,11 +430,58 @@
                 <h3>Filter Coffee</h3>
                 <p>
                   Traditional South Indian coffee brewed using a metal filter,
-                  mixed with hot milk and sugar for a perfect aromatic blend.
+                  mixed with frothy hot milk and sugar for a perfect aromatic
+                  blend that defines Bengaluru's morning ritual.
                 </p>
-                <a href="" target="_blank" class="view-story"
-                  >View Story <i class="fa-solid fa-arrow-right"></i
-                ></a>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name"
+                          >Brahmin's Coffee Bar</span
+                        >
+                        <a
+                          href="https://maps.google.com/?q=Brahmins+Coffee+Bar+Basavanagudi+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Brahmin's Coffee Bar on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">MTR</span>
+                        <a
+                          href="https://maps.google.com/?q=MTR+Lalbagh+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View MTR on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Hatti Kaapi</span>
+                        <a
+                          href="https://maps.google.com/?q=Hatti+Kaapi+MG+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Hatti Kaapi on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
           </div>
@@ -217,8 +489,9 @@
       </section>
     </main>
 
-    <div id="footer-placeholder"></div>
+    <app-footer></app-footer>
 
+    <script src="/js/components.js"></script>
     <script src="/js/culture.js"></script>
   </body>
 </html>
