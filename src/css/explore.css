@@ -446,3 +446,100 @@
     font-size: 0.85rem;
   }
 }
+
+.input-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.budget-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color var(--transition-speed);
+}
+
+.budget-input:focus {
+  outline: none;
+  border-color: var(--color-brand);
+}
+
+.budget-result {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+/* Budget Planner Compact Optimizations */
+.budget-grid {
+  display: flex;
+  gap: 1rem;
+}
+
+.budget-grid .filter-section {
+  flex: 1;
+}
+
+#budget-modal .modal-content {
+  max-width: 26rem;
+
+  /* Slightly smaller width for compactness */
+  scrollbar-width: none;
+
+  /* Firefox */
+}
+
+#budget-modal .modal-content::-webkit-scrollbar {
+  display: none;
+
+  /* Chrome/Safari */
+}
+
+#budget-modal .modal-info {
+  padding: 1.25rem;
+}
+
+#budget-modal .filter-section {
+  margin-bottom: 1rem;
+}
+
+#budget-modal h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+/* Hide number input spinners for cleaner UI */
+.budget-input::-webkit-outer-spin-button,
+.budget-input::-webkit-inner-spin-button {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.budget-input[type='number'] {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+@media (width <=480px) {
+  .budget-grid {
+    flex-direction: row;
+
+    /* Keep side-by-side even on mobile if possible, or stack if too tight */
+  }
+
+  .modal-close {
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+  }
+}

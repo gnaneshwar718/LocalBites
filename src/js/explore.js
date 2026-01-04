@@ -5,10 +5,20 @@ class ExplorePage {
     this.grid = document.getElementById('restaurantGrid');
     this.searchInput = document.getElementById('restaurantSearch');
     this.filterBtn = document.getElementById('filterBtn');
+    this.budgetBtn = document.getElementById('budgetBtn');
 
     this.detailModal = document.getElementById('detailModal');
     this.filterModal = document.getElementById('filterModal');
+    this.budgetModal = document.getElementById('budget-modal');
     this.modalBody = document.getElementById('modalBody');
+
+    this.budgetInputs = {
+      total: document.getElementById('totalBudget'),
+      people: document.getElementById('numPeople'),
+      meals: document.getElementById('numMeals'),
+    };
+    this.budgetDisplay = document.getElementById('budgetPerPerson');
+    this.applyBudgetBtn = document.getElementById('calcBudgetBtn');
 
     this.cardTemplate = document.getElementById('restaurant-card-template');
     this.detailTemplate = document.getElementById('detail-modal-template');
@@ -18,6 +28,7 @@ class ExplorePage {
       search: '',
       cuisine: 'all',
       mealType: 'all',
+      budget: Infinity,
     };
 
     this.restaurants = [];
@@ -41,6 +52,12 @@ class ExplorePage {
     if (this.filterBtn) {
       this.filterBtn.addEventListener('click', () =>
         this.openModal(this.filterModal)
+      );
+    }
+
+    if (this.budgetBtn) {
+      this.budgetBtn.addEventListener('click', () =>
+        this.openModal(this.budgetModal)
       );
     }
 
@@ -88,6 +105,25 @@ class ExplorePage {
       });
     }
 
+    if (this.budgetInputs.total) {
+      ['total', 'people', 'meals'].forEach((key) => {
+        this.budgetInputs[key].addEventListener('input', () =>
+          this.calculateBudget()
+        );
+      });
+    }
+
+    if (this.applyBudgetBtn) {
+      this.applyBudgetBtn.addEventListener('click', () => {
+        const budgetPerPerson = this.calculateBudget();
+        if (budgetPerPerson > 0) {
+          this.filters.budget = budgetPerPerson;
+          this.renderRestaurants();
+          this.closeModal(this.budgetModal);
+        }
+      });
+    }
+
     if (this.grid) {
       this.grid.addEventListener('click', (e) => {
         const card = e.target.closest('.restaurant-card');
@@ -96,6 +132,20 @@ class ExplorePage {
         }
       });
     }
+  }
+
+  calculateBudget() {
+    const total = parseFloat(this.budgetInputs.total.value) || 0;
+    const people = parseFloat(this.budgetInputs.people.value) || 1;
+    const meals = parseFloat(this.budgetInputs.meals.value) || 1;
+
+    if (total > 0 && people > 0 && meals > 0) {
+      const budgetPerPerson = Math.floor(total / people / meals);
+      this.budgetDisplay.textContent = budgetPerPerson;
+      return budgetPerPerson;
+    }
+    this.budgetDisplay.textContent = '0';
+    return 0;
   }
 
   updateChipGroup(groupId, activeChip) {
@@ -123,7 +173,11 @@ class ExplorePage {
         this.filters.mealType === 'all' ||
         res.mealType.includes(this.filters.mealType);
 
-      return matchesSearch && matchesCuisine && matchesMealType;
+      const matchesBudget = res.price <= this.filters.budget;
+
+      return (
+        matchesSearch && matchesCuisine && matchesMealType && matchesBudget
+      );
     });
 
     this.grid.textContent = '';
