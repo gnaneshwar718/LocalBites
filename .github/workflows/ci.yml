@@ -10,7 +10,7 @@ on:
       - master
       - main
 
-
+      
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -28,10 +28,16 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint .
+        run: |
+          npx eslint .
+          echo "ESLint completed successfully!"
 
       - name: Run Stylelint
-        run: npx stylelint "src/css/**/*.css"
+        run: |
+          npx stylelint "src/css/**/*.css"
+          echo "Stylelint completed successfully!"
 
       - name: Run Tests
-        run: npm test
+        run: |
+          npm test
+          echo "Tests ran successfully!"

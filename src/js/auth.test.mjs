@@ -2,33 +2,38 @@
  * @jest-environment jsdom
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
+
+import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS, TEST_LOCATION_URL } from "./constants.js";
 import { AuthManager } from "./auth.js";
-import { CLASSNAMES, ENDPOINTS, MESSAGES } from "./constants.js";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const getElement = (id) => document.getElementById(id);
+
+const TEST_USER = {
+  name: "Test User",
+  email: "test@example.com",
+  password: "password123",
+};
+
 describe("AuthManager", () => {
   let htmlContent;
 
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-
-  const htmlPath = path.join(__dirname, "../../public/pages/auth.html");
-
-  const getElement = (id) => document.getElementById(id);
-
   beforeAll(() => {
-    htmlContent = fs.readFileSync(htmlPath, "utf-8");
+    htmlContent = fs.readFileSync(path.join(__dirname, PATHS.AUTH_HTML), "utf-8");
   });
 
   beforeEach(() => {
     document.documentElement.innerHTML = htmlContent;
     global.fetch = jest.fn();
     delete window.location;
-    window.location = new URL("http://localhost");
+    window.location = new URL(TEST_LOCATION_URL);
   });
 
   afterEach(() => {
@@ -79,14 +84,18 @@ describe("AuthManager", () => {
     });
   });
 
+  const fillSignUpForm = (user, confirmPassword) => {
+    getElement("signup-name").value = user.name;
+    getElement("signup-email").value = user.email;
+    getElement("signup-password").value = user.password;
+    getElement("signup-retype-password").value = confirmPassword;
+  };
+
   describe("Sign Up Functionality", () => {
     test("shows error if passwords do not match", async () => {
       AuthManager.init();
 
-      getElement("signup-name").value = "Test User";
-      getElement("signup-email").value = "test@example.com";
-      getElement("signup-password").value = "password123";
-      getElement("signup-retype-password").value = "mismatch";
+      fillSignUpForm(TEST_USER, "mismatch");
 
       const form = getElement("signup-form");
       form.dispatchEvent(new Event('submit'));
@@ -105,10 +114,7 @@ describe("AuthManager", () => {
         json: async () => ({ message: "Success" }),
       });
 
-      getElement("signup-name").value = "Test User";
-      getElement("signup-email").value = "test@example.com";
-      getElement("signup-password").value = "password123";
-      getElement("signup-retype-password").value = "password123";
+      fillSignUpForm(TEST_USER, TEST_USER.password);
 
       getElement("signup-form").dispatchEvent(new Event('submit'));
 
@@ -116,11 +122,7 @@ describe("AuthManager", () => {
 
       expect(global.fetch).toHaveBeenCalledWith(ENDPOINTS.SIGNUP, expect.objectContaining({
         method: "POST",
-        body: JSON.stringify({
-          name: "Test User",
-          email: "test@example.com",
-          password: "password123"
-        })
+        body: JSON.stringify(TEST_USER)
       }));
 
       const message = getElement("signup-message");
@@ -136,10 +138,7 @@ describe("AuthManager", () => {
         json: async () => ({ message: "Email already exists" }),
       });
 
-      getElement("signup-name").value = "Test User";
-      getElement("signup-email").value = "test@example.com";
-      getElement("signup-password").value = "password123";
-      getElement("signup-retype-password").value = "password123";
+      fillSignUpForm(TEST_USER, TEST_USER.password);
 
       getElement("signup-form").dispatchEvent(new Event('submit'));
 
@@ -157,11 +156,11 @@ describe("AuthManager", () => {
 
       global.fetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ user: { name: "Test User" } }),
+        json: async () => ({ user: { name: TEST_USER.name } }),
       });
 
-      getElement("signin-email").value = "test@example.com";
-      getElement("signin-password").value = "password123";
+      getElement("signin-email").value = TEST_USER.email;
+      getElement("signin-password").value = TEST_USER.password;
 
       getElement("signin-form").dispatchEvent(new Event('submit'));
 
@@ -170,8 +169,8 @@ describe("AuthManager", () => {
       expect(global.fetch).toHaveBeenCalledWith(ENDPOINTS.SIGNIN, expect.objectContaining({
         method: "POST",
         body: JSON.stringify({
-          email: "test@example.com",
-          password: "password123"
+          email: TEST_USER.email,
+          password: TEST_USER.password
         })
       }));
 
@@ -179,4 +178,4 @@ describe("AuthManager", () => {
       expect(message).toHaveTextContent("Welcome back, Test User!");
     });
   });
-});
+});  
