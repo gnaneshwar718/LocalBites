@@ -27,8 +27,8 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npx eslint . --format stylish
-      - run: npx stylelint "css/**/*.css" --allow-empty-input
+      - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
+      - run: npx stylelint "css/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
 
   unit-tests:
     name: Unit & Integration Tests
