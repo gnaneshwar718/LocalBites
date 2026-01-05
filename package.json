@@ -4,7 +4,7 @@
   "description": "LocalBites is a traveler-focused web application for discovering authentic local food spots.",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "format:check": "prettier --check .",
     "test:auto": "chokidar \"src/js/**/*.js\" -c \"npm test\"",
     "lint": "eslint .",

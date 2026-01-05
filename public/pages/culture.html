@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Culture - LocalBites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/culture.css" />
+  </head>
+
+  <body>
+    <app-header></app-header>
+
+    <main>
+      <section class="culture-hero">
+        <div class="culture-hero-content">
+          <div class="culture-hero-text">
+            <h1>Local Food Heritage and Cultural Stories</h1>
+            <p>
+              Discover the rich history and significance behind the local dishes
+              and how each recipe serves as a unique form of cultural
+              storytelling, passed down through generations
+            </p>
+          </div>
+          <div class="culture-hero-image carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active" data-dish="masala-dosa">
+                <img
+                  src="https://images.unsplash.com/photo-1694849789325-914b71ab4075?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt=" Masala Dosa"
+                />
+              </div>
+              <div class="carousel-item" data-dish="bisi-bele-bath">
+                <img
+                  src="https://media.istockphoto.com/id/1221366840/photo/bisibele-bath-hot-lentil-rice-dish.jpg?s=2048x2048&w=is&k=20&c=FxazAaOB-H_m5TltTM00njyObU99pP0BhrRcNBCIrZw="
+                  alt="Bisi Bele Bath"
+                />
+              </div>
+              <div class="carousel-item" data-dish="mysore-pak">
+                <img
+                  src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlyeWFuaXxlbnwwfHwwfHx8MA%3D%3D"
+                  alt="Biryani"
+                />
+              </div>
+              <div class="carousel-item" data-dish="ragi-mudde">
+                <img src="" alt="Ragi Mudde" />
+              </div>
+              <div class="carousel-item" data-dish="idli-vada">
+                <img
+                  src="https://media.istockphoto.com/id/2223331687/photo/delicious-south-indian-breakfast-food-idli-and-vada.jpg?s=2048x2048&w=is&k=20&c=yzKvLYrr2AAoMsFJJ24IStRoxvGX6EsPw7D8BOq0Y20="
+                  alt="Idli Vada"
+                />
+              </div>
+              <div class="carousel-item" data-dish="filter-coffee">
+                <img
+                  src="https://www.saffrontrail.com/wp-content/uploads/2006/08/recipe-to-make-filter-kaapi-how-to.1024x1024.jpg"
+                  alt="Filter Coffee"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="must-try-section">
+        <div class="must-try-container">
+          <h2>Must-Try Dishes</h2>
+          <div class="dishes-grid">
+            <article
+              class="dish-card"
+              id="masala-dosa"
+              data-dish-id="masala-dosa"
+            >
+              <div class="dish-image">
+                <img
+                  src="https://images.unsplash.com/photo-1694849789325-914b71ab4075?q=80&w=1074&auto=format&fit=crop"
+                  alt="Masala Dosa"
+                />
+              </div>
+              <div class="dish-content">
+                <h3>Masala Dosa</h3>
+                <p>
+                  A thick, crispy fermented crepe filled with spiced potatoes.
+                  Bengaluru's version is distinctively golden, butter-rich, and
+                  served with spicy coconut chutney and sambar.
+                </p>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">MTR</span>
+                        <a
+                          href="https://maps.google.com/?q=MTR+Lalbagh+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View MTR on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">CTR - Shri Sagar</span>
+                        <a
+                          href="https://maps.google.com/?q=CTR+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View CTR - Shri Sagar on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Vidyarthi Bhavan</span>
+                        <a
+                          href="https://maps.google.com/?q=Vidyarthi+Bhavan+Gandhi+Bazaar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Vidyarthi Bhavan on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="dish-card"
+              id="bisi-bele-bath"
+              data-dish-id="bisi-bele-bath"
+            >
+              <div class="dish-image">
+                <img
+                  src="https://media.istockphoto.com/id/1221366840/photo/bisibele-bath-hot-lentil-rice-dish.jpg?s=2048x2048&w=is&k=20&c=FxazAaOB-H_m5TltTM00njyObU99pP0BhrRcNBCIrZw="
+                  alt="Bisi Bele Bath"
+                />
+              </div>
+              <div class="dish-content">
+                <h3>Bisi Bele Bath</h3>
+                <p>
+                  A wholesome "hot lentil rice" dish made with rice, lentils,
+                  vegetables, and a complex spice blend featuring tamarind and
+                  jaggery. It's a cornerstone of Karnataka's culinary heritage.
+                </p>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">MTR</span>
+                        <a
+                          href="https://maps.google.com/?q=MTR+Lalbagh+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View MTR on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Halli Mane</span>
+                        <a
+                          href="https://maps.google.com/?q=Halli+Mane+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Halli Mane on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Maiyas</span>
+                        <a
+                          href="https://maps.google.com/?q=Maiyas+Jayanagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Maiyas on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="dish-card" id="biryani" data-dish-id="biryani">
+              <div class="dish-image">
+                <img
+                  src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop"
+                  alt="Biryani"
+                />
+              </div>
+              <div class="dish-content">
+                <h3>Biryani</h3>
+                <p>
+                  Bengaluru's biryani scene is famous for its spicy
+                  Hyderabadi-style and the unique local Donne Biryani. Meghana
+                  Foods is legendary for its flavour-packed, robust spice
+                  profile and generous portions.
+                </p>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Meghana Foods</span>
+                        <a
+                          href="https://maps.google.com/?q=Meghana+Foods+Koramangala+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Meghana Foods on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name"
+                          >Shivaji Military Hotel</span
+                        >
+                        <a
+                          href="https://maps.google.com/?q=Shivaji+Military+Hotel+Jayanagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Shivaji Military Hotel on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Nagarjuna</span>
+                        <a
+                          href="https://maps.google.com/?q=Nagarjuna+Residency+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Nagarjuna on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="dish-card"
+              id="ragi-mudde"
+              data-dish-id="ragi-mudde"
+            >
+              <div class="dish-image">
+                <img
+                  src="https://images.unsplash.com/photo-1626132646501-f5188f6c6f0d?auto=format&fit=crop&q=80&w=800"
+                  alt="Ragi Mudde"
+                />
+              </div>
+              <div class="dish-content">
+                <h3>Ragi Mudde</h3>
+                <p>
+                  Nutritious finger millet balls, a staple of Old Mysore
+                  region's agricultural roots. It is traditionally served with
+                  spicy saaru or bassaru and is known for its incredible health
+                  benefits.
+                </p>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Mudde Madappa Mess</span>
+                        <a
+                          href="https://maps.google.com/?q=Mudde+Madappa+Mess+Gandhinagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Mudde Madappa Mess on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Halli Mane</span>
+                        <a
+                          href="https://maps.google.com/?q=Halli+Mane+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Halli Mane on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">xyz</span>
+                        <a
+                          href=""
+                          target="_blank"
+                          class="location-icon"
+                          aria-label=""
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="dish-card" id="idli-vada" data-dish-id="idli-vada">
+              <div class="dish-image">
+                <img
+                  src="https://media.istockphoto.com/id/2223331687/photo/delicious-south-indian-breakfast-food-idli-and-vada.jpg?s=2048x2048&w=is&k=20&c=yzKvLYrr2AAoMsFJJ24IStRoxvGX6EsPw7D8BOq0Y20="
+                  alt="Idli Vada"
+                />
+              </div>
+              <div class="dish-content">
+                <h3>Idli Vada</h3>
+                <p>
+                  Soft, fluffy steamed rice cakes paired with crispy fried
+                  lentil donuts, a beloved breakfast combination across South
+                  India celebrated for its perfect contrast of textures.
+                </p>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name"
+                          >Brahmin's Coffee Bar</span
+                        >
+                        <a
+                          href="https://maps.google.com/?q=Brahmins+Coffee+Bar+Basavanagudi+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Brahmin's Coffee Bar on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Taaza Thindi</span>
+                        <a
+                          href="https://maps.google.com/?q=Taaza+Thindi+Jayanagar+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Taaza Thindi on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Veena Stores</span>
+                        <a
+                          href="https://maps.google.com/?q=Veena+Stores+Malleshwaram+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Veena Stores on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="dish-card"
+              id="filter-coffee"
+              data-dish-id="filter-coffee"
+            >
+              <div class="dish-image">
+                <img
+                  src="https://www.saffrontrail.com/wp-content/uploads/2006/08/recipe-to-make-filter-kaapi-how-to.1024x1024.jpg"
+                  alt="Filter Coffee"
+                />
+              </div>
+              <div class="dish-content">
+                <h3>Filter Coffee</h3>
+                <p>
+                  Traditional South Indian coffee brewed using a metal filter,
+                  mixed with frothy hot milk and sugar for a perfect aromatic
+                  blend that defines Bengaluru's morning ritual.
+                </p>
+                <div class="famous-restaurants">
+                  <h4>Iconic places to try</h4>
+                  <ul class="restaurant-list">
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name"
+                          >Brahmin's Coffee Bar</span
+                        >
+                        <a
+                          href="https://maps.google.com/?q=Brahmins+Coffee+Bar+Basavanagudi+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Brahmin's Coffee Bar on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">MTR</span>
+                        <a
+                          href="https://maps.google.com/?q=MTR+Lalbagh+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View MTR on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                    <li class="restaurant-item">
+                      <div class="restaurant-header">
+                        <span class="restaurant-name">Hatti Kaapi</span>
+                        <a
+                          href="https://maps.google.com/?q=Hatti+Kaapi+MG+Road+Bengaluru"
+                          target="_blank"
+                          class="location-icon"
+                          aria-label="View Hatti Kaapi on map"
+                        >
+                          <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                      </div>
+                      <a href="#" class="learn-more-btn">Learn More</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <app-footer></app-footer>
+
+    <script src="/js/components.js"></script>
+    <script src="/js/culture.js"></script>
+  </body>
+</html>
