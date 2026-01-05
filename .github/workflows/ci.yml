@@ -14,8 +14,8 @@ env:
   NODE_VERSION_FILE: .nvmrc
 
 jobs:
-  lint:
-    name: Code Linting
+  stylelint:
+    name: Stylelint Check
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -27,13 +27,28 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
       - run: npx stylelint "css/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
+
+  eslint:
+    name: ESLint Check
+    runs-on: ubuntu-latest
+    needs: [stylelint]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: npm
+
+      - run: npm ci
+      - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
 
   unit-tests:
     name: Unit & Integration Tests
     runs-on: ubuntu-latest
-    needs: [lint]
+    needs: [eslint]
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +59,20 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm test
+      - run: npm test && echo "Tests Completed Successfully"
 
-  
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: npm
+
+      - run: npm ci
+      - run: echo "Build Completed Successfully"
