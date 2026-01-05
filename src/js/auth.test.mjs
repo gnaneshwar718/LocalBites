@@ -3,7 +3,7 @@
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
 
-import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS, TEST_LOCATION_URL } from "./constants.js";
+import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS, TEST_LOCATION_URL, TEST_USER } from "./constants.js";
 import { AuthManager } from "./auth.js";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
@@ -16,11 +16,7 @@ const __dirname = path.dirname(__filename);
 
 const getElement = (id) => document.getElementById(id);
 
-const TEST_USER = {
-  name: "Test User",
-  email: "test@example.com",
-  password: "password123",
-};
+
 
 describe("AuthManager", () => {
   let htmlContent;
@@ -34,6 +30,7 @@ describe("AuthManager", () => {
     global.fetch = jest.fn();
     delete window.location;
     window.location = new URL(TEST_LOCATION_URL);
+    AuthManager.init();
   });
 
   afterEach(() => {
@@ -42,43 +39,36 @@ describe("AuthManager", () => {
 
   describe("Initialization", () => {
     test("initializes correctly and binds events", () => {
-      expect(() => AuthManager.init()).not.toThrow();
+      // AuthManager.init() is now called in beforeEach
+      expect(true).toBe(true); // Verification that init doesn't throw is implicitly handled by beforeEach
     });
   });
 
   describe("Panel Toggling", () => {
     test("togglePanel(true) shows sign up panel (adds CLASSNAMES.ACTIVE)", () => {
-      AuthManager.init();
       AuthManager.togglePanel(true);
       expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
     });
 
     test("togglePanel(false) shows sign in panel (removes CLASSNAMES.ACTIVE)", () => {
-      AuthManager.init();
       AuthManager.togglePanel(true);
       expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
-
       AuthManager.togglePanel(false);
       expect(getElement("container")).not.toHaveClass(CLASSNAMES.ACTIVE);
     });
 
     test("clicking default Sign Up button toggles panel", async () => {
-      AuthManager.init();
       const user = userEvent.setup();
       const signUpBtn = getElement("signUp");
-
       await user.click(signUpBtn);
       expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
     });
 
     test("clicking default Sign In button toggles panel", async () => {
-      AuthManager.init();
       const user = userEvent.setup();
       const signInBtn = getElement("signIn");
-
       AuthManager.togglePanel(true);
       expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
-
       await user.click(signInBtn);
       expect(getElement("container")).not.toHaveClass(CLASSNAMES.ACTIVE);
     });
@@ -93,21 +83,17 @@ describe("AuthManager", () => {
 
   describe("Sign Up Functionality", () => {
     test("shows error if passwords do not match", async () => {
-      AuthManager.init();
-
       fillSignUpForm(TEST_USER, "mismatch");
-
       const form = getElement("signup-form");
       form.dispatchEvent(new Event('submit'));
       await new Promise(resolve => setTimeout(resolve, 0));
-
       const message = getElement("signup-message");
       expect(message).toHaveTextContent(MESSAGES.PASSWORD_MISMATCH);
       expect(message).toHaveClass("message-error");
     });
 
     test("calls API and shows success message on valid signup", async () => {
-      AuthManager.init();
+
 
       global.fetch.mockResolvedValueOnce({
         ok: true,
@@ -115,9 +101,7 @@ describe("AuthManager", () => {
       });
 
       fillSignUpForm(TEST_USER, TEST_USER.password);
-
       getElement("signup-form").dispatchEvent(new Event('submit'));
-
       await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(global.fetch).toHaveBeenCalledWith(ENDPOINTS.SIGNUP, expect.objectContaining({
@@ -131,19 +115,14 @@ describe("AuthManager", () => {
     });
 
     test("shows error message on API failure", async () => {
-      AuthManager.init();
-
       global.fetch.mockResolvedValueOnce({
         ok: false,
         json: async () => ({ message: "Email already exists" }),
       });
 
       fillSignUpForm(TEST_USER, TEST_USER.password);
-
       getElement("signup-form").dispatchEvent(new Event('submit'));
-
       await new Promise(resolve => setTimeout(resolve, 0));
-
       const message = getElement("signup-message");
       expect(message).toHaveTextContent("Email already exists");
       expect(message).toHaveClass("message-error");
@@ -152,8 +131,6 @@ describe("AuthManager", () => {
 
   describe("Sign In Functionality", () => {
     test("calls API and redirects on valid signin", async () => {
-      AuthManager.init();
-
       global.fetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ user: { name: TEST_USER.name } }),
@@ -161,7 +138,6 @@ describe("AuthManager", () => {
 
       getElement("signin-email").value = TEST_USER.email;
       getElement("signin-password").value = TEST_USER.password;
-
       getElement("signin-form").dispatchEvent(new Event('submit'));
 
       await new Promise(resolve => setTimeout(resolve, 0));

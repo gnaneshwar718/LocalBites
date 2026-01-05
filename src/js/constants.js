@@ -1,5 +1,7 @@
-export const TEST_LOCATION_URL = 'http://localhost';
-export const BASE_URL = 'http://localhost:3000';
+const LOCAL_ORIGIN = 'http://localhost';
+
+export const TEST_LOCATION_URL = LOCAL_ORIGIN;
+export const BASE_URL = `${LOCAL_ORIGIN}:3000`;
 
 export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
@@ -19,4 +21,10 @@ export const MESSAGES = {
 
 export const PATHS = {
   AUTH_HTML: '../../public/pages/auth.html',
+};
+
+export const TEST_USER = {
+  name: 'Test User',
+  email: 'test@example.com',
+  password: 'password123',
 };
