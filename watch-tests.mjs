@@ -67,6 +67,7 @@ cssWatcher.on("change", (path) => {
   });
 });
 
+
 console.log("Auto-watching enabled!");
 console.log("JS files -> ESLint + Jest");
 console.log("CSS files -> Stylelint");
