@@ -476,7 +476,6 @@
   color: var(--color-brand);
 }
 
-/* Budget Planner Compact Optimizations */
 .budget-grid {
   display: flex;
   gap: 1rem;
@@ -488,17 +487,11 @@
 
 #budget-modal .modal-content {
   max-width: 26rem;
-
-  /* Slightly smaller width for compactness */
   scrollbar-width: none;
-
-  /* Firefox */
 }
 
 #budget-modal .modal-content::-webkit-scrollbar {
   display: none;
-
-  /* Chrome/Safari */
 }
 
 #budget-modal .modal-info {
@@ -514,25 +507,19 @@
   margin-bottom: 1rem;
 }
 
-/* Hide number input spinners for cleaner UI */
 .budget-input::-webkit-outer-spin-button,
 .budget-input::-webkit-inner-spin-button {
-  /* stylelint-disable-next-line property-no-vendor-prefix */
-  -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
 .budget-input[type='number'] {
-  /* stylelint-disable-next-line property-no-vendor-prefix */
-  -moz-appearance: textfield;
   appearance: textfield;
 }
 
 @media (width <=480px) {
   .budget-grid {
     flex-direction: row;
-
-    /* Keep side-by-side even on mobile if possible, or stack if too tight */
   }
 
   .modal-close {
