@@ -14,6 +14,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const getElement = (id) => document.getElementById(id);
+
+const expectContainerActive = (isActive) => {
+  const container = getElement("container");
+  if (isActive) {
+    expect(container).toHaveClass(CLASSNAMES.ACTIVE);
+  } else {
+    expect(container).not.toHaveClass(CLASSNAMES.ACTIVE);
+  }
+};
+
 describe("AuthManager", () => {
   let htmlContent;
 
@@ -42,30 +52,30 @@ describe("AuthManager", () => {
   describe("Panel Toggling", () => {
     test("togglePanel(true) shows sign up panel (adds CLASSNAMES.ACTIVE)", () => {
       AuthManager.togglePanel(true);
-      expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
+      expectContainerActive(true);
     });
 
     test("togglePanel(false) shows sign in panel (removes CLASSNAMES.ACTIVE)", () => {
       AuthManager.togglePanel(true);
-      expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
+      expectContainerActive(true);
       AuthManager.togglePanel(false);
-      expect(getElement("container")).not.toHaveClass(CLASSNAMES.ACTIVE);
+      expectContainerActive(false);
     });
 
     test("clicking default Sign Up button toggles panel", async () => {
       const user = userEvent.setup();
       const signUpBtn = getElement("signUp");
       await user.click(signUpBtn);
-      expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
+      expectContainerActive(true);
     });
 
     test("clicking default Sign In button toggles panel", async () => {
       const user = userEvent.setup();
       const signInBtn = getElement("signIn");
       AuthManager.togglePanel(true);
-      expect(getElement("container")).toHaveClass(CLASSNAMES.ACTIVE);
+      expectContainerActive(true);
       await user.click(signInBtn);
-      expect(getElement("container")).not.toHaveClass(CLASSNAMES.ACTIVE);
+      expectContainerActive(false);
     });
   });
 
