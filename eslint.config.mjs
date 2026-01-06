@@ -2,23 +2,23 @@ import js from '@eslint/js';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 
+
 export default [
   {
     ignores: [
       'node_modules/**',
       'dist/**',
       'build/**',
-      'coverage/**',
-      'playwright.config.js',
-      'tests/**/*.spec.js',
+      'coverage/**'
     ],
   },
+
 
   {
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
       },
@@ -32,13 +32,13 @@ export default [
   },
 
   {
-    files: ['src/js/**/*.test.js', 'tests/**/*.test.mjs', 'tests/**/*.mjs'],
+    files: ['src/js/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
+      sourceType: 'script',
       globals: {
         ...globals.jest,
-        ...globals.browser,
+        ...globals.node,
       },
     },
     rules: {
