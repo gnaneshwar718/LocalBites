@@ -53,31 +53,18 @@ describe('HomePage DOM Unit Tests', () => {
     });
 
     test('carousel should change slides automatically', async () => {
-
         await import('../src/js/script.js?t=' + Date.now());
-
         document.dispatchEvent(new Event('DOMContentLoaded'));
-
         const slides = container.querySelectorAll('.carousel-item');
+
         expect(slides[0]).toHaveClass('active');
-        expect(slides[1]).not.toHaveClass('active');
 
-
-        jest.advanceTimersByTime(4000);
-
-        expect(slides[0]).not.toHaveClass('active');
-        expect(slides[1]).toHaveClass('active');
-
-
-        jest.advanceTimersByTime(4000);
-
-        expect(slides[1]).not.toHaveClass('active');
-        expect(slides[2]).toHaveClass('active');
-
-
-        jest.advanceTimersByTime(4000);
-        expect(slides[2]).not.toHaveClass('active');
-        expect(slides[0]).toHaveClass('active');
+        for (let i = 0; i < slides.length; i++) {
+            const nextIndex = (i + 1) % slides.length;
+            jest.advanceTimersByTime(4000);
+            expect(slides[i]).not.toHaveClass('active');
+            expect(slides[nextIndex]).toHaveClass('active');
+        }
     });
 
     test('AppHeader should toggle hamburger menu and contain navigation links', async () => {

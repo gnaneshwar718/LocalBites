@@ -28,3 +28,54 @@ class AppFooter extends HTMLElement {
 
 customElements.define('app-header', AppHeader);
 customElements.define('app-footer', AppFooter);
+
+class FeatureCard extends HTMLElement {
+  connectedCallback() {
+    const title = this.getAttribute('title');
+    const subtitle = this.getAttribute('subtitle');
+    const description = this.getAttribute('description');
+    const link = this.getAttribute('link') || '#';
+    const image = this.getAttribute('image');
+    this.innerHTML = `
+      <article class="feature-card">
+        <div>
+          <h3>${title}</h3>
+          <div class="subtitle">${subtitle}</div>
+          <p>${description}</p>
+          <a href="${link}" class="feature-link">Explore <i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+        <div class="feature-image">
+          <img src="${image}" alt="${title}">
+        </div>
+      </article>
+    `;
+  }
+}
+customElements.define('feature-card', FeatureCard);
+
+class FaqItem extends HTMLElement {
+  connectedCallback() {
+    const question = this.getAttribute('question');
+    const answer = this.getAttribute('answer');
+    this.innerHTML = `
+      <div class="faq-item">
+        <h4>${question}</h4>
+        <p>${answer}</p>
+      </div>
+    `;
+  }
+}
+customElements.define('faq-item', FaqItem);
+
+class CarouselSlide extends HTMLElement {
+  connectedCallback() {
+    const src = this.getAttribute('src');
+    const active = this.hasAttribute('active');
+    this.innerHTML = `
+      <div class="carousel-item ${active ? 'active' : ''}">
+        <img src="${src}" alt="Local Food">
+      </div>
+    `;
+  }
+}
+customElements.define('carousel-slide', CarouselSlide);

@@ -34,36 +34,22 @@
         </div>
         <div class="hero-image carousel">
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img
-                src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop"
-                alt="Local Food 1"
-              />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop"
-                alt="Local Food 2"
-              />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1000&auto=format&fit=crop"
-                alt="Local Food 3"
-              />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1000&auto=format&fit=crop"
-                alt="Local Food 4"
-              />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1000&auto=format&fit=crop"
-                alt="Local Food 5"
-              />
-            </div>
+            <carousel-slide
+              active
+              src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
           </div>
         </div>
       </section>
@@ -92,56 +78,30 @@
         </div>
 
         <div class="features-grid">
-          <article class="feature-card">
-            <div>
-              <h3>Search</h3>
-              <div class="subtitle">Discover Local Food Spots</div>
-              <p>Find authentic eateries loved by locals, not tourists.</p>
-              <a href="#" class="feature-link"
-                >Explore <i class="fa-solid fa-chevron-right"></i
-              ></a>
-            </div>
-            <div class="feature-image">
-              <img
-                src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800"
-                alt="Search Restaurant"
-              />
-            </div>
-          </article>
+          <feature-card
+            title="Search"
+            subtitle="Discover Local Food Spots"
+            description="Find authentic eateries loved by locals, not tourists."
+            image="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800"
+          >
+          </feature-card>
 
-          <article class="feature-card">
-            <div>
-              <h3>Plan</h3>
-              <div class="subtitle">Plan Meals by Budget</div>
-              <p>Know what you'll spend before you arrive anywhere.</p>
-              <a href="#" class="feature-link"
-                >Explore <i class="fa-solid fa-chevron-right"></i
-              ></a>
-            </div>
-            <div class="feature-image">
-              <img
-                src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=800"
-                alt="Plan Meal"
-              />
-            </div>
-          </article>
+          <feature-card
+            title="Plan"
+            subtitle="Plan Meals by Budget"
+            description="Know what you'll spend before you arrive anywhere."
+            image="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=800"
+          >
+          </feature-card>
 
-          <article class="feature-card">
-            <div>
-              <h3>Learn</h3>
-              <div class="subtitle">History behind each dish</div>
-              <p>Every meal has a story worth understanding.</p>
-              <a href="/culture" class="feature-link"
-                >Explore <i class="fa-solid fa-chevron-right"></i
-              ></a>
-            </div>
-            <div class="feature-image">
-              <img
-                src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800"
-                alt="Learn History"
-              />
-            </div>
-          </article>
+          <feature-card
+            title="Learn"
+            subtitle="History behind each dish"
+            description="Every meal has a story worth understanding."
+            link="/culture"
+            image="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800"
+          >
+          </feature-card>
         </div>
       </section>
 
@@ -150,39 +110,22 @@
         <p class="info">Everything you need to know about using LocalBites.</p>
 
         <div class="faq-list">
-          <div class="faq-item">
-            <h4>How accurate are the prices?</h4>
-            <p>
-              LocalBites pulls pricing from recent visitor data and restaurant
-              menus. Prices change, so use our estimates as a guide, not gospel.
-              Always check current menus before you order.
-            </p>
-          </div>
-          <div class="faq-item">
-            <h4>Can I trust these recommendations?</h4>
-            <p>
-              Every restaurant on LocalBites is vetted by our team. We focus on
-              places with rich history and authentic food, not tourist
-              marketing. If a place doesn't meet our standards, it doesn't
-              appear.
-            </p>
-          </div>
-          <div class="faq-item">
-            <h4>Is the app available everywhere?</h4>
-            <p>
-              LocalBites covers major cities and growing regions worldwide.
-              We're expanding constantly. Check the app to see if your
-              destination is covered.
-            </p>
-          </div>
-          <div class="faq-item">
-            <h4>How do I plan my budget?</h4>
-            <p>
-              Enter your total budget and number of people. LocalBites
-              calculates per-person meal costs and shows you restaurants within
-              your range. It's that simple.
-            </p>
-          </div>
+          <faq-item
+            question="How accurate are the prices?"
+            answer="LocalBites pulls pricing from recent visitor data and restaurant menus. Prices change, so use our estimates as a guide, not gospel. Always check current menus before you order."
+          ></faq-item>
+          <faq-item
+            question="Can I trust these recommendations?"
+            answer="Every restaurant on LocalBites is vetted by our team. We focus on places with rich history and authentic food, not tourist marketing. If a place doesn't meet our standards, it doesn't appear."
+          ></faq-item>
+          <faq-item
+            question="Is the app available everywhere?"
+            answer="LocalBites covers major cities and growing regions worldwide. We're expanding constantly. Check the app to see if your destination is covered."
+          ></faq-item>
+          <faq-item
+            question="How do I plan my budget?"
+            answer="Enter your total budget and number of people. LocalBites calculates per-person meal costs and shows you restaurants within your range. It's that simple."
+          ></faq-item>
         </div>
 
         <div class="questions-footer">
