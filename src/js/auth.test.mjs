@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
-
 import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS, TEST_LOCATION_URL, TEST_USER } from "./constants.js";
 import { AuthManager } from "./auth.js";
 import userEvent from "@testing-library/user-event";
@@ -15,9 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const getElement = (id) => document.getElementById(id);
-
-
-
 describe("AuthManager", () => {
   let htmlContent;
 
@@ -39,8 +35,7 @@ describe("AuthManager", () => {
 
   describe("Initialization", () => {
     test("initializes correctly and binds events", () => {
-      // AuthManager.init() is now called in beforeEach
-      expect(true).toBe(true); // Verification that init doesn't throw is implicitly handled by beforeEach
+      expect(true).toBe(true);
     });
   });
 
@@ -93,8 +88,6 @@ describe("AuthManager", () => {
     });
 
     test("calls API and shows success message on valid signup", async () => {
-
-
       global.fetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ message: "Success" }),
