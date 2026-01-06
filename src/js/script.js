@@ -1,4 +1,3 @@
-'use strict';
 document.addEventListener('DOMContentLoaded', () => {
   const slides = document.querySelectorAll('.carousel-item');
   let currentSlide = 0;

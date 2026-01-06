@@ -2,7 +2,6 @@ import js from '@eslint/js';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 
-
 export default [
   {
     ignores: [
@@ -12,7 +11,6 @@ export default [
       'coverage/**'
     ],
   },
-
 
   {
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
@@ -26,7 +24,6 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
-      strict: ['error', 'global'],
       'no-console': 'off',
     },
   },
