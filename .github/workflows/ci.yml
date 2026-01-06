@@ -59,5 +59,5 @@ jobs:
 
       - run: npm ci
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      - run: npm test && echo "Tests Completed Successfully"
-      - run: echo "Build Completed Successfully"
+      - run: npm test && echo "CI Pipeline Completed Successfully"
+
