@@ -35,7 +35,7 @@ jobs:
       - run: npm ci
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
       
-      - run: npx stylelint "src/css/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
+      - run: npx stylelint "css/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
       - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
 
   unit-tests:
@@ -59,27 +59,4 @@ jobs:
 
       - run: npm ci
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      - run: npm test && echo "Tests Completed Successfully"
-
-  build:
-    name: Build Application
-    runs-on: ubuntu-latest
-    needs: [unit-tests]
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: npm
-
-      - uses: actions/cache@v4
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-
-      - run: npm ci
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      - run: echo "Build Completed Successfully"
+      - run: npm test && echo "Test completed Successfully" && echo "CI Pipeline Completed Successfully"
