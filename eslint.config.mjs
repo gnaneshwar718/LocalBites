@@ -1,15 +1,22 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
+
 export default [
   {
-    ignores: ['node_modules/**', 'public/**', 'dist/**', 'build/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'coverage/**'
+    ],
   },
+
   {
-    files: ['src/js/**/*.js'],
+    files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
       },
@@ -18,7 +25,55 @@ export default [
       ...js.configs.recommended.rules,
       ...prettier.rules,
       'no-console': 'off',
+    },
+  },
+
+  {
+    files: ['src/js/**/*.test.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'script',
+      globals: {
+        ...globals.jest,
+        ...globals.node,
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...prettier.rules,
+      strict: 'off',
+    },
+  },
+
+  {
+    files: ['server.js', 'commitlint.config.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'script',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...prettier.rules,
       strict: ['error', 'global'],
+    },
+  },
+
+
+  {
+    files: ['**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...prettier.rules,
     },
   },
 ];
