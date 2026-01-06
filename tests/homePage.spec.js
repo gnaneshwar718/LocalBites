@@ -88,21 +88,18 @@ test.describe('HomePage UI - LocalBites', () => {
       page,
     }) => {
       const cards = page.locator('.feature-card');
+      const features = [
+        { title: 'Search', subtitle: 'Discover Local Food Spots' },
+        { title: 'Plan', subtitle: 'Plan Meals by Budget' },
+        { title: 'Learn', subtitle: 'History behind each dish' },
+      ];
 
-      await expect(cards.nth(0).locator('h3')).toHaveText('Search');
-      await expect(cards.nth(0).locator('.subtitle')).toHaveText(
-        'Discover Local Food Spots'
-      );
-
-      await expect(cards.nth(1).locator('h3')).toHaveText('Plan');
-      await expect(cards.nth(1).locator('.subtitle')).toHaveText(
-        'Plan Meals by Budget'
-      );
-
-      await expect(cards.nth(2).locator('h3')).toHaveText('Learn');
-      await expect(cards.nth(2).locator('.subtitle')).toHaveText(
-        'History behind each dish'
-      );
+      for (const [index, feature] of features.entries()) {
+        await expect(cards.nth(index).locator('h3')).toHaveText(feature.title);
+        await expect(cards.nth(index).locator('.subtitle')).toHaveText(
+          feature.subtitle
+        );
+      }
     });
   });
 
