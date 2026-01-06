@@ -81,6 +81,9 @@
       </section>
     </main>
 
-    <script src="/js/auth.js"></script>
+    <script type="module">
+      import { AuthManager } from '/js/auth.js';
+      AuthManager.init();
+    </script>
   </body>
 </html>

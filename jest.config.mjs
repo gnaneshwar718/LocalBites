@@ -1,7 +1,7 @@
 export default {
     testEnvironment: 'jsdom',
     transform: {
-        '^.+\\.m?js$': 'babel-jest',
+        "^.+\\.(js|jsx|mjs)$": "babel-jest"
     },
-    testMatch: ['**/src/js/**/*.test.mjs'],
+    moduleFileExtensions: ["js", "mjs", "jsx", "json", "node"],
 };

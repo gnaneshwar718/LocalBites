@@ -37,6 +37,7 @@ export default [
       sourceType: 'script',
       globals: {
         ...globals.jest,
+        ...globals.node,
       },
     },
     rules: {
