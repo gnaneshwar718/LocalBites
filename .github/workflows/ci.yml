@@ -35,7 +35,7 @@ jobs:
       - run: npm ci
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
       
-      - run: npx stylelint "css/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
+      - run: npx stylelint "**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
       - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
 
   unit-tests:

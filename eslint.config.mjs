@@ -63,12 +63,13 @@ export default [
 
 
   {
-    files: ['**/*.mjs'],
+    files: ['**/*.mjs', 'tests/**/*.js', 'playwright.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.node,
+        ...globals.jest,
       },
     },
     rules: {
