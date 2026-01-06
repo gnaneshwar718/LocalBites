@@ -1,6 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { RESTAURANTS } from '../data/restaurants.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("Explore Page Comprehensive Tests", () => {
     let htmlContent;

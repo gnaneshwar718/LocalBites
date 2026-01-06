@@ -1,28 +1,30 @@
 import { RESTAURANTS } from '../data/restaurants.js';
+import { $, byId, on } from './utils/dom.js';
+import { ModalManager } from './utils/modal.js';
 
 class ExplorePage {
   constructor() {
-    this.grid = document.getElementById('restaurantGrid');
-    this.searchInput = document.getElementById('restaurantSearch');
-    this.filterBtn = document.getElementById('filterBtn');
-    this.budgetBtn = document.getElementById('budgetBtn');
+    this.grid = byId('restaurantGrid');
+    this.searchInput = byId('restaurantSearch');
+    this.filterBtn = byId('filterBtn');
+    this.budgetBtn = byId('budgetBtn');
 
-    this.detailModal = document.getElementById('detailModal');
-    this.filterModal = document.getElementById('filterModal');
-    this.budgetModal = document.getElementById('budget-modal');
-    this.modalBody = document.getElementById('modalBody');
+    this.detailModal = byId('detailModal');
+    this.filterModal = byId('filterModal');
+    this.budgetModal = byId('budget-modal');
+    this.modalBody = byId('modalBody');
 
     this.budgetInputs = {
-      total: document.getElementById('totalBudget'),
-      people: document.getElementById('numPeople'),
-      meals: document.getElementById('numMeals'),
+      total: byId('totalBudget'),
+      people: byId('numPeople'),
+      meals: byId('numMeals'),
     };
-    this.budgetDisplay = document.getElementById('budgetPerPerson');
-    this.applyBudgetBtn = document.getElementById('calcBudgetBtn');
+    this.budgetDisplay = byId('budgetPerPerson');
+    this.applyBudgetBtn = byId('calcBudgetBtn');
 
-    this.cardTemplate = document.getElementById('restaurant-card-template');
-    this.detailTemplate = document.getElementById('detail-modal-template');
-    this.noResultsTemplate = document.getElementById('no-results-template');
+    this.cardTemplate = byId('restaurant-card-template');
+    this.detailTemplate = byId('detail-modal-template');
+    this.noResultsTemplate = byId('no-results-template');
 
     this.filters = {
       search: '',
@@ -43,43 +45,39 @@ class ExplorePage {
 
   setupEventListeners() {
     if (this.searchInput) {
-      this.searchInput.addEventListener('input', (e) => {
+      on(this.searchInput, 'input', (e) => {
         this.filters.search = e.target.value.toLowerCase().trim();
         this.renderRestaurants();
       });
     }
 
     if (this.filterBtn) {
-      this.filterBtn.addEventListener('click', () =>
-        this.openModal(this.filterModal)
-      );
+      on(this.filterBtn, 'click', () => ModalManager.open(this.filterModal));
     }
 
     if (this.budgetBtn) {
-      this.budgetBtn.addEventListener('click', () =>
-        this.openModal(this.budgetModal)
-      );
+      on(this.budgetBtn, 'click', () => ModalManager.open(this.budgetModal));
     }
 
     document.querySelectorAll('.modal-close, .modal-backdrop').forEach((el) => {
-      el.addEventListener('click', (e) => {
+      on(el, 'click', (e) => {
         const modal = e.target.closest('.modal');
         if (modal) {
-          this.closeModal(modal);
+          ModalManager.close(modal);
         }
       });
     });
 
-    document.addEventListener('keydown', (e) => {
+    on(document, 'keydown', (e) => {
       if (e.key === 'Escape') {
-        const activeModal = document.querySelector('.modal.active');
-        if (activeModal) this.closeModal(activeModal);
+        const activeModal = $('.modal.active');
+        if (activeModal) ModalManager.close(activeModal);
       }
     });
 
-    const cuisineFilters = document.getElementById('cuisineFilters');
+    const cuisineFilters = byId('cuisineFilters');
     if (cuisineFilters) {
-      cuisineFilters.addEventListener('click', (e) => {
+      on(cuisineFilters, 'click', (e) => {
         if (e.target.classList.contains('filter-chip')) {
           this.updateChipGroup('cuisineFilters', e.target);
           this.filters.cuisine = e.target.dataset.cuisine;
@@ -87,9 +85,9 @@ class ExplorePage {
       });
     }
 
-    const mealTypeFilters = document.getElementById('mealTypeFilters');
+    const mealTypeFilters = byId('mealTypeFilters');
     if (mealTypeFilters) {
-      mealTypeFilters.addEventListener('click', (e) => {
+      on(mealTypeFilters, 'click', (e) => {
         if (e.target.classList.contains('filter-chip')) {
           this.updateChipGroup('mealTypeFilters', e.target);
           this.filters.mealType = e.target.dataset.mealtype;
@@ -97,35 +95,33 @@ class ExplorePage {
       });
     }
 
-    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const applyFiltersBtn = byId('applyFiltersBtn');
     if (applyFiltersBtn) {
-      applyFiltersBtn.addEventListener('click', () => {
+      on(applyFiltersBtn, 'click', () => {
         this.renderRestaurants();
-        this.closeModal(this.filterModal);
+        ModalManager.close(this.filterModal);
       });
     }
 
     if (this.budgetInputs.total) {
       ['total', 'people', 'meals'].forEach((key) => {
-        this.budgetInputs[key].addEventListener('input', () =>
-          this.calculateBudget()
-        );
+        on(this.budgetInputs[key], 'input', () => this.calculateBudget());
       });
     }
 
     if (this.applyBudgetBtn) {
-      this.applyBudgetBtn.addEventListener('click', () => {
+      on(this.applyBudgetBtn, 'click', () => {
         const budgetPerPerson = this.calculateBudget();
         if (budgetPerPerson > 0) {
           this.filters.budget = budgetPerPerson;
           this.renderRestaurants();
-          this.closeModal(this.budgetModal);
+          ModalManager.close(this.budgetModal);
         }
       });
     }
 
     if (this.grid) {
-      this.grid.addEventListener('click', (e) => {
+      on(this.grid, 'click', (e) => {
         const card = e.target.closest('.restaurant-card');
         if (card) {
           this.openDetails(parseInt(card.dataset.id));
@@ -249,21 +245,8 @@ class ExplorePage {
     };
 
     this.modalBody.appendChild(clone);
-    this.openModal(this.detailModal);
-  }
-
-  openModal(modal) {
-    if (modal) {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  closeModal(modal) {
-    if (modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+    this.modalBody.appendChild(clone);
+    ModalManager.open(this.detailModal);
   }
 }
 

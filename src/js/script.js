@@ -1,6 +1,7 @@
-'use strict';
-document.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.carousel-item');
+import { $$, on } from './utils/dom.js';
+
+on(document, 'DOMContentLoaded', () => {
+  const slides = $$('.carousel-item');
   let currentSlide = 0;
   const slideInterval = 4000;
 
