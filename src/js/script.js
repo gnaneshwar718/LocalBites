@@ -1,7 +1,8 @@
+import { CAROUSEL_INTERVAL } from './constants.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const slides = document.querySelectorAll('.carousel-item');
   let currentSlide = 0;
-  const slideInterval = 4000;
 
   function nextSlide() {
     slides[currentSlide].classList.remove('active');
@@ -10,6 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (slides.length > 0) {
-    setInterval(nextSlide, slideInterval);
+    setInterval(nextSlide, CAROUSEL_INTERVAL);
   }
 });

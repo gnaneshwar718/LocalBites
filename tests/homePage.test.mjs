@@ -1,6 +1,10 @@
 import { jest } from '@jest/globals';
 import '@testing-library/jest-dom';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { CAROUSEL_INTERVAL } from '../src/js/constants.js';
+
+const CACHE_BUST_OFFSET_FOOTER = 4;
+const CACHE_BUST_OFFSET_FAQ = 3;
 
 describe('HomePage DOM Unit Tests', () => {
     let container;
@@ -74,7 +78,7 @@ describe('HomePage DOM Unit Tests', () => {
 
         for (let i = 0; i < slides.length; i++) {
             const nextIndex = (i + 1) % slides.length;
-            jest.advanceTimersByTime(4000);
+            jest.advanceTimersByTime(CAROUSEL_INTERVAL);
             expect(slides[i]).not.toHaveClass('active');
             expect(slides[nextIndex]).toHaveClass('active');
         }
@@ -106,7 +110,7 @@ describe('HomePage DOM Unit Tests', () => {
 
     test('AppFooter should render correctly and have dynamic content', async () => {
         document.body.innerHTML = '<app-footer></app-footer>';
-        await import('../src/js/components.js?t=' + (Date.now() + 4));
+        await import('../src/js/components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FOOTER));
 
         await waitFor(() => expect(document.querySelector('footer')).toBeInTheDocument());
 
@@ -116,7 +120,7 @@ describe('HomePage DOM Unit Tests', () => {
 
     test('FaqSection should render correctly and have dynamic email', async () => {
         document.body.innerHTML = '<faq-section></faq-section>';
-        await import('../src/js/components.js?t=' + (Date.now() + 3));
+        await import('../src/js/components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FAQ));
 
         await waitFor(() => expect(document.querySelector('#faq')).toBeInTheDocument());
         expect(document.querySelector('#faq h2')).toHaveTextContent('Questions');
