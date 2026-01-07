@@ -1,47 +1,53 @@
 import { CLASSNAMES, ENDPOINTS, MESSAGES } from './constants.js';
-import { $$, byId, on } from './utils/dom.js';
+
+const $ = (id) => document.getElementById(id);
+const $$ = (selector) => document.querySelectorAll(selector);
 
 export const AuthManager = {
   init() {
-    this.container = byId('container');
+    this.container = $('container');
     this.buttons = {
-      signUp: byId('signUp'),
-      signIn: byId('signIn'),
-      mobileSignUp: byId('mobile-signUp'),
-      mobileSignIn: byId('mobile-signIn'),
+      signUp: $('signUp'),
+      signIn: $('signIn'),
+      mobileSignUp: $('mobile-signUp'),
+      mobileSignIn: $('mobile-signIn'),
     };
     this.forms = {
-      signup: byId('signup-form'),
-      signin: byId('signin-form'),
+      signup: $('signup-form'),
+      signin: $('signin-form'),
     };
 
     this.bindEvents();
   },
 
   bindEvents() {
-    on(this.buttons.signUp, 'click', () => this.togglePanel(true));
-    on(this.buttons.signIn, 'click', () => this.togglePanel(false));
+    this.buttons.signUp?.addEventListener('click', () =>
+      this.togglePanel(true)
+    );
+    this.buttons.signIn?.addEventListener('click', () =>
+      this.togglePanel(false)
+    );
 
-    on(this.buttons.mobileSignUp, 'click', (e) => {
+    this.buttons.mobileSignUp?.addEventListener('click', (e) => {
       e.preventDefault();
       this.togglePanel(true);
     });
 
-    on(this.buttons.mobileSignIn, 'click', (e) => {
+    this.buttons.mobileSignIn?.addEventListener('click', (e) => {
       e.preventDefault();
       this.togglePanel(false);
     });
 
     $$('input').forEach((input) => {
-      on(input, 'input', () => {
+      input.addEventListener('input', () => {
         const form = input.closest('form')?.id.split('-')[0];
-        const message = byId(`${form}-message`);
+        const message = $(`${form}-message`);
         if (message) message.style.visibility = 'hidden';
       });
     });
 
-    on(this.forms.signup, 'submit', (e) => this.handleSignUp(e));
-    on(this.forms.signin, 'submit', (e) => this.handleSignIn(e));
+    this.forms.signup?.addEventListener('submit', (e) => this.handleSignUp(e));
+    this.forms.signin?.addEventListener('submit', (e) => this.handleSignIn(e));
   },
 
   togglePanel(showSignUp) {
@@ -50,7 +56,7 @@ export const AuthManager = {
   },
 
   showMessage(form, text, type) {
-    const el = byId(`${form}-message`);
+    const el = $(`${form}-message`);
     if (!el) return;
 
     el.textContent = text;
@@ -81,12 +87,12 @@ export const AuthManager = {
     e.preventDefault();
 
     const payload = {
-      name: byId('signup-name').value,
-      email: byId('signup-email').value,
-      password: byId('signup-password').value,
+      name: $('signup-name').value,
+      email: $('signup-email').value,
+      password: $('signup-password').value,
     };
 
-    const retypePassword = byId('signup-retype-password').value;
+    const retypePassword = $('signup-retype-password').value;
 
     if (payload.password !== retypePassword) {
       this.showMessage('signup', MESSAGES.PASSWORD_MISMATCH, 'error');
@@ -112,8 +118,8 @@ export const AuthManager = {
     e.preventDefault();
 
     const payload = {
-      email: byId('signin-email').value,
-      password: byId('signin-password').value,
+      email: $('signin-email').value,
+      password: $('signin-password').value,
     };
 
     try {
