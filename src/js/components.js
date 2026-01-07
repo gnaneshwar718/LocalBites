@@ -1,15 +1,37 @@
+import { ENDPOINTS, PATHS, SELECTORS } from './constants.js';
+
 async function loadPartial(url) {
   const response = await fetch(url);
   return await response.text();
 }
 
+async function updateContactLinks(container) {
+  try {
+    const response = await fetch(ENDPOINTS.CONFIG);
+    const config = await response.json();
+    const contactLinks = container.querySelectorAll(SELECTORS.CONTACT_LINKS);
+    contactLinks.forEach((link) => {
+      if (config.contactEmail) {
+        link.href = `mailto:${config.contactEmail}`;
+      }
+    });
+
+    const copyrightElem = container.querySelector(SELECTORS.COPYRIGHT);
+    if (copyrightElem && config.copyrightText) {
+      copyrightElem.innerHTML = config.copyrightText;
+    }
+  } catch (error) {
+    console.error('Failed to load config:', error);
+  }
+}
+
 class AppHeader extends HTMLElement {
   async connectedCallback() {
-    const html = await loadPartial('/partials/header.html');
+    const html = await loadPartial(PATHS.HEADER_PARTIAL);
     this.innerHTML = html;
 
-    const hamburger = this.querySelector('.hamburger');
-    const navLinks = this.querySelector('.nav-links');
+    const hamburger = this.querySelector(SELECTORS.HAMBURGER);
+    const navLinks = this.querySelector(SELECTORS.NAV_LINKS);
 
     if (hamburger && navLinks) {
       hamburger.addEventListener('click', () => {
@@ -21,13 +43,23 @@ class AppHeader extends HTMLElement {
 
 class AppFooter extends HTMLElement {
   async connectedCallback() {
-    const html = await loadPartial('/partials/footer.html');
+    const html = await loadPartial(PATHS.FOOTER_PARTIAL);
     this.innerHTML = html;
+    await updateContactLinks(this);
+  }
+}
+
+class FaqSection extends HTMLElement {
+  async connectedCallback() {
+    const html = await loadPartial(PATHS.FAQ_PARTIAL);
+    this.innerHTML = html;
+    await updateContactLinks(this);
   }
 }
 
 customElements.define('app-header', AppHeader);
 customElements.define('app-footer', AppFooter);
+customElements.define('faq-section', FaqSection);
 
 class FeatureCard extends HTMLElement {
   connectedCallback() {

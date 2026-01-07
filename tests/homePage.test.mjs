@@ -37,7 +37,20 @@ describe('HomePage DOM Unit Tests', () => {
             }
             if (url.includes('footer.html')) {
                 return Promise.resolve({
-                    text: () => Promise.resolve('<footer><p>&copy; 2025 LocalBites</p></footer>'),
+                    text: () => Promise.resolve('<footer><p id="footer-copyright">&copy; 2025 LocalBites</p><a href="mailto:#" id="footer-contact-link">Contact</a></footer>'),
+                });
+            }
+            if (url.includes('faq.html')) {
+                return Promise.resolve({
+                    text: () => Promise.resolve('<section id="faq"><h2>Questions</h2><div class="faq-list"><faq-item question="Q1" answer="A1"></faq-item></div><a href="mailto:#" id="faq-contact-link">CONTACT US</a></section>'),
+                });
+            }
+            if (url.includes('/api/config')) {
+                return Promise.resolve({
+                    json: () => Promise.resolve({
+                        contactEmail: 'test@example.com',
+                        copyrightText: 'Copyright &copy; 2025 Test'
+                    }),
                 });
             }
             return Promise.reject(new Error('Unknown URL'));
@@ -91,10 +104,26 @@ describe('HomePage DOM Unit Tests', () => {
         expect(container.querySelector('a[href="/auth"]')).toHaveTextContent('Profile');
     });
 
-    test('AppFooter should render correctly', async () => {
-        await import('../src/js/components.js?t=' + (Date.now() + 1));
+    test('AppFooter should render correctly and have dynamic content', async () => {
+        document.body.innerHTML = '<app-footer></app-footer>';
+        await import('../src/js/components.js?t=' + (Date.now() + 4));
 
-        await waitFor(() => expect(container.querySelector('footer')).toBeInTheDocument());
-        expect(container.querySelector('footer')).toHaveTextContent('LocalBites');
+        await waitFor(() => expect(document.querySelector('footer')).toBeInTheDocument());
+
+        const copyright = document.querySelector('#footer-copyright');
+        await waitFor(() => expect(copyright).toHaveTextContent('Copyright © 2025 Test'));
+    });
+
+    test('FaqSection should render correctly and have dynamic email', async () => {
+        document.body.innerHTML = '<faq-section></faq-section>';
+        await import('../src/js/components.js?t=' + (Date.now() + 3));
+
+        await waitFor(() => expect(document.querySelector('#faq')).toBeInTheDocument());
+        expect(document.querySelector('#faq h2')).toHaveTextContent('Questions');
+        expect(document.querySelector('faq-item')).toBeInTheDocument();
+
+        const contactLink = document.querySelector('#faq-contact-link');
+        expect(contactLink).toBeInTheDocument();
+        await waitFor(() => expect(contactLink).toHaveAttribute('href', 'mailto:test@example.com'));
     });
 });

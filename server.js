@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -41,6 +42,13 @@ const isValidSignup = ({ name, email, password }) =>
 
 app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
+});
+
+app.get('/api/config', (req, res) => {
+  res.json({
+    contactEmail: process.env.CONTACT_EMAIL || 'default@example.com',
+    copyrightText: process.env.COPYRIGHT_TEXT || 'Copyright © 2025 LocalBites',
+  });
 });
 
 app.get(ROUTES.AUTH, (req, res) => {
