@@ -10,7 +10,6 @@ permissions:
   contents: read
 
 env:
-  ARTIFACT_RETENTION_DAYS: 30
   NODE_VERSION_FILE: .nvmrc
 
 jobs:

@@ -1,4 +1,6 @@
-const LOCAL_ORIGIN = 'http://localhost';
+const LOCAL_ORIGIN =
+  (typeof process !== 'undefined' && process.env.LOCAL_ORIGIN) ||
+  'http://localhost';
 
 export const TEST_LOCATION_URL = LOCAL_ORIGIN;
 export const BASE_URL = `${LOCAL_ORIGIN}:3000`;
@@ -71,7 +73,3 @@ export const EXPLORE_TEXTS = {
   SOUTH_INDIAN: 'South Indian',
   BREAKFAST: 'breakfast',
 };
-
-// Merging PATHS is safer by adding to existing object if possible, but simpler to just append new keys if structure allows.
-// However, PATHS is already exported. I will modify the PATHS export above instead if I can, but here replacing the end.
-// Waiting for next step to fix PATHS merge.

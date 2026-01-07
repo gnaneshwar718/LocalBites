@@ -63,20 +63,7 @@ export default [
     },
   },
 
-  {
-    files: ['vite.config.js'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        ...globals.node,
-      },
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      ...prettier.rules,
-    },
-  },
+
 
 
   {

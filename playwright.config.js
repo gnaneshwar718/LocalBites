@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import 'dotenv/config';
 import { BASE_URL } from './src/js/constants.js';
 
 export default defineConfig({
