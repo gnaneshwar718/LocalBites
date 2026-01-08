@@ -1,32 +1,29 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
-import { BASE_URL } from './src/js/constants.js';
+
+const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: false,
+  testMatch: '**/*.spec.js',
+  fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: 1,
+  workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
-  timeout: 30000,
   use: {
-    baseURL: BASE_URL,
+    baseURL,
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
   },
-
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-
   webServer: {
     command: 'npm start',
-    url: BASE_URL,
-    reuseExistingServer: true,
-    timeout: 120000,
+    url: baseURL,
+    reuseExistingServer: !process.env.CI,
   },
 });
