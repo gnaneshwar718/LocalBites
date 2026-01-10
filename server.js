@@ -12,6 +12,7 @@ const PATHS = {
   PAGES: path.join(__dirname, 'public', 'pages'),
   CSS: path.join(__dirname, 'src', 'css'),
   JS: path.join(__dirname, 'src', 'js'),
+  DATA: path.join(__dirname, 'src', 'data'),
 };
 
 const ROUTES = {
@@ -19,6 +20,7 @@ const ROUTES = {
   AUTH: '/auth',
   SIGNUP: '/signup',
   SIGNIN: '/signin',
+  EXPLORE: '/explore',
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,6 +29,7 @@ app.use(bodyParser.json());
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
+app.use('/data', express.static(PATHS.DATA));
 
 const users = [];
 
@@ -45,6 +48,10 @@ app.get(ROUTES.HOME, (req, res) => {
 
 app.get(ROUTES.AUTH, (req, res) => {
   sendPage(res, 'auth.html');
+});
+
+app.get(ROUTES.EXPLORE, (req, res) => {
+  sendPage(res, 'explore.html');
 });
 
 app.post(ROUTES.SIGNUP, (req, res) => {

@@ -9,6 +9,7 @@ LocalBites is a traveler-focused web application for discovering authentic local
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="17" height="17" alt="JS Logo"> JavaScript
 
 ## Documentation
+
 For full contribution workflow, see the [LocalBites Wiki](https://github.com/gnaneshwar718/LocalBites/wiki).
 
 ## Contributors

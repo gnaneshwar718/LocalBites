@@ -19,11 +19,13 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
+        process: 'readonly',
       },
     },
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+      strict: ['error', 'global'],
       'no-console': 'off',
     },
   },
@@ -62,6 +64,8 @@ export default [
   },
 
 
+
+
   {
     files: ['**/*.mjs'],
     languageOptions: {
@@ -74,6 +78,22 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+    },
+  },
+
+  {
+    files: ['**/*.test.mjs'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
+
+  {
+    files: ['src/js/auth.js', 'src/js/script.js'],
+    rules: {
+      strict: 'off',
     },
   },
 ];
