@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -19,6 +20,7 @@ const ROUTES = {
   AUTH: '/auth',
   SIGNUP: '/signup',
   SIGNIN: '/signin',
+  CONFIG: '/api/config',
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,6 +43,12 @@ const isValidSignup = ({ name, email, password }) =>
 
 app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
+});
+
+app.get(ROUTES.CONFIG, (req, res) => {
+  res.json({
+    contactEmail: process.env.CONTACT_EMAIL,
+  });
 });
 
 app.get(ROUTES.AUTH, (req, res) => {

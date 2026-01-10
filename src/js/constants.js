@@ -7,9 +7,17 @@ export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
 };
 
+export const PATHS = {
+  AUTH_HTML: '../../public/pages/auth.html',
+  HEADER_PARTIAL: '/partials/header.html',
+  FOOTER_PARTIAL: '/partials/footer.html',
+  FAQ_PARTIAL: '/partials/faq.html',
+};
+
 export const ENDPOINTS = {
   SIGNUP: '/signup',
   SIGNIN: '/signin',
+  CONFIG: '/api/config',
 };
 
 export const MESSAGES = {
@@ -19,12 +27,19 @@ export const MESSAGES = {
   SIGNIN_ERROR: 'An error occurred during sign in.',
 };
 
-export const PATHS = {
-  AUTH_HTML: '../../public/pages/auth.html',
+export const SELECTORS = {
+  CONTACT_LINKS: '#footer-contact-link, #faq-contact-link',
+  COPYRIGHT: '#footer-copyright',
+  HAMBURGER: '.hamburger',
+  NAV_LINKS: '.nav-links',
 };
 
 export const TEST_USER = {
   name: 'Test User',
-  email: 'test@example.com',
-  password: 'password123',
+  email: process.env.TEST_EMAIL,
+  password: process.env.TEST_PASSWORD,
 };
+
+export const CAROUSEL_INTERVAL = 4000;
+export const COPYRIGHT_TEXT =
+  'Copyright &copy; 2026 by LocalBites, All Rights Reserved';

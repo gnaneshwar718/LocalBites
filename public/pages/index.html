@@ -1,25 +1,116 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>LocalBites - Discover Local Food</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalBites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/style.css" />
   </head>
+
   <body>
-    <header>
-      <div class="logo">LocalBites</div>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/auth">Sign In / Sign Up</a>
-      </nav>
-    </header>
-    <main class="hero">
-      <a href="/auth" class="btn">Get Started</a>
+    <app-header></app-header>
+
+    <main>
+      <section class="hero container">
+        <div class="hero-text">
+          <h1>Discover Authentic Local Food Hidden from Tourist Maps</h1>
+          <p>
+            Experience a city through its food - from neighborhood favorites to
+            time-honored recipes cherished across generations, each dish telling
+            a story shaped by place, people, and tradition
+          </p>
+        </div>
+        <div class="hero-image carousel">
+          <div class="carousel-inner">
+            <carousel-slide
+              active
+              src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+            <carousel-slide
+              src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1000&auto=format&fit=crop"
+            ></carousel-slide>
+          </div>
+        </div>
+      </section>
+
+      <section class="discover-section">
+        <div class="container">
+          <h2>Start Your Local Food Journey Today</h2>
+          <p>
+            Join thousands of travelers discovering authentic local cuisine
+            hidden from mainstream platforms.
+          </p>
+          <div class="discover-buttons">
+            <button class="btn btn-primary">Explore Local Food</button>
+            <a href="/culture" class="btn btn-primary">Stories Behind Food</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section container">
+        <div class="info">
+          <h2>Find restaurants that matter</h2>
+          <p>
+            LocalBites maps the places locals actually eat, the ones with real
+            stories behind them.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <feature-card
+            title="Search"
+            subtitle="Discover Local Food Spots"
+            description="Find authentic eateries loved by locals, not tourists."
+            image="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800"
+          >
+          </feature-card>
+
+          <feature-card
+            title="Plan"
+            subtitle="Plan Meals by Budget"
+            description="Know what you'll spend before you arrive anywhere."
+            image="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=800"
+          >
+          </feature-card>
+
+          <feature-card
+            title="Learn"
+            subtitle="History behind each dish"
+            description="Every meal has a story worth understanding."
+            link="/culture"
+            image="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800"
+          >
+          </feature-card>
+        </div>
+      </section>
+
+      <faq-section></faq-section>
     </main>
+
+    <app-footer></app-footer>
+
+    <script src="/js/components.js" type="module"></script>
+    <script src="/js/script.js" type="module"></script>
   </body>
 </html>
