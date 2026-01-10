@@ -26,7 +26,6 @@ describe('HomePage DOM Unit Tests', () => {
         `;
         container = document.body;
 
-
         global.fetch = jest.fn((url) => {
             if (url.includes('header.html')) {
                 return Promise.resolve({
@@ -90,7 +89,6 @@ describe('HomePage DOM Unit Tests', () => {
 
         await import('../src/js/components.js?t=' + Date.now());
 
-
         await waitFor(() => expect(container.querySelector('.hamburger')).toBeInTheDocument());
 
         const hamburger = container.querySelector('.hamburger');
@@ -103,7 +101,6 @@ describe('HomePage DOM Unit Tests', () => {
 
         fireEvent.click(hamburger);
         expect(navLinks).not.toHaveClass('active');
-
 
         expect(container.querySelector('a[href="/"]')).toHaveTextContent('Explore');
         expect(container.querySelector('a[href="/budget"]')).toHaveTextContent('Budget Planner');
