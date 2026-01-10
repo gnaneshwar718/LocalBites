@@ -20,6 +20,7 @@ const ROUTES = {
   AUTH: '/auth',
   SIGNUP: '/signup',
   SIGNIN: '/signin',
+  CONFIG: '/api/config',
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -44,7 +45,7 @@ app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
 });
 
-app.get('/api/config', (req, res) => {
+app.get(ROUTES.CONFIG, (req, res) => {
   res.json({
     contactEmail: process.env.CONTACT_EMAIL,
   });
