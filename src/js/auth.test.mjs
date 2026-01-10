@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
 import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS, TEST_LOCATION_URL, TEST_USER } from "./constants.js";
 import { AuthManager } from "./auth.js";
