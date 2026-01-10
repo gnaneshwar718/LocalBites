@@ -128,3 +128,8 @@ export const TEST_FILTERS = {
   CUISINE_SOUTH: 'South Indian',
   MEAL_BREAKFAST: 'breakfast',
 };
+
+export const PLAYWRIGHT_CONFIG = {
+  TEST_DIR: './tests',
+  TEST_MATCH: '**/*.spec.js',
+};

@@ -245,7 +245,6 @@ class ExplorePage {
     };
 
     this.modalBody.appendChild(clone);
-    this.modalBody.appendChild(clone);
     ModalManager.open(this.detailModal);
   }
 }

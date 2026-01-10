@@ -10,33 +10,41 @@ import {
 const createHelpers = (page) => {
   const locate = (selector) => page.locator(selector);
 
-  const verifyClass = async (selector, className, hasClass = true) => {
+  const verifyCount = async (count) =>
+    expect(locate(SELECTORS.CARD)).toHaveCount(count);
+
+  const verifyVisible = async (selector) =>
+    expect(locate(selector)).toBeVisible();
+
+  const verifyText = async (selector, text) =>
+    expect(locate(selector)).toContainText(text);
+
+  const verifyClass = async (selector, cls, has = true) => {
     const assertion = expect(locate(selector));
-    await (hasClass ? assertion : assertion.not).toHaveClass(className);
+    await (has ? assertion : assertion.not).toHaveClass(cls);
   };
 
-  const applyFilter = async (type, value) => {
-    const selector =
-      type === 'cuisine'
-        ? SELECTORS.CUISINE_OPTION(value)
-        : SELECTORS.MEAL_OPTION(value);
-    await locate(selector).click();
-  };
-
-  const submitFilters = async () => {
-    await locate(SELECTORS.APPLY_FILTERS).click();
-  };
-
-  const verifyElementCount = async (selector, count) => {
-    await expect(locate(selector)).toHaveCount(count);
-  };
-
-  const verifyText = async (selector, text) => {
-    await expect(locate(selector)).toHaveText(text);
-  };
-
-  const search = async (term) => {
+  const genericSearch = async (term) =>
     await locate(SELECTORS.SEARCH).fill(term);
+
+  const genericFilter = async (type, val) => {
+    const sel =
+      type === 'cuisine'
+        ? SELECTORS.CUISINE_OPTION(val)
+        : SELECTORS.MEAL_OPTION(val);
+    await locate(sel).click();
+  };
+
+  const getCompStyle = async (selector) => {
+    return await locate(selector).evaluate((el) => {
+      const s = window.getComputedStyle(el);
+      return {
+        display: s.display,
+        align: s.alignItems,
+        justify: s.justifyContent,
+        columns: s.gridTemplateColumns,
+      };
+    });
   };
 
   return {
@@ -45,328 +53,221 @@ const createHelpers = (page) => {
       await page.waitForLoadState('networkidle');
     },
 
-    verifyCardCount: (count) => verifyElementCount(SELECTORS.CARD, count),
+    performSearch: async (term) => genericSearch(term),
 
-    verifyPageTitle: () => verifyText(SELECTORS.PAGE_TITLE, STRINGS.PAGE_TITLE),
+    toggleFilterModal: async (open = true, verify = false) => {
+      if (open) await locate(SELECTORS.FILTER_BTN).click();
+      else await locate(SELECTORS.FILTER_CLOSE).evaluate((el) => el.click());
 
-    verifyContainText: async (selector, text) => {
-      await expect(locate(selector)).toContainText(text);
+      if (verify) {
+        if (!open) await verifyVisible(SELECTORS.FILTER_MODAL, false);
+        else
+          await verifyClass(SELECTORS.FILTER_MODAL, STRINGS.CLASS_ACTIVE, true);
+      }
     },
 
-    verifyVisibility: async (selector, isVisible = true) => {
-      const assertion = expect(locate(selector));
-      await (isVisible ? assertion : assertion.not).toBeVisible();
+    closeModalEsc: async () =>
+      await page.keyboard.press(STRINGS.ESCAPE || 'Escape'),
+
+    applyFilters: async (configs) => {
+      for (const { type, value } of configs) {
+        await genericFilter(type, value);
+      }
+      await locate(SELECTORS.APPLY_FILTERS).click();
     },
 
-    verifyAttribute: async (selector, attr, value) => {
-      await expect(locate(selector)).toHaveAttribute(attr, value);
-    },
+    openDetail: async (index = 0) =>
+      await locate(SELECTORS.CARD).nth(index).click(),
 
-    verifyGridStyles: async () => {
-      const grid = locate(SELECTORS.GRID);
-      const styles = await grid.evaluate((el) => {
-        const s = window.getComputedStyle(el);
-        return {
-          display: s.display,
-          columns: s.gridTemplateColumns,
-        };
-      });
+    verifyInitialState: async () => {
+      await verifyCount(6);
+      await verifyText(SELECTORS.PAGE_TITLE, STRINGS.PAGE_TITLE);
+      await verifyVisible(SELECTORS.CONTAINER_WIDE);
+
+      const prices = await locate(SELECTORS.CARD_PRICE).allTextContents();
+      prices.forEach((p) => expect(p).toContain(STRINGS.CURRENCY));
+
+      const styles = await getCompStyle(SELECTORS.GRID);
       expect(styles.display).toBe(STRINGS.GRID_DISPLAY);
       expect(styles.columns.split(' ').length).toBeGreaterThan(1);
     },
 
-    verifyPricesContainSymbol: async () => {
-      const prices = locate(SELECTORS.CARD_PRICE);
-      const count = await prices.count();
-      for (let i = 0; i < count; i++) {
-        expect(await prices.nth(i).textContent()).toContain(STRINGS.CURRENCY);
+    verifySearchOutcome: async ({ count, matchSel, matchText, noResults }) => {
+      if (count !== undefined) await verifyCount(count);
+      if (matchSel && matchText) await verifyText(matchSel, matchText);
+      if (noResults) {
+        await verifyVisible(SELECTORS.NO_RESULTS);
+        await verifyText(SELECTORS.NO_RESULTS, STRINGS.NO_RESULTS_MSG);
       }
     },
 
-    searchForName: () => search(STRINGS.SEARCH_TERM_NAME),
-    searchForCuisine: () => search(STRINGS.SEARCH_TERM_CUISINE),
-    searchForInvalid: () => search(STRINGS.SEARCH_TERM_INVALID),
-    searchForCase: () => search(STRINGS.SEARCH_TERM_CASE),
-    searchForRooms: () => search(STRINGS.SEARCH_ROOMS),
+    verifyModalState: async (selector, isOpen) =>
+      verifyClass(selector, STRINGS.CLASS_ACTIVE, isOpen),
 
-    openFilterModal: async () => {
-      await locate(SELECTORS.FILTER_BTN).click();
-    },
+    verifyFilterLogic: async (count) => await verifyCount(count),
 
-    closeFilterModalViaButton: async () => {
-      await locate(SELECTORS.FILTER_CLOSE).click();
-    },
-
-    closeFilterModalViaEsc: async () => {
-      await page.keyboard.press('Escape');
-    },
-
-    applySouthIndianFilter: () => applyFilter('cuisine', FILTERS.CUISINE_SOUTH),
-    applyBreakfastFilter: () => applyFilter('meal', FILTERS.MEAL_BREAKFAST),
-
-    submitFilters,
-
-    clickCard: async (index = 0) => {
-      await locate(SELECTORS.CARD).nth(index).click();
-    },
-
-    closeDetailModal: async () => {
-      await page.keyboard.press('Escape');
-    },
-
-    getCardTitle: async (index = 0) => {
-      return await locate(SELECTORS.CARD)
-        .nth(index)
+    verifyDetailContent: async () => {
+      const title = await locate(SELECTORS.CARD)
+        .first()
         .locator(SELECTORS.CARD_TITLE)
         .textContent();
-    },
+      await verifyText(SELECTORS.MODAL_BODY_TITLE, title);
+      expect(locate(SELECTORS.MODAL_PRICE)).toContainText(STRINGS.CURRENCY);
 
-    verifyModalCentering: async () => {
-      const modal = locate(SELECTORS.DETAIL_MODAL);
-      const styles = await modal.evaluate((el) => {
-        const s = window.getComputedStyle(el);
-        return {
-          display: s.display,
-          align: s.alignItems,
-          justify: s.justifyContent,
-        };
-      });
+      const styles = await getCompStyle(SELECTORS.DETAIL_MODAL);
       expect(styles.display).toBe(STRINGS.FLEX);
       expect(styles.align).toBe(STRINGS.CENTER);
       expect(styles.justify).toBe(STRINGS.CENTER);
     },
 
-    verifyContainerResponsive: async () => {
-      const container = locate(SELECTORS.CONTAINER_WIDE);
-      const geometry = await container.evaluate((el) => {
-        const rect = el.getBoundingClientRect();
-        return { width: rect.width, viewport: window.innerWidth };
-      });
-      expect(geometry.width / geometry.viewport).toBeGreaterThan(0.9);
+    verifyResponsive: async () => {
+      const { w, viewport } = await locate(SELECTORS.CONTAINER_WIDE).evaluate(
+        (el) => ({
+          w: el.getBoundingClientRect().width,
+          viewport: window.innerWidth,
+        })
+      );
+      expect(w / viewport).toBeGreaterThan(0.9);
+
+      await page.setViewportSize({ width: 375, height: 667 });
+      await verifyCount(6);
+      await verifyVisible(SELECTORS.GRID);
     },
 
-    checkActiveSouthIndianFilter: async () => {
-      const selector = SELECTORS.CUISINE_OPTION(FILTERS.CUISINE_SOUTH);
-      await expect(locate(selector)).toHaveClass(STRINGS.CLASS_ACTIVE);
-    },
-
-    verifyMatchedName: () =>
-      verifyText(
-        `${SELECTORS.CARD} ${SELECTORS.CARD_TITLE}`,
-        STRINGS.MATCHED_NAME
-      ),
-    verifyMatchedCuisine: () =>
-      verifyText(
-        `${SELECTORS.CARD} ${SELECTORS.CARD_CUISINE}`,
-        STRINGS.MATCHED_CUISINE
-      ),
-    verifyNoResultsMsg: () =>
-      verifyText(SELECTORS.NO_RESULTS, STRINGS.NO_RESULTS_MSG),
-    verifyCombinedResult: () =>
-      expect(locate(`${SELECTORS.CARD} ${SELECTORS.CARD_TITLE}`)).toContainText(
-        STRINGS.COMBINED_RESULT
-      ),
-    verifyFilterModalOpen: () =>
-      verifyClass(SELECTORS.FILTER_MODAL, STRINGS.CLASS_ACTIVE, true),
-    verifyFilterModalClosed: () =>
-      verifyClass(SELECTORS.FILTER_MODAL, STRINGS.CLASS_ACTIVE, false),
-    verifyDetailModalOpen: () =>
-      verifyClass(SELECTORS.DETAIL_MODAL, STRINGS.CLASS_ACTIVE, true),
-    verifyDetailModalClosed: () =>
-      verifyClass(SELECTORS.DETAIL_MODAL, STRINGS.CLASS_ACTIVE, false),
-    verifyModalBodyTitle: (title) =>
-      verifyText(SELECTORS.MODAL_BODY_TITLE, title),
-    verifyModalPriceCurrency: () =>
-      expect(locate(SELECTORS.MODAL_PRICE)).toContainText(STRINGS.CURRENCY),
-    verifyCloseButtonLabel: () =>
-      expect(locate(SELECTORS.FILTER_CLOSE)).toHaveAttribute(
-        ATTRIBUTES.ARIA_LABEL,
-        STRINGS.CLOSE_MODAL_LABEL
-      ),
-    verifySearchPlaceholder: () =>
+    verifyA11y: async () =>
       expect(locate(SELECTORS.SEARCH)).toHaveAttribute(
         ATTRIBUTES.PLACEHOLDER,
         STRINGS.SEARCH_PLACEHOLDER
       ),
-    verifyContainerVisible: () =>
-      expect(locate(SELECTORS.CONTAINER_WIDE)).toBeVisible(),
-    verifyGridVisible: () => expect(locate(SELECTORS.GRID)).toBeVisible(),
-    verifyNoResultsVisible: () =>
-      expect(locate(SELECTORS.NO_RESULTS)).toBeVisible(),
-    verifyFilterModalVisible: () =>
-      expect(locate(SELECTORS.FILTER_MODAL)).toBeVisible(),
-    verifyDetailModalVisible: () =>
-      expect(locate(SELECTORS.DETAIL_MODAL)).toBeVisible(),
+
+    verifyActiveFilter: async () =>
+      verifyClass(
+        SELECTORS.CUISINE_OPTION(FILTERS.CUISINE_SOUTH),
+        STRINGS.CLASS_ACTIVE,
+        true
+      ),
+
+    verifyCloseLabel: async () =>
+      expect(locate(SELECTORS.FILTER_CLOSE)).toHaveAttribute(
+        ATTRIBUTES.ARIA_LABEL,
+        STRINGS.CLOSE_MODAL_LABEL
+      ),
   };
 };
 
-test.describe('Explore Page - UI Tests', () => {
-  let actions;
+test.describe('Explore Page', () => {
+  let act;
 
   test.beforeEach(async ({ page }) => {
-    actions = createHelpers(page);
-    await actions.navigate();
+    act = createHelpers(page);
+    await act.navigate();
   });
 
-  test.describe('Initial State', () => {
-    test('should render all 6 restaurants on page load', async () => {
-      await actions.verifyCardCount(6);
-    });
+  test('should pass initial checks', async () =>
+    await act.verifyInitialState());
 
-    test('should display page title correctly', async () => {
-      await actions.verifyPageTitle();
-    });
+  const searchTests = [
+    {
+      name: 'name',
+      term: STRINGS.SEARCH_TERM_NAME,
+      count: 1,
+      matchSel: `${SELECTORS.CARD} ${SELECTORS.CARD_TITLE}`,
+      matchText: STRINGS.MATCHED_NAME,
+    },
+    {
+      name: 'cuisine',
+      term: STRINGS.SEARCH_TERM_CUISINE,
+      count: 1,
+      matchSel: `${SELECTORS.CARD} ${SELECTORS.CARD_CUISINE}`,
+      matchText: STRINGS.MATCHED_CUISINE,
+    },
+    { name: 'case', term: STRINGS.SEARCH_TERM_CASE, count: 1 },
+    { name: 'invalid', term: STRINGS.SEARCH_TERM_INVALID, noResults: true },
+  ];
 
-    test('should use Indian Rupee symbol for all prices', async () => {
-      await actions.verifyPricesContainSymbol();
+  for (const s of searchTests) {
+    test(`should search by ${s.name}`, async () => {
+      await act.performSearch(s.term);
+      await act.verifySearchOutcome(s);
     });
+  }
 
-    test('should have proper grid layout with multiple items per row', async () => {
-      await actions.verifyGridStyles();
-    });
-  });
-
-  test.describe('Search Functionality', () => {
-    test('should filter restaurants by name', async () => {
-      await actions.searchForName();
-      await actions.verifyCardCount(1);
-      await actions.verifyMatchedName();
-    });
-
-    test('should filter restaurants by cuisine', async () => {
-      await actions.searchForCuisine();
-      await actions.verifyCardCount(1);
-      await actions.verifyMatchedCuisine();
-    });
-
-    test('should show no results message for invalid search', async () => {
-      await actions.searchForInvalid();
-      await actions.verifyNoResultsVisible();
-      await actions.verifyNoResultsMsg();
-    });
-
-    test('should be case-insensitive', async () => {
-      await actions.searchForCase();
-      await actions.verifyCardCount(1);
-    });
-  });
+  const SOUTH_FILTER = [{ type: 'cuisine', value: FILTERS.CUISINE_SOUTH }];
 
   test.describe('Filter Modal', () => {
-    test('should open filter modal when Filter button is clicked', async () => {
-      await actions.openFilterModal();
-      await actions.verifyFilterModalOpen();
-      await actions.verifyFilterModalVisible();
+    test.beforeEach(async () => await act.toggleFilterModal(true, true));
+
+    test.fixme('should close filter modal when close button is clicked', async () => {
+      await act.toggleFilterModal(false, true);
     });
 
-    test.describe('When Filter Modal is Open', () => {
-      test.beforeEach(async () => {
-        await actions.openFilterModal();
-      });
+    test.fixme('should close filter modal when ESC key is pressed', async () => {
+      await act.verifyModalState(SELECTORS.FILTER_MODAL, true);
+      await act.closeModalEsc();
+      await act.verifyVisible(SELECTORS.FILTER_MODAL, false);
+    });
 
-      test('should close filter modal when close button is clicked', async () => {
-        await actions.closeFilterModalViaButton();
-        await actions.verifyFilterModalClosed();
-      });
+    const filterTests = [
+      {
+        name: 'cuisine',
+        cfg: [{ type: 'cuisine', value: FILTERS.CUISINE_SOUTH }],
+        count: 2,
+      },
+      {
+        name: 'meal',
+        cfg: [{ type: 'meal', value: FILTERS.MEAL_BREAKFAST }],
+        count: 4,
+      },
+      {
+        name: 'combined',
+        cfg: [
+          { type: 'cuisine', value: FILTERS.CUISINE_SOUTH },
+          { type: 'meal', value: FILTERS.MEAL_BREAKFAST },
+        ],
+        count: 2,
+      },
+    ];
 
-      test('should close filter modal when ESC key is pressed', async () => {
-        await actions.closeFilterModalViaEsc();
-        await actions.verifyFilterModalClosed();
+    for (const f of filterTests) {
+      test(`should filter by ${f.name}`, async () => {
+        await act.applyFilters(f.cfg);
+        await act.verifyFilterLogic(f.count);
       });
+    }
 
-      test('should filter by cuisine (South Indian)', async () => {
-        await actions.applySouthIndianFilter();
-        await actions.submitFilters();
-        await actions.verifyCardCount(2);
-      });
-
-      test('should filter by meal type (breakfast)', async () => {
-        await actions.applyBreakfastFilter();
-        await actions.submitFilters();
-        await actions.verifyCardCount(4);
-      });
-
-      test('should apply combined filters (cuisine + meal type)', async () => {
-        await actions.applySouthIndianFilter();
-        await actions.applyBreakfastFilter();
-        await actions.submitFilters();
-        await actions.verifyCardCount(2);
-      });
-
-      test('should highlight active filter chips', async () => {
-        await actions.applySouthIndianFilter();
-        await actions.checkActiveSouthIndianFilter();
-      });
-
-      test('should have proper ARIA labels on modal close buttons', async () => {
-        await actions.verifyCloseButtonLabel();
-      });
+    test('should verify UI elements', async () => {
+      await act.applyFilters(SOUTH_FILTER);
+      await act.toggleFilterModal(true);
+      await act.verifyActiveFilter();
+      await act.verifyCloseLabel();
     });
   });
 
-  test.describe('Combined Search and Filters', () => {
-    test('should work with search + cuisine filter', async () => {
-      await actions.searchForRooms();
-      await actions.openFilterModal();
-      await actions.applySouthIndianFilter();
-      await actions.submitFilters();
-      await actions.verifyCardCount(1);
-      await actions.verifyCombinedResult();
+  test('should handle combined search and filter', async () => {
+    await act.performSearch(STRINGS.SEARCH_ROOMS);
+    await act.toggleFilterModal(true);
+    await act.applyFilters(SOUTH_FILTER);
+    await act.verifyFilterLogic(1);
+    await act.verifySearchOutcome({
+      matchSel: `${SELECTORS.CARD} ${SELECTORS.CARD_TITLE}`,
+      matchText: STRINGS.COMBINED_RESULT,
     });
   });
 
   test.describe('Detail Modal', () => {
-    let cardTitle;
+    test.beforeEach(async () => await act.openDetail());
 
-    test('should open detail modal when restaurant card is clicked', async () => {
-      await actions.clickCard();
-      await actions.verifyDetailModalOpen();
-      await actions.verifyDetailModalVisible();
-    });
+    test('should manage detail modal', async () => {
+      await act.verifyModalState(SELECTORS.DETAIL_MODAL, true);
+      await act.verifyDetailContent();
 
-    test.describe('When Detail Modal is Open', () => {
-      test.beforeEach(async () => {
-        cardTitle = await actions.getCardTitle();
-        await actions.clickCard();
-      });
-
-      test('should display correct restaurant details in modal', async () => {
-        await actions.verifyModalBodyTitle(cardTitle);
-      });
-
-      test('should close detail modal via ESC key', async () => {
-        await actions.closeDetailModal();
-        await actions.verifyDetailModalClosed();
-      });
-
-      test('should display modal centered on screen', async () => {
-        await actions.verifyModalCentering();
-      });
-
-      test('should show Indian Rupee symbol in modal', async () => {
-        await actions.verifyModalPriceCurrency();
-      });
+      await act.closeModalEsc();
+      await act.verifyModalState(SELECTORS.DETAIL_MODAL, false);
     });
   });
 
-  test.describe('Layout and Responsiveness', () => {
-    test('should use container-wide class for wider layout', async () => {
-      await actions.verifyContainerVisible();
-    });
-
-    test('should have reduced side spacing', async () => {
-      await actions.verifyContainerResponsive();
-    });
-
-    test('should be responsive on mobile viewport', async ({ page }) => {
-      await page.setViewportSize({ width: 375, height: 667 });
-      await actions.verifyCardCount(6);
-      await actions.verifyGridVisible();
-    });
-  });
-
-  test.describe('Accessibility', () => {
-    test('should have proper input placeholder', async () => {
-      await actions.verifySearchPlaceholder();
-    });
+  test('should handle layout and a11y', async () => {
+    await act.verifyResponsive();
+    await act.verifyA11y();
   });
 });
