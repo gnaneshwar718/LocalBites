@@ -41,3 +41,5 @@ export const TEST_USER = {
 };
 
 export const CAROUSEL_INTERVAL = 4000;
+export const COPYRIGHT_TEXT =
+  'Copyright &copy; 2026 by LocalBites, All Rights Reserved';

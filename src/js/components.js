@@ -1,4 +1,4 @@
-import { ENDPOINTS, PATHS, SELECTORS } from './constants.js';
+import { COPYRIGHT_TEXT, ENDPOINTS, PATHS, SELECTORS } from './constants.js';
 
 async function loadPartial(url) {
   const response = await fetch(url);
@@ -17,8 +17,8 @@ async function updateContactLinks(container) {
     });
 
     const copyrightElem = container.querySelector(SELECTORS.COPYRIGHT);
-    if (copyrightElem && config.copyrightText) {
-      copyrightElem.innerHTML = config.copyrightText;
+    if (copyrightElem) {
+      copyrightElem.innerHTML = COPYRIGHT_TEXT;
     }
   } catch (error) {
     console.error('Failed to load config:', error);

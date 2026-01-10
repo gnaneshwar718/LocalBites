@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.PLAYWRIGHT_BASE_URL;
 
 export default defineConfig({
   testDir: './tests',

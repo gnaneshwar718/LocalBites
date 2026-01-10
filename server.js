@@ -46,8 +46,7 @@ app.get(ROUTES.HOME, (req, res) => {
 
 app.get('/api/config', (req, res) => {
   res.json({
-    contactEmail: process.env.CONTACT_EMAIL || 'default@example.com',
-    copyrightText: process.env.COPYRIGHT_TEXT || 'Copyright © 2025 LocalBites',
+    contactEmail: process.env.CONTACT_EMAIL,
   });
 });
 
