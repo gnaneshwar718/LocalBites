@@ -10,4 +10,5 @@ export default {
         "**/?(*.)+(test).mjs"
     ],
     testPathIgnorePatterns: ["/node_modules/", "\\.spec\\.js$"],
+    setupFiles: ['dotenv/config'],
 };

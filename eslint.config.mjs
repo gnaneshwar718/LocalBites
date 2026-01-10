@@ -77,4 +77,13 @@ export default [
       ...prettier.rules,
     },
   },
+
+  {
+    files: ['src/js/constants.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
+    },
+  },
 ];

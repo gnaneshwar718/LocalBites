@@ -36,8 +36,8 @@ export const SELECTORS = {
 
 export const TEST_USER = {
   name: 'Test User',
-  email: 'test@example.com',
-  password: 'password123',
+  email: process.env.TEST_EMAIL,
+  password: process.env.TEST_PASSWORD,
 };
 
 export const CAROUSEL_INTERVAL = 4000;

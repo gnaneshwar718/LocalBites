@@ -1,7 +1,10 @@
 import { jest } from '@jest/globals';
+import 'dotenv/config';
 import '@testing-library/jest-dom';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { CAROUSEL_INTERVAL } from '../src/js/constants.js';
+
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
 
 const CACHE_BUST_OFFSET_FOOTER = 4;
 const CACHE_BUST_OFFSET_FAQ = 3;
@@ -41,7 +44,7 @@ describe('HomePage DOM Unit Tests', () => {
             }
             if (url.includes('footer.html')) {
                 return Promise.resolve({
-                    text: () => Promise.resolve('<footer><p id="footer-copyright">&copy; 2025 LocalBites</p><a href="mailto:#" id="footer-contact-link">Contact</a></footer>'),
+                    text: () => Promise.resolve('<footer><p id="footer-copyright"></p><a href="mailto:#" id="footer-contact-link">Contact</a></footer>'),
                 });
             }
             if (url.includes('faq.html')) {
@@ -52,8 +55,7 @@ describe('HomePage DOM Unit Tests', () => {
             if (url.includes('/api/config')) {
                 return Promise.resolve({
                     json: () => Promise.resolve({
-                        contactEmail: 'test@example.com',
-                        copyrightText: 'Copyright &copy; 2025 Test'
+                        contactEmail: CONTACT_EMAIL
                     }),
                 });
             }
@@ -115,7 +117,7 @@ describe('HomePage DOM Unit Tests', () => {
         await waitFor(() => expect(document.querySelector('footer')).toBeInTheDocument());
 
         const copyright = document.querySelector('#footer-copyright');
-        await waitFor(() => expect(copyright).toHaveTextContent('Copyright © 2025 Test'));
+        await waitFor(() => expect(copyright).toHaveTextContent('Copyright © 2026 by LocalBites, All Rights Reserved'));
     });
 
     test('FaqSection should render correctly and have dynamic email', async () => {
@@ -128,6 +130,6 @@ describe('HomePage DOM Unit Tests', () => {
 
         const contactLink = document.querySelector('#faq-contact-link');
         expect(contactLink).toBeInTheDocument();
-        await waitFor(() => expect(contactLink).toHaveAttribute('href', 'mailto:test@example.com'));
+        await waitFor(() => expect(contactLink).toHaveAttribute('href', `mailto:${CONTACT_EMAIL}`));
     });
 });
