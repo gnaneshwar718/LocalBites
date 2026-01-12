@@ -3,7 +3,7 @@
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
 import { CLASSNAMES, MESSAGES, PATHS } from "./constants/constants.js";
-import { API_ENDPOINTS as ENDPOINTS } from "./routes.mjs";
+import { API_ENDPOINTS as ENDPOINTS } from "./routes.js";
 import { TEST_LOCATION_URL, TEST_USER } from "./constants/test-constants.js";
 import { AuthManager } from "./auth.js";
 import userEvent from "@testing-library/user-event";

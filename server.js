@@ -37,7 +37,7 @@ const isValidSignup = ({ name, email, password }) =>
 
 (async () => {
   try {
-    const { ROUTES } = await import('./src/js/routes.mjs');
+    const { ROUTES } = await import('./src/js/routes.js');
 
     app.get(ROUTES.HOME, (req, res) => {
       sendPage(res, 'index.html');
