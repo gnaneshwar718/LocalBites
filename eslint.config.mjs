@@ -88,7 +88,7 @@ export default [
   },
 
   {
-    files: ['src/js/auth.js', 'src/js/script.js'],
+    files: ['src/js/auth.mjs', 'src/js/script.js'],
     rules: {
       strict: 'off',
     },

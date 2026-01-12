@@ -3,9 +3,9 @@
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
 import { CLASSNAMES, MESSAGES, PATHS } from "./constants/constants.js";
-import { API_ENDPOINTS as ENDPOINTS } from "./routes.js";
+import { API_ENDPOINTS as ENDPOINTS } from "./routes.mjs";
 import { TEST_LOCATION_URL, TEST_USER } from "./constants/test-constants.js";
-import { AuthManager } from "./auth.js";
+import { AuthManager } from "./auth.mjs";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import fs from "fs";
