@@ -63,9 +63,6 @@ export default [
     },
   },
 
-
-
-
   {
     files: ['**/*.mjs'],
     languageOptions: {
