@@ -8,12 +8,10 @@ class ExplorePage {
     this.searchInput = byId('restaurantSearch');
     this.filterBtn = byId('filterBtn');
     this.budgetBtn = byId('budgetBtn');
-
     this.detailModal = byId('detailModal');
     this.filterModal = byId('filterModal');
     this.budgetModal = byId('budget-modal');
     this.modalBody = byId('modalBody');
-
     this.budgetInputs = {
       total: byId('totalBudget'),
       people: byId('numPeople'),
@@ -21,18 +19,15 @@ class ExplorePage {
     };
     this.budgetDisplay = byId('budgetPerPerson');
     this.applyBudgetBtn = byId('calcBudgetBtn');
-
     this.cardTemplate = byId('restaurant-card-template');
     this.detailTemplate = byId('detail-modal-template');
     this.noResultsTemplate = byId('no-results-template');
-
     this.filters = {
       search: '',
       cuisine: 'all',
       mealType: 'all',
       budget: Infinity,
     };
-
     this.restaurants = [];
     this.init();
   }
@@ -168,9 +163,7 @@ class ExplorePage {
       const matchesMealType =
         this.filters.mealType === 'all' ||
         res.mealType.includes(this.filters.mealType);
-
       const matchesBudget = res.price <= this.filters.budget;
-
       return (
         matchesSearch && matchesCuisine && matchesMealType && matchesBudget
       );
@@ -193,48 +186,36 @@ class ExplorePage {
 
   createRestaurantCard(restaurant) {
     if (!this.cardTemplate) return document.createElement('div');
-
     const clone = this.cardTemplate.content.cloneNode(true);
     const article = clone.querySelector('.restaurant-card');
     article.dataset.id = restaurant.id;
-
     const img = clone.querySelector('img');
     img.src = restaurant.image;
     img.alt = restaurant.name;
-
     clone.querySelector('h3').textContent = restaurant.name;
     clone.querySelector('.card-price').textContent = `₹${restaurant.price}`;
     clone.querySelector('.card-cuisine').textContent = restaurant.cuisine;
-
     clone.querySelector('.rating .value').textContent = ` ${restaurant.rating}`;
     clone.querySelector('.tag .value').textContent = ` ${restaurant.location}`;
-
     return article;
   }
 
   openDetails(id) {
     const res = this.restaurants.find((r) => r.id === id);
     if (!res || !this.modalBody || !this.detailTemplate) return;
-
     this.modalBody.textContent = '';
     const clone = this.detailTemplate.content.cloneNode(true);
-
     const img = clone.querySelector('.modal-img');
     img.src = res.image;
     img.alt = res.name;
-
     clone.querySelector('h2').textContent = res.name;
-
     clone.querySelector('.rating .value').textContent = ` ${res.rating}`;
     clone.querySelector('.meta-cuisine .value').textContent = ` ${res.cuisine}`;
     clone.querySelector('.meta-location .value').textContent =
       ` ${res.location}`;
-
     clone.querySelector('.desc-text').textContent = res.description;
     clone.querySelector('.specialty-text .value').textContent = res.specialty;
-
     clone.querySelector('.card-price').textContent = `₹${res.price}`;
-
     const btn = clone.querySelector('.btn-primary');
     btn.onclick = () => {
       const query = encodeURIComponent(`${res.name} ${res.location} Bengaluru`);
@@ -243,7 +224,6 @@ class ExplorePage {
         '_blank'
       );
     };
-
     this.modalBody.appendChild(clone);
     ModalManager.open(this.detailModal);
   }
