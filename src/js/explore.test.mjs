@@ -9,7 +9,7 @@ import {
     EXPLORE_ATTRIBUTES as ATTRIBUTES,
     EXPLORE_TEXTS as TEXTS,
     PATHS
-} from './constants.js';
+} from './constants/constants.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getElementById = (id) => document.getElementById(id);

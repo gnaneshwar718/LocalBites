@@ -1,6 +1,7 @@
 const LOCAL_ORIGIN = typeof process !== 'undefined' && process.env.LOCAL_ORIGIN;
+const PORT = typeof process !== 'undefined' && process.env.PORT;
 
-export const BASE_URL = `${LOCAL_ORIGIN}:3000`;
+export const BASE_URL = `${LOCAL_ORIGIN}:${PORT}`;
 
 export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',

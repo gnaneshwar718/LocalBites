@@ -1,4 +1,4 @@
-import { CLASSNAMES, ENDPOINTS, MESSAGES } from './constants.js';
+import { CLASSNAMES, ENDPOINTS, MESSAGES } from './constants/constants.js';
 
 const $ = (id) => document.getElementById(id);
 const $$ = (selector) => document.querySelectorAll(selector);

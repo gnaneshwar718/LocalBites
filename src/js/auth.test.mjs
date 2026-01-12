@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
-import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS } from "./constants.js";
-import { TEST_LOCATION_URL, TEST_USER } from "./test-constants.js";
+import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS } from "./constants/constants.js";
+import { TEST_LOCATION_URL, TEST_USER } from "./constants/test-constants.js";
 import { AuthManager } from "./auth.js";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";

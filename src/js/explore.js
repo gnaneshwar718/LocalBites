@@ -70,25 +70,8 @@ class ExplorePage {
       }
     });
 
-    const cuisineFilters = byId('cuisineFilters');
-    if (cuisineFilters) {
-      on(cuisineFilters, 'click', (e) => {
-        if (e.target.classList.contains('filter-chip')) {
-          this.updateChipGroup('cuisineFilters', e.target);
-          this.filters.cuisine = e.target.dataset.cuisine;
-        }
-      });
-    }
-
-    const mealTypeFilters = byId('mealTypeFilters');
-    if (mealTypeFilters) {
-      on(mealTypeFilters, 'click', (e) => {
-        if (e.target.classList.contains('filter-chip')) {
-          this.updateChipGroup('mealTypeFilters', e.target);
-          this.filters.mealType = e.target.dataset.mealtype;
-        }
-      });
-    }
+    this.setupFilterGroup('cuisineFilters', 'cuisine', 'cuisine');
+    this.setupFilterGroup('mealTypeFilters', 'mealType', 'mealtype');
 
     const applyFiltersBtn = byId('applyFiltersBtn');
     if (applyFiltersBtn) {
@@ -120,6 +103,18 @@ class ExplorePage {
         const card = e.target.closest('.restaurant-card');
         if (card) {
           this.openDetails(parseInt(card.dataset.id));
+        }
+      });
+    }
+  }
+
+  setupFilterGroup(groupId, filterKey, datasetKey) {
+    const container = byId(groupId);
+    if (container) {
+      on(container, 'click', (e) => {
+        if (e.target.classList.contains('filter-chip')) {
+          this.updateChipGroup(groupId, e.target);
+          this.filters[filterKey] = e.target.dataset[datasetKey];
         }
       });
     }
