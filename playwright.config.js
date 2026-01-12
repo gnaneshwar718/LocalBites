@@ -1,9 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
-import {
-  PLAYWRIGHT_CONFIG,
-  BASE_URL as CONSTANT_BASE_URL,
-} from './src/js/constants.js';
+import { BASE_URL as CONSTANT_BASE_URL } from './src/js/constants.js';
+import { PLAYWRIGHT_CONFIG } from './src/js/test-constants.js';
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || CONSTANT_BASE_URL;
 

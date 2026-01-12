@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { ROUTES } from '../src/js/constants.js';
 import {
-  ROUTES,
   TEST_SELECTORS as SELECTORS,
   TEST_ATTRIBUTES as ATTRIBUTES,
   TEST_STRINGS as STRINGS,
   TEST_FILTERS as FILTERS,
-} from '../src/js/constants.js';
+} from '../src/js/test-constants.js';
 
 const createHelpers = (page) => {
   const locate = (selector) => page.locator(selector);

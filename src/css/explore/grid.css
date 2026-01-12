@@ -1,0 +1,103 @@
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1.5rem;
+  padding: var(--spacing-md) 0 var(--spacing-xl);
+}
+
+.restaurant-card {
+  background: var(--color-secondary);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition:
+    transform var(--transition-speed),
+    box-shadow var(--transition-speed);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.card-image-wrapper {
+  position: relative;
+  height: 12rem;
+  background: #f0f0f0;
+}
+
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgb(255 255 255 / 90%);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.card-content {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.card-header h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.card-price {
+  font-weight: 600;
+  color: var(--color-brand);
+}
+
+.card-cuisine {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 1rem;
+}
+
+.card-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-star);
+  font-weight: 600;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
