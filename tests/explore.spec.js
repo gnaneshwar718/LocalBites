@@ -54,7 +54,6 @@ const createHelpers = (page) => {
     },
 
     performSearch: async (term) => genericSearch(term),
-
     toggleFilterModal: async (open = true, verify = false) => {
       if (open) await locate(SELECTORS.FILTER_BTN).click();
       else await locate(SELECTORS.FILTER_CLOSE).evaluate((el) => el.click());
@@ -83,10 +82,8 @@ const createHelpers = (page) => {
       await verifyCount(6);
       await verifyText(SELECTORS.PAGE_TITLE, STRINGS.PAGE_TITLE);
       await verifyVisible(SELECTORS.CONTAINER_WIDE);
-
       const prices = await locate(SELECTORS.CARD_PRICE).allTextContents();
       prices.forEach((p) => expect(p).toContain(STRINGS.CURRENCY));
-
       const styles = await getCompStyle(SELECTORS.GRID);
       expect(styles.display).toBe(STRINGS.GRID_DISPLAY);
       expect(styles.columns.split(' ').length).toBeGreaterThan(1);
@@ -103,9 +100,7 @@ const createHelpers = (page) => {
 
     verifyModalState: async (selector, isOpen) =>
       verifyClass(selector, STRINGS.CLASS_ACTIVE, isOpen),
-
     verifyFilterLogic: async (count) => await verifyCount(count),
-
     verifyDetailContent: async () => {
       const title = await locate(SELECTORS.CARD)
         .first()
@@ -196,7 +191,6 @@ test.describe('Explore Page', () => {
 
   test.describe('Filter Modal', () => {
     test.beforeEach(async () => await act.toggleFilterModal(true, true));
-
     test.fixme('should close filter modal when close button is clicked', async () => {
       await act.toggleFilterModal(false, true);
     });
@@ -256,7 +250,6 @@ test.describe('Explore Page', () => {
 
   test.describe('Detail Modal', () => {
     test.beforeEach(async () => await act.openDetail());
-
     test('should manage detail modal', async () => {
       await act.verifyModalState(SELECTORS.DETAIL_MODAL, true);
       await act.verifyDetailContent();
