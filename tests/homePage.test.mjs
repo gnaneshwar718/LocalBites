@@ -5,13 +5,11 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { CAROUSEL_INTERVAL } from '../src/js/constants.js';
 
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
-
 const CACHE_BUST_OFFSET_FOOTER = 4;
 const CACHE_BUST_OFFSET_FAQ = 3;
 
 describe('HomePage DOM Unit Tests', () => {
     let container;
-
     beforeEach(() => {
         document.body.innerHTML = `
             <app-header></app-header>
@@ -25,7 +23,6 @@ describe('HomePage DOM Unit Tests', () => {
             <app-footer></app-footer>
         `;
         container = document.body;
-
         global.fetch = jest.fn((url) => {
             if (url.includes('header.html')) {
                 return Promise.resolve({
@@ -60,23 +57,19 @@ describe('HomePage DOM Unit Tests', () => {
             }
             return Promise.reject(new Error('Unknown URL'));
         });
-
         jest.useFakeTimers();
     });
 
     afterEach(() => {
         jest.clearAllMocks();
         jest.useRealTimers();
-
     });
 
     test('carousel should change slides automatically', async () => {
         await import('../src/js/script.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         const slides = container.querySelectorAll('.carousel-item');
-
         expect(slides[0]).toHaveClass('active');
-
         for (let i = 0; i < slides.length; i++) {
             const nextIndex = (i + 1) % slides.length;
             jest.advanceTimersByTime(CAROUSEL_INTERVAL);
@@ -86,22 +79,15 @@ describe('HomePage DOM Unit Tests', () => {
     });
 
     test('AppHeader should toggle hamburger menu and contain navigation links', async () => {
-
         await import('../src/js/components.js?t=' + Date.now());
-
         await waitFor(() => expect(container.querySelector('.hamburger')).toBeInTheDocument());
-
         const hamburger = container.querySelector('.hamburger');
         const navLinks = container.querySelector('.nav-links');
-
         expect(navLinks).not.toHaveClass('active');
-
         fireEvent.click(hamburger);
         expect(navLinks).toHaveClass('active');
-
         fireEvent.click(hamburger);
         expect(navLinks).not.toHaveClass('active');
-
         expect(container.querySelector('a[href="/"]')).toHaveTextContent('Explore');
         expect(container.querySelector('a[href="/budget"]')).toHaveTextContent('Budget Planner');
         expect(container.querySelector('a[href="/auth"]')).toHaveTextContent('Profile');
@@ -110,9 +96,7 @@ describe('HomePage DOM Unit Tests', () => {
     test('AppFooter should render correctly and have dynamic content', async () => {
         document.body.innerHTML = '<app-footer></app-footer>';
         await import('../src/js/components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FOOTER));
-
         await waitFor(() => expect(document.querySelector('footer')).toBeInTheDocument());
-
         const copyright = document.querySelector('#footer-copyright');
         await waitFor(() => expect(copyright).toHaveTextContent('Copyright © 2026 by LocalBites, All Rights Reserved'));
     });
@@ -120,11 +104,9 @@ describe('HomePage DOM Unit Tests', () => {
     test('FaqSection should render correctly and have dynamic email', async () => {
         document.body.innerHTML = '<faq-section></faq-section>';
         await import('../src/js/components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FAQ));
-
         await waitFor(() => expect(document.querySelector('#faq')).toBeInTheDocument());
         expect(document.querySelector('#faq h2')).toHaveTextContent('Questions');
         expect(document.querySelector('faq-item')).toBeInTheDocument();
-
         const contactLink = document.querySelector('#faq-contact-link');
         expect(contactLink).toBeInTheDocument();
         await waitFor(() => expect(contactLink).toHaveAttribute('href', `mailto:${CONTACT_EMAIL}`));
