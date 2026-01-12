@@ -166,6 +166,50 @@
       </div>
     </div>
 
+    <div id="mapModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content map-modal-content" style="max-width: 48rem">
+        <button class="modal-close map-modal-close" aria-label="Close modal">
+          &times;
+        </button>
+        <div
+          class="modal-body"
+          style="display: flex; flex-direction: column; height: 80vh"
+        >
+          <div id="map" style="flex: 1; min-height: 400px; width: 100%"></div>
+          <div
+            class="map-info"
+            style="
+              padding: 1rem;
+              background: #fff;
+              border-top: 1px solid #e0e0e0;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-weight: 600;
+            "
+          >
+            <div>
+              <span style="color: var(--color-text-light)">Distance:</span>
+              <span
+                id="routeDistance"
+                style="color: var(--color-brand); margin-left: 0.5rem"
+                >-</span
+              >
+            </div>
+            <div>
+              <span style="color: var(--color-text-light)">ETA:</span>
+              <span
+                id="routeDuration"
+                style="color: var(--color-brand); margin-left: 0.5rem"
+                >-</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <template id="restaurant-card-template">
       <article class="restaurant-card">
         <div class="card-image-wrapper">
@@ -194,7 +238,25 @@
     <template id="detail-modal-template">
       <img src="" alt="" class="modal-img" />
       <div class="modal-info">
-        <h2></h2>
+        <div
+          class="modal-header-row"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+          "
+        >
+          <h2></h2>
+          <span
+            class="status-badge"
+            style="
+              padding: 0.25rem 0.75rem;
+              border-radius: 1rem;
+              font-size: 0.8rem;
+              font-weight: 600;
+            "
+          ></span>
+        </div>
         <div class="modal-meta">
           <span class="rating">
             <i class="fa-solid fa-star"></i>
@@ -216,8 +278,17 @@
             <span class="value"></span>
           </p>
         </div>
-        <div class="modal-footer">
-          <span class="card-price" style="font-size: 1.5rem"></span>
+        <div class="modal-footer" style="flex-wrap: wrap; gap: 0.5rem">
+          <span
+            class="card-price"
+            style="font-size: 1.5rem; width: 100%; margin-bottom: 0.5rem"
+          ></span>
+          <button class="btn btn-outline btn-website" style="display: none">
+            <i class="fa-solid fa-globe"></i> Website
+          </button>
+          <button class="btn btn-outline btn-call" style="display: none">
+            <i class="fa-solid fa-phone"></i> Call
+          </button>
           <button class="btn btn-primary btn-map">
             <i class="fa-solid fa-map-location-dot"></i>
             Visit Spot

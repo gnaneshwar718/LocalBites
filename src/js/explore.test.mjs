@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { RESTAURANTS } from '../data/restaurants.js';
+import { RESTAURANTS } from '../data/mockRestaurants.js';
 import {
     EXPLORE_SELECTORS as SELECTORS,
     EXPLORE_CLASSES as CLASSES,

@@ -1,31 +1,39 @@
 .restaurant-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1.5rem;
-  padding: var(--spacing-md) 0 var(--spacing-xl);
+  padding: 3rem 0 4rem;
+
+  /* Increased top spacing */
 }
 
 .restaurant-card {
-  background: var(--color-secondary);
+  background: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 4px 6px rgb(0 0 0 / 5%);
   transition:
-    transform var(--transition-speed),
-    box-shadow var(--transition-speed);
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  aspect-ratio: 1 / 1;
+
+  /* Force square aspect ratio */
 }
 
 .restaurant-card:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: var(--card-hover-shadow);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px rgb(0 0 0 / 10%);
 }
 
 .card-image-wrapper {
   position: relative;
-  height: 12rem;
+  height: 60%;
+
+  /* More space for image */
   background: #f0f0f0;
 }
 
@@ -48,24 +56,32 @@
 }
 
 .card-content {
-  padding: 1.25rem;
+  padding: 0.5rem 0.75rem;
+
+  /* Reduced padding */
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+
+  /* Distribute space */
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .card-header h3 {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
+
+  /* Smaller title */
   font-weight: 600;
   margin: 0;
   color: var(--color-primary);
+  line-height: 1.2;
 }
 
 .card-price {
@@ -74,9 +90,11 @@
 }
 
 .card-cuisine {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+
+  /* Smaller subtitle */
   color: var(--color-text-light);
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .card-footer {
@@ -84,7 +102,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+
+  /* Smaller footer */
   color: var(--color-text-light);
 }
 

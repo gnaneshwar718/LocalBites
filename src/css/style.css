@@ -1,3 +1,27 @@
+:root {
+  --color-primary: #ff4b2b;
+  --color-brand: #ff4b2b;
+  --color-secondary: #fff;
+  --color-text: #333;
+  --color-text-light: #666;
+  --color-border: #e0e0e0;
+  --color-bg: #f6f5f7;
+  --color-accent: #fff0ed;
+  --color-star: #fbbf24;
+  --modal-bg: rgb(0 0 0 / 60%);
+  --card-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 6%);
+  --card-hover-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 5%);
+  --transition-speed: 0.2s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Montserrat, sans-serif;
   margin: 0;
@@ -74,7 +98,9 @@ nav a:hover {
 }
 
 .btn:hover {
-  transform: scale(1.05);
+  filter: brightness(1.1);
+
+  /* Subtle brightness instead of scaling */
 }
 
 @media (width <=768px) {

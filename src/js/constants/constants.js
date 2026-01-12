@@ -7,11 +7,6 @@ export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
 };
 
-export const ENDPOINTS = {
-  SIGNUP: '/signup',
-  SIGNIN: '/signin',
-};
-
 export const MESSAGES = {
   PASSWORD_MISMATCH: 'Passwords do not match!',
   SIGNUP_SUCCESS: 'Sign up successful! Please sign in.',
@@ -64,8 +59,4 @@ export const EXPLORE_TEXTS = {
   MTR: 'MTR',
   SOUTH_INDIAN: 'South Indian',
   BREAKFAST: 'breakfast',
-};
-
-export const ROUTES = {
-  EXPLORE: '/explore',
 };
