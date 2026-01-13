@@ -51,7 +51,7 @@ export default [
     files: ['server.js', 'commitlint.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.node,
       },
