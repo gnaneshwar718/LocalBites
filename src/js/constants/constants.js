@@ -14,11 +14,6 @@ export const MESSAGES = {
   SIGNIN_ERROR: 'An error occurred during sign in.',
 };
 
-export const PATHS = {
-  AUTH_HTML: '../../public/pages/auth.html',
-  EXPLORE_HTML: ['..', '..', 'public', 'pages', 'explore.html'],
-};
-
 export const EXPLORE_SELECTORS = {
   SEARCH_INPUT: 'restaurantSearch',
   FILTER_BTN: 'filterBtn',

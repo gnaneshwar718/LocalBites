@@ -37,15 +37,12 @@ export const PlacesApi = {
           `API Error: ${response.status} ${response.statusText} - ${errorText}`
         );
       }
-
       const data = await response.json();
       console.log('API Response:', data);
-
       if (!data.places || data.places.length === 0) {
         console.warn('No places found in API response.');
         return [];
       }
-
       return this.transformData(data.places);
     } catch (error) {
       console.error('Failed to fetch restaurants:', error);
@@ -62,7 +59,6 @@ export const PlacesApi = {
     const types = place.types || [];
     const name = (place.displayName?.text || '').toLowerCase();
 
-    // Explicit type mapping
     if (types.includes('south_indian_restaurant')) return 'South Indian';
     if (types.includes('north_indian_restaurant')) return 'North Indian';
     if (types.includes('indian_restaurant')) return 'Indian';
@@ -83,7 +79,6 @@ export const PlacesApi = {
     )
       return 'Pure Veg';
 
-    // Fallback: Keyword matching on name
     if (
       name.includes('dosa') ||
       name.includes('idli') ||
@@ -123,7 +118,6 @@ export const PlacesApi = {
       return 'Bakery';
     if (name.includes('cafe') || name.includes('coffee')) return 'Cafe';
 
-    // General fallback from types if specific ones missed
     const generic = types.find(
       (t) =>
         t !== 'restaurant' &&
@@ -143,12 +137,9 @@ export const PlacesApi = {
     const types = place.types || [];
     const mealTypes = new Set();
 
-    // 1. Check serves fields (strongest signal)
     if (place.servesBreakfast) mealTypes.add('breakfast');
     if (place.servesLunch) mealTypes.add('lunch');
     if (place.servesDinner) mealTypes.add('dinner');
-
-    // 2. Check types for specific categories
     if (types.includes('bakery') || types.includes('cafe')) {
       mealTypes.add('snacks');
     }
@@ -158,21 +149,14 @@ export const PlacesApi = {
       mealTypes.add('dinner');
     }
 
-    // 3. Check Opening Hours (if available)
     if (place.regularOpeningHours && place.regularOpeningHours.periods) {
-      // Simplified logic: Check just the first open period for now for brevity
-      // In a robust app, we'd check all periods for "today"
       const period = place.regularOpeningHours.periods[0];
       if (period && period.open) {
         const hour = period.open.hour;
-        // Opens early (before 10 AM) -> Breakfast
         if (hour < 10) mealTypes.add('breakfast');
-        // Closes late is harder to check without 'close' data efficiently for all days,
-        // but generally restaurants open are lunch/dinner.
       }
     }
 
-    // Default fallback if nothing detected
     if (mealTypes.size === 0) {
       mealTypes.add('lunch');
       mealTypes.add('dinner');
@@ -188,7 +172,6 @@ export const PlacesApi = {
           ? this.getPhotoUrl(place.photos[0].name)
           : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop';
 
-      // Map priceLevel
       let price = 300;
       let priceString = '₹200–400';
 

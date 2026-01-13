@@ -3,8 +3,6 @@
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1.5rem;
   padding: 3rem 0 4rem;
-
-  /* Increased top spacing */
 }
 
 .restaurant-card {
@@ -20,8 +18,6 @@
   display: flex;
   flex-direction: column;
   aspect-ratio: 1 / 1;
-
-  /* Force square aspect ratio */
 }
 
 .restaurant-card:hover {
@@ -32,8 +28,6 @@
 .card-image-wrapper {
   position: relative;
   height: 60%;
-
-  /* More space for image */
   background: #f0f0f0;
 }
 
@@ -57,14 +51,10 @@
 
 .card-content {
   padding: 0.5rem 0.75rem;
-
-  /* Reduced padding */
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  /* Distribute space */
 }
 
 .card-header {
@@ -76,8 +66,6 @@
 
 .card-header h3 {
   font-size: 0.95rem;
-
-  /* Smaller title */
   font-weight: 600;
   margin: 0;
   color: var(--color-primary);
@@ -91,8 +79,6 @@
 
 .card-cuisine {
   font-size: 0.75rem;
-
-  /* Smaller subtitle */
   color: var(--color-text-light);
   margin-bottom: 0.25rem;
 }
@@ -103,8 +89,6 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.75rem;
-
-  /* Smaller footer */
   color: var(--color-text-light);
 }
 

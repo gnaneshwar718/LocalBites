@@ -2,10 +2,11 @@
  * @jest-environment jsdom
  */
 import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "@jest/globals";
-import { CLASSNAMES, MESSAGES, PATHS } from "./constants/constants.js";
-import { API_ENDPOINTS as ENDPOINTS } from "./routes.mjs";
+import { CLASSNAMES, MESSAGES } from "./constants/constants.js";
+import { API_ENDPOINTS as ENDPOINTS } from "./routes.js";
+import { PATHS } from "./constants/paths.js";
 import { TEST_LOCATION_URL, TEST_USER } from "./constants/test-constants.js";
-import { AuthManager } from "./auth.mjs";
+import { AuthManager } from "./auth.js";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import fs from "fs";

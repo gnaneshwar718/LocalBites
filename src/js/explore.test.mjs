@@ -7,9 +7,10 @@ import {
     EXPLORE_CLASSES as CLASSES,
     EVENTS,
     EXPLORE_ATTRIBUTES as ATTRIBUTES,
-    EXPLORE_TEXTS as TEXTS,
-    PATHS
+    EXPLORE_TEXTS as TEXTS
 } from './constants/constants.js';
+import { PATHS } from './constants/paths.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getElementById = (id) => document.getElementById(id);
