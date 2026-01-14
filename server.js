@@ -1,14 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-import { ROUTES, API_ENDPOINTS } from './src/js/routes.js';
+'use strict';
 
-dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,7 +12,13 @@ const PATHS = {
   PAGES: path.join(__dirname, 'public', 'pages'),
   CSS: path.join(__dirname, 'src', 'css'),
   JS: path.join(__dirname, 'src', 'js'),
-  DATA: path.join(__dirname, 'src', 'data'),
+};
+
+const ROUTES = {
+  HOME: '/',
+  AUTH: '/auth',
+  SIGNUP: '/signup',
+  SIGNIN: '/signin',
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,6 +42,12 @@ const isValidSignup = ({ name, email, password }) =>
 
 app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
+});
+
+app.get(ROUTES.CONFIG, (req, res) => {
+  res.json({
+    contactEmail: process.env.CONTACT_EMAIL,
+  });
 });
 
 app.get(ROUTES.AUTH, (req, res) => {

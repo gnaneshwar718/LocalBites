@@ -5,7 +5,7 @@
 }
 
 body {
-  background: #f6f5f7;
+  background: var(--color-bg-light);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,8 +45,8 @@ a {
 
 button {
   border-radius: 1.25rem;
-  border: 0.0625rem solid var(--color-brand);
-  background-color: var(--color-brand);
+  border: 0.0625rem solid var(--color-logo);
+  background-color: var(--color-logo);
   color: var(--color-secondary);
   font-size: 0.75rem;
   font-weight: bold;
@@ -82,7 +82,7 @@ form {
 }
 
 input {
-  background-color: #eee;
+  background-color: var(--color-input-bg);
   border: none;
   padding: 0.75rem 0.9375rem;
   margin: 0.5rem 0;
@@ -190,8 +190,8 @@ input {
 
 .overlay {
   background: #ff416c;
-  background: linear-gradient(to right, var(--color-brand), #ff416c);
-  background: linear-gradient(to right, var(--color-brand), #ff416c);
+  background: linear-gradient(to right, var(--color-logo), #ff416c);
+  background: linear-gradient(to right, var(--color-logo), #ff416c);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -245,7 +245,7 @@ input {
 }
 
 .social-container a {
-  border: 0.0625rem solid #ddd;
+  border: 0.0625rem solid var(--color-border-light);
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
@@ -253,6 +253,26 @@ input {
   margin: 0 0.3125rem;
   height: 2.5rem;
   width: 2.5rem;
+}
+
+footer {
+  background-color: #222;
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 999;
+}
+
+footer p {
+  margin: 0.625rem 0;
+}
+
+footer i {
+  color: #f00;
 }
 
 .mobile-only {
@@ -313,7 +333,7 @@ input {
   }
 
   .mobile-only a {
-    color: var(--color-brand);
+    color: var(--color-logo);
     font-weight: bold;
     margin: 0;
   }
