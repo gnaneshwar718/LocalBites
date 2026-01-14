@@ -1,18 +1,20 @@
-/**
- * Google Places API Service
- */
-const API_KEY = 'AIzaSyBAiVJ_0cMT4eEUGpNBZqjEyeWwYCtyioU';
 const BASE_URL = 'https://places.googleapis.com/v1/places:searchNearby';
 
 export const PlacesApi = {
+  apiKey: null,
+  setApiKey(key) {
+    this.apiKey = key;
+  },
+
   async fetchRestaurants({ lat = 12.9716, lng = 77.5946, radius = 5000 } = {}) {
     try {
       console.log('Fetching from Google Places API...');
       const response = await fetch(BASE_URL, {
         method: 'POST',
+
         headers: {
           'Content-Type': 'application/json',
-          'X-Goog-Api-Key': API_KEY,
+          'X-Goog-Api-Key': this.apiKey,
           'X-Goog-FieldMask':
             'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.types,places.location,places.photos,places.priceLevel,places.editorialSummary,places.regularOpeningHours,places.currentOpeningHours,places.servesBreakfast,places.servesLunch,places.servesDinner,places.nationalPhoneNumber,places.websiteUri',
         },
@@ -52,7 +54,7 @@ export const PlacesApi = {
 
   getPhotoUrl(photoName) {
     if (!photoName) return null;
-    return `https://places.googleapis.com/v1/${photoName}/media?maxHeightPx=400&maxWidthPx=400&key=${API_KEY}`;
+    return `https://places.googleapis.com/v1/${photoName}/media?maxHeightPx=400&maxWidthPx=400&key=${this.apiKey}`;
   },
 
   deriveCuisine(place) {

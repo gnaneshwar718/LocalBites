@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { ROUTES } from './src/js/routes.js';
+import { ROUTES, API_ENDPOINTS } from './src/js/routes.js';
 
 dotenv.config();
 
@@ -66,6 +66,12 @@ app.post(ROUTES.SIGNUP, (req, res) => {
   users.push({ name, email, password });
 
   res.status(201).json({ message: 'User created successfully' });
+});
+
+app.get(API_ENDPOINTS.CONFIG, (req, res) => {
+  res.json({
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+  });
 });
 
 app.post(ROUTES.SIGNIN, (req, res) => {

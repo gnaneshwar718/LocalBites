@@ -9,3 +9,15 @@
   background-color: var(--color-brand);
   color: #fff;
 }
+
+.mb-half {
+  margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.text-light {
+  color: var(--color-text-light);
+}

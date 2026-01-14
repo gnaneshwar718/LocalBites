@@ -3,6 +3,8 @@ const PORT = typeof process !== 'undefined' && process.env.PORT;
 
 export const BASE_URL = `${LOCAL_ORIGIN}:${PORT}`;
 
+export const GOOGLE_MAPS_CHECK_INTERVAL = 100;
+
 export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
 };

@@ -147,7 +147,7 @@
             </div>
           </div>
           <div class="filter-section">
-            <h3 style="margin-bottom: 0.5rem">Budget per person, per meal</h3>
+            <h3 class="mb-half">Budget per person, per meal</h3>
             <div id="budgetPerPerson" class="budget-result">0</div>
           </div>
           <div class="modal-footer">
@@ -168,42 +168,33 @@
 
     <div id="mapModal" class="modal">
       <div class="modal-backdrop"></div>
-      <div class="modal-content map-modal-content" style="max-width: 48rem">
+      <div class="modal-content map-modal-content">
         <button class="modal-close map-modal-close" aria-label="Close modal">
           &times;
         </button>
-        <div
-          class="modal-body"
-          style="display: flex; flex-direction: column; height: 80vh"
-        >
-          <div id="map" style="flex: 1; min-height: 400px; width: 100%"></div>
-          <div
-            class="map-info"
-            style="
-              padding: 1rem;
-              background: #fff;
-              border-top: 1px solid #e0e0e0;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              font-weight: 600;
-            "
-          >
+        <div class="modal-body map-body">
+          <div id="map">
+            <div id="mapError" class="error-message hidden">
+              Map configuration missing.
+            </div>
+            <iframe
+              id="mapFrame"
+              class="hidden"
+              width="100%"
+              height="100%"
+              style="border: 0"
+              loading="lazy"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="map-info">
             <div>
-              <span style="color: var(--color-text-light)">Distance:</span>
-              <span
-                id="routeDistance"
-                style="color: var(--color-brand); margin-left: 0.5rem"
-                >-</span
-              >
+              <span class="text-light">Distance:</span>
+              <span class="distance-text" id="routeDistance">-</span>
             </div>
             <div>
-              <span style="color: var(--color-text-light)">ETA:</span>
-              <span
-                id="routeDuration"
-                style="color: var(--color-brand); margin-left: 0.5rem"
-                >-</span
-              >
+              <span class="text-light">ETA:</span>
+              <span class="distance-text" id="routeDuration">-</span>
             </div>
           </div>
         </div>
@@ -238,24 +229,9 @@
     <template id="detail-modal-template">
       <img src="" alt="" class="modal-img" />
       <div class="modal-info">
-        <div
-          class="modal-header-row"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-          "
-        >
+        <div class="modal-header-row">
           <h2></h2>
-          <span
-            class="status-badge"
-            style="
-              padding: 0.25rem 0.75rem;
-              border-radius: 1rem;
-              font-size: 0.8rem;
-              font-weight: 600;
-            "
-          ></span>
+          <span class="status-badge"></span>
         </div>
         <div class="modal-meta">
           <span class="rating">
@@ -278,15 +254,12 @@
             <span class="value"></span>
           </p>
         </div>
-        <div class="modal-footer" style="flex-wrap: wrap; gap: 0.5rem">
-          <span
-            class="card-price"
-            style="font-size: 1.5rem; width: 100%; margin-bottom: 0.5rem"
-          ></span>
-          <button class="btn btn-outline btn-website" style="display: none">
+        <div class="modal-footer modal-footer-content">
+          <span class="card-price card-price-large"></span>
+          <button class="btn btn-outline btn-website hidden">
             <i class="fa-solid fa-globe"></i> Website
           </button>
-          <button class="btn btn-outline btn-call" style="display: none">
+          <button class="btn btn-outline btn-call hidden">
             <i class="fa-solid fa-phone"></i> Call
           </button>
           <button class="btn btn-primary btn-map">

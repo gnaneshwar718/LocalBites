@@ -61,6 +61,22 @@ export const TEST_FILTERS = {
   MEAL_BREAKFAST: 'breakfast',
 };
 
+export const TEST_TIMEOUTS = {
+  SEARCH_DELAY: 2000,
+  NAVIGATION: 30000,
+  FILTER_APPLY: 1000,
+};
+
+export const TEST_DIMENSIONS = {
+  MOBILE_WIDTH: 375,
+  MOBILE_HEIGHT: 667,
+  WIDTH_RATIO_THRESHOLD: 0.9,
+};
+
+export const TEST_DEFAULTS = {
+  MIN_COUNT: 1,
+};
+
 export const PLAYWRIGHT_CONFIG = {
   TEST_DIR: './tests',
   TEST_MATCH: '**/*.spec.js',

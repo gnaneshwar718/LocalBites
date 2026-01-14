@@ -9,4 +9,5 @@ export const ROUTES = {
 export const API_ENDPOINTS = {
   SIGNUP: '/signup',
   SIGNIN: '/signin',
+  CONFIG: '/api/config',
 };

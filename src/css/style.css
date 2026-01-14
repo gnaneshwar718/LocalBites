@@ -99,8 +99,6 @@ nav a:hover {
 
 .btn:hover {
   filter: brightness(1.1);
-
-  /* Subtle brightness instead of scaling */
 }
 
 @media (width <=768px) {

@@ -1,0 +1,26 @@
+.map-body {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+#map {
+  flex: 1;
+  min-height: 400px;
+  width: 100%;
+}
+
+.map-info {
+  padding: 1rem;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+.distance-text {
+  color: var(--color-brand);
+  margin-left: 0.5rem;
+}

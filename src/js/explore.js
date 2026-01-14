@@ -1,8 +1,8 @@
-/* global google */
-import { RESTAURANTS as MOCK_RESTAURANTS } from '../data/mockRestaurants.js';
 import { PlacesApi } from './services/placesApi.js';
 import { $, byId, on } from './utils/dom.js';
 import { ModalManager } from './utils/modal.js';
+import { API_ENDPOINTS } from './routes.js';
+import { GOOGLE_MAPS_CHECK_INTERVAL } from './constants/constants.js';
 
 class ExplorePage {
   constructor() {
@@ -33,39 +33,46 @@ class ExplorePage {
       popular: false,
     };
     this.restaurants = [];
-    this.init();
+    this.initPromise = this.init();
   }
 
   async init() {
     try {
       console.log('Initializing ExplorePage...');
+      this.apiKey = await this.loadConfig();
+      PlacesApi.setApiKey(this.apiKey);
 
-      // Use mock data for tests to ensure stability, or if API fails
-      if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') {
-        console.log('Test environment detected. Using mock data.');
-        this.restaurants = MOCK_RESTAURANTS;
+      console.log('Attempting to fetch from API...');
+      const apiData = await PlacesApi.fetchRestaurants();
+
+      if (apiData && apiData.length > 0) {
+        console.log(
+          `Successfully fetched ${apiData.length} restaurants from API.`
+        );
+        this.restaurants = apiData;
       } else {
-        console.log('Attempting to fetch from API...');
-        const apiData = await PlacesApi.fetchRestaurants();
-
-        if (apiData && apiData.length > 0) {
-          console.log(
-            `Successfully fetched ${apiData.length} restaurants from API.`
-          );
-          this.restaurants = apiData;
-        } else {
-          console.warn('API returned empty or invalid data. Using mock data.');
-          this.restaurants = MOCK_RESTAURANTS;
-        }
+        console.warn('API returned empty or invalid data.');
+        this.restaurants = [];
       }
     } catch (error) {
       console.error('Detailed error in ExplorePage init:', error);
-      console.warn('Falling back to mock data due to error.');
-      this.restaurants = MOCK_RESTAURANTS;
+      this.restaurants = [];
     } finally {
       console.log('Rendering restaurants...');
       this.renderRestaurants();
       this.setupEventListeners();
+    }
+  }
+
+  async loadConfig() {
+    try {
+      const response = await fetch(API_ENDPOINTS.CONFIG);
+      if (!response.ok) throw new Error('Failed to load configuration');
+      const config = await response.json();
+      return config.googleMapsApiKey;
+    } catch (error) {
+      console.error('Error loading config:', error);
+      return null;
     }
   }
 
@@ -103,7 +110,6 @@ class ExplorePage {
 
     this.setupFilterGroup('cuisineFilters', 'cuisine', 'cuisine');
     this.setupFilterGroup('mealTypeFilters', 'mealType', 'mealtype');
-
     const applyFiltersBtn = byId('applyFiltersBtn');
     if (applyFiltersBtn) {
       on(applyFiltersBtn, 'click', () => {
@@ -137,8 +143,6 @@ class ExplorePage {
         }
       });
     }
-
-    // Map Modal Close Listeners
     const mapModal = byId('mapModal');
     if (mapModal) {
       on(mapModal.querySelector('.map-modal-close'), 'click', () => {
@@ -198,12 +202,10 @@ class ExplorePage {
         this.filters.mealType === 'all' ||
         (Array.isArray(res.mealType)
           ? res.mealType.includes(this.filters.mealType)
-          : res.mealType.toLowerCase() === this.filters.mealType.toLowerCase()); // Handle both array (new) and string (legacy)
+          : res.mealType.toLowerCase() === this.filters.mealType.toLowerCase());
 
       const matchesBudget = res.price <= this.filters.budget;
-
       const matchesRating = res.rating >= this.filters.rating;
-
       const matchesPopular =
         !this.filters.popular || (res.rating >= 4.2 && res.reviews > 1000);
 
@@ -258,19 +260,15 @@ class ExplorePage {
     img.src = res.image;
     img.alt = res.name;
     img.alt = res.name;
-
     clone.querySelector('h2').textContent = res.name;
-
-    // Status Badge
     const statusBadge = clone.querySelector('.status-badge');
     if (res.openStatusText) {
       statusBadge.textContent = res.openStatusText;
-      statusBadge.style.background = res.isOpen ? '#d1fae5' : '#fee2e2'; // Green or Red light bg
-      statusBadge.style.color = res.isOpen ? '#065f46' : '#991b1b'; // Dark green or red text
+      statusBadge.style.background = res.isOpen ? '#d1fae5' : '#fee2e2';
+      statusBadge.style.color = res.isOpen ? '#065f46' : '#991b1b';
     } else {
       statusBadge.style.display = 'none';
     }
-
     clone.querySelector('.rating .value').textContent = ` ${res.rating}`;
     clone.querySelector('.meta-cuisine .value').textContent = ` ${res.cuisine}`;
     clone.querySelector('.meta-location .value').textContent =
@@ -280,8 +278,6 @@ class ExplorePage {
     clone.querySelector('.card-price').textContent =
       res.priceString || `₹${res.price}`;
     const btn = clone.querySelector('.btn-map');
-
-    // Contact Buttons
     const btnWeb = clone.querySelector('.btn-website');
     if (res.website) {
       btnWeb.style.display = 'inline-flex';
@@ -293,7 +289,6 @@ class ExplorePage {
       btnCall.style.display = 'inline-flex';
       btnCall.onclick = () => window.open(`tel:${res.phoneNumber}`);
     }
-
     btn.onclick = () => {
       this.openMap(res);
     };
@@ -305,31 +300,21 @@ class ExplorePage {
     try {
       const mapModal = byId('mapModal');
       ModalManager.open(mapModal);
-
       byId('routeDistance').textContent = 'Loading...';
       byId('routeDuration').textContent = 'Calculating...';
-
-      // Global handler for Auth Failures (The "Oops" error)
       window.gm_authFailure = () => {
         console.error(
           'Google Maps JS API Authentication Failed. Falling back to Embed API.'
         );
         this.renderEmbedFallback(restaurant);
       };
-
-      // 1. Load Google Maps API if not loaded
       if (!window.google || !window.google.maps) {
         await this.loadGoogleMaps();
       }
-
-      // 2. Get User Location
       const userLocation = await this.getUserLocation();
-
-      // 3. Initialize Map & Directions
       this.initMap(userLocation, { lat: restaurant.lat, lng: restaurant.lng });
     } catch (error) {
       console.error('Map Error:', error);
-      // Fallback to embed if JS API fails
       if (restaurant.lat && restaurant.lng) {
         this.renderEmbedFallback(restaurant);
       } else {
@@ -340,37 +325,37 @@ class ExplorePage {
   }
 
   renderEmbedFallback(restaurant) {
-    const mapContainer = byId('map');
-    const API_KEY = 'AIzaSyBAiVJ_0cMT4eEUGpNBZqjEyeWwYCtyioU';
+    const mapError = byId('mapError');
+    const mapFrame = byId('mapFrame');
 
-    // Try to get user location for origin, else fallback to generic search
+    if (!this.apiKey) {
+      if (mapError) mapError.classList.remove('hidden');
+      if (mapFrame) mapFrame.classList.add('hidden');
+      return;
+    }
+
+    if (mapError) mapError.classList.add('hidden');
+    if (mapFrame) mapFrame.classList.remove('hidden');
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const origin = `${pos.coords.latitude},${pos.coords.longitude}`;
         const dest = `${restaurant.lat},${restaurant.lng}`;
-        mapContainer.innerHTML = `<iframe
-              width="100%"
-              height="100%"
-              style="border:0"
-              loading="lazy"
-              allowfullscreen
-              src="https://www.google.com/maps/embed/v1/directions?key=${API_KEY}&origin=${origin}&destination=${dest}&mode=driving">
-            </iframe>`;
+        if (mapFrame) {
+          mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=${this.apiKey}&origin=${origin}&destination=${dest}&mode=driving`;
+        }
 
-        // Update status text to indicate info is in map
         byId('routeDistance').textContent = 'View Map';
         byId('routeDuration').textContent = 'View Map';
       },
       () => {
-        // If no location, just show place embed
-        mapContainer.innerHTML = `<iframe
-              width="100%"
-              height="100%"
-              style="border:0"
-              loading="lazy"
-              allowfullscreen
-              src="https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${encodeURIComponent(restaurant.name + ' ' + restaurant.location)}">
-            </iframe>`;
+        if (mapFrame) {
+          mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${
+            this.apiKey
+          }&q=${encodeURIComponent(
+            restaurant.name + ' ' + restaurant.location
+          )}`;
+        }
         byId('routeDistance').textContent = '-';
         byId('routeDuration').textContent = '-';
       }
@@ -384,23 +369,24 @@ class ExplorePage {
         return;
       }
 
-      // Check if script already exists to avoid dupes
       if (document.querySelector('#google-maps-script')) {
         const check = setInterval(() => {
           if (window.google && window.google.maps) {
             clearInterval(check);
             resolve();
           }
-        }, 100);
+        }, GOOGLE_MAPS_CHECK_INTERVAL);
+        return;
+      }
+
+      if (!this.apiKey) {
+        reject(new Error('Google Maps API Key not available'));
         return;
       }
 
       const script = document.createElement('script');
       script.id = 'google-maps-script';
-      // Using the same API key as placesApi.js.
-      // NOTE: Ensure this key has Maps JavaScript API & Directions API enabled in Cloud Console.
-      const API_KEY = 'AIzaSyBAiVJ_0cMT4eEUGpNBZqjEyeWwYCtyioU';
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places`;
       script.async = true;
       script.defer = true;
       script.onload = () => resolve();
@@ -424,9 +410,6 @@ class ExplorePage {
         },
         (error) => {
           console.warn('Geolocation failed, handling fallback or error', error);
-          // Fallback to a default location (e.g., Bengaluru center) if usage denied,
-          // but better to reject or warn for a routing feature.
-          // For now, let's reject to inform user they need location for routing.
           reject(error);
         }
       );
@@ -436,7 +419,7 @@ class ExplorePage {
   initMap(origin, destination) {
     const map = new google.maps.Map(byId('map'), {
       zoom: 13,
-      center: origin, // Start centered on user
+      center: origin,
       mapTypeControl: false,
       streetViewControl: false,
     });
@@ -456,8 +439,6 @@ class ExplorePage {
     directionsService.route(request, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
         directionsRenderer.setDirections(result);
-
-        // Update Info
         const leg = result.routes[0].legs[0];
         byId('routeDistance').textContent = leg.distance.text;
         byId('routeDuration').textContent = leg.duration.text;
@@ -469,9 +450,7 @@ class ExplorePage {
     });
   }
 }
-
 export { ExplorePage };
-
 if (
   typeof window !== 'undefined' &&
   (typeof process === 'undefined' || process.env.NODE_ENV !== 'test')

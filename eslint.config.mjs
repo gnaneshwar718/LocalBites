@@ -20,6 +20,7 @@ export default [
       globals: {
         ...globals.browser,
         process: 'readonly',
+        google: 'readonly',
       },
     },
     rules: {
