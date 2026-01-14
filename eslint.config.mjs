@@ -63,17 +63,27 @@ export default [
 
 
   {
-    files: ['**/*.mjs'],
+    files: ['**/*.mjs', 'tests/**/*.js', 'playwright.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.node,
+        ...globals.jest,
       },
     },
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+    },
+  },
+
+  {
+    files: ['src/js/constants.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
     },
   },
 ];

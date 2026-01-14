@@ -10,7 +10,6 @@ permissions:
   contents: read
 
 env:
-  ARTIFACT_RETENTION_DAYS: 30
   NODE_VERSION_FILE: .nvmrc
 
 jobs:
@@ -59,5 +58,4 @@ jobs:
 
       - run: npm ci
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      - run: npm test && echo "CI Pipeline Completed Successfully"
-
+      - run: npm test && echo "Test completed Successfully" && echo "CI Pipeline Completed Successfully"
