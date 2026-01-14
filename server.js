@@ -1,26 +1,21 @@
-'use strict';
+import 'dotenv/config';
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { ROUTES, API_ENDPOINTS } from './src/js/routes.js';
 
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const PATHS = {
   PUBLIC: path.join(__dirname, 'public'),
   PAGES: path.join(__dirname, 'public', 'pages'),
   CSS: path.join(__dirname, 'src', 'css'),
   JS: path.join(__dirname, 'src', 'js'),
-};
-
-const ROUTES = {
-  HOME: '/',
-  AUTH: '/auth',
-  SIGNUP: '/signup',
-  SIGNIN: '/signin',
-  CONFIG: '/api/config',
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,14 +40,19 @@ app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
 });
 
-app.get(ROUTES.CONFIG, (req, res) => {
+app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   res.json({
     contactEmail: process.env.CONTACT_EMAIL,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
   });
 });
 
 app.get(ROUTES.AUTH, (req, res) => {
   sendPage(res, 'auth.html');
+});
+
+app.get(ROUTES.EXPLORE, (req, res) => {
+  sendPage(res, 'explore.html');
 });
 
 app.post(ROUTES.SIGNUP, (req, res) => {

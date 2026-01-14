@@ -19,11 +19,14 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
+        process: 'readonly',
+        google: 'readonly',
       },
     },
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+      strict: ['error', 'global'],
       'no-console': 'off',
     },
   },
@@ -49,7 +52,7 @@ export default [
     files: ['server.js', 'commitlint.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.node,
       },
@@ -61,15 +64,13 @@ export default [
     },
   },
 
-
   {
-    files: ['**/*.mjs', 'tests/**/*.js', 'playwright.config.js'],
+    files: ['**/*.mjs'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.node,
-        ...globals.jest,
       },
     },
     rules: {
@@ -79,11 +80,18 @@ export default [
   },
 
   {
-    files: ['src/js/constants.js'],
+    files: ['**/*.test.mjs'],
     languageOptions: {
       globals: {
-        process: 'readonly',
+        ...globals.jest,
       },
+    },
+  },
+
+  {
+    files: ['src/js/auth.js', 'src/js/script.js'],
+    rules: {
+      strict: 'off',
     },
   },
 ];

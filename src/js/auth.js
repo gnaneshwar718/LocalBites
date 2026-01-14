@@ -1,4 +1,5 @@
-import { CLASSNAMES, ENDPOINTS, MESSAGES } from './constants.js';
+import { CLASSNAMES, MESSAGES } from './constants/constants.js';
+import { API_ENDPOINTS as ENDPOINTS } from './routes.js';
 
 const $ = (id) => document.getElementById(id);
 const $$ = (selector) => document.querySelectorAll(selector);

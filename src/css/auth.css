@@ -244,11 +244,6 @@ input {
   margin: 1.25rem 0;
 }
 
-footer a {
-  color: #3c97bf;
-  text-decoration: none;
-}
-
 .social-container a {
   border: 0.0625rem solid var(--color-border-light);
   border-radius: 50%;

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Restaurants - LocalBites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/explore.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="header-layout container">
+        <div class="logo"><a href="/">LocalBites</a></div>
+        <nav class="nav-links">
+          <a href="/explore" class="active">Explore</a>
+          <a href="#">Budget Planner</a>
+          <a href="#">Culture</a>
+          <a href="#">About</a>
+        </nav>
+        <div class="profile-link">
+          <a href="/auth">Profile</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="container container-wide">
+        <div class="explore-header">
+          <div class="explore-title-group">
+            <h1>Popular Local Discoveries</h1>
+          </div>
+          <div class="explore-actions">
+            <div class="search-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                id="restaurantSearch"
+                placeholder="Search by name or cuisine..."
+              />
+            </div>
+            <button id="budgetBtn" class="btn btn-outline">
+              Budget Planner
+            </button>
+            <button id="filterBtn" class="btn btn-outline">Filter</button>
+          </div>
+        </div>
+
+        <div class="restaurant-grid" id="restaurantGrid">
+          <div class="loading">Loading amazing spots...</div>
+        </div>
+      </section>
+    </main>
+
+    <div id="filterModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content filter-modal-content">
+        <button class="modal-close filter-modal-close" aria-label="Close modal">
+          &times;
+        </button>
+        <div class="modal-info">
+          <h2>Filter Restaurants</h2>
+          <div class="filter-section">
+            <h3>Cuisine</h3>
+            <div class="filter-options" id="cuisineFilters">
+              <button class="filter-chip active" data-cuisine="all">All</button>
+              <button class="filter-chip" data-cuisine="South Indian">
+                South Indian
+              </button>
+              <button class="filter-chip" data-cuisine="Andhra">
+                North Indian
+              </button>
+            </div>
+          </div>
+          <div class="filter-section">
+            <h3>Meal Type</h3>
+            <div class="filter-options" id="mealTypeFilters">
+              <button class="filter-chip active" data-mealtype="all">
+                All
+              </button>
+              <button class="filter-chip" data-mealtype="breakfast">
+                Breakfast
+              </button>
+              <button class="filter-chip" data-mealtype="lunch">Lunch</button>
+              <button class="filter-chip" data-mealtype="dinner">Dinner</button>
+              <button class="filter-chip" data-mealtype="snacks">
+                Snacks & Cafe
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="applyFiltersBtn" class="btn btn-primary w-full">
+              Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="budget-modal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content filter-modal-content">
+        <button class="modal-close budget-modal-close" aria-label="Close modal">
+          &times;
+        </button>
+        <div class="modal-info">
+          <h2>Quick Budget Calculator</h2>
+          <div class="filter-section">
+            <label for="totalBudget" class="input-label">Total Budget</label>
+            <input
+              type="number"
+              id="totalBudget"
+              class="budget-input"
+              placeholder="e.g. 8000"
+            />
+          </div>
+          <div class="budget-grid">
+            <div class="filter-section">
+              <label for="numPeople" class="input-label"
+                >Number of People</label
+              >
+              <input
+                type="number"
+                id="numPeople"
+                class="budget-input"
+                placeholder="e.g. 10"
+              />
+            </div>
+            <div class="filter-section">
+              <label for="numMeals" class="input-label">Number of meals</label>
+              <input
+                type="number"
+                id="numMeals"
+                class="budget-input"
+                placeholder="e.g. 2"
+              />
+            </div>
+          </div>
+          <div class="filter-section">
+            <h3 class="mb-half">Budget per person, per meal</h3>
+            <div id="budgetPerPerson" class="budget-result">0</div>
+          </div>
+          <div class="modal-footer">
+            <button id="calcBudgetBtn" class="btn btn-primary w-full">
+              View Restaurants
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="detailModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <div id="mapModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content map-modal-content">
+        <button class="modal-close map-modal-close" aria-label="Close modal">
+          &times;
+        </button>
+        <div class="modal-body map-body">
+          <div id="map">
+            <div id="mapError" class="error-message hidden">
+              Map configuration missing.
+            </div>
+            <iframe
+              id="mapFrame"
+              class="hidden"
+              width="100%"
+              height="100%"
+              style="border: 0"
+              loading="lazy"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="map-info">
+            <div>
+              <span class="text-light">Distance:</span>
+              <span class="distance-text" id="routeDistance">-</span>
+            </div>
+            <div>
+              <span class="text-light">ETA:</span>
+              <span class="distance-text" id="routeDuration">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <template id="restaurant-card-template">
+      <article class="restaurant-card">
+        <div class="card-image-wrapper">
+          <img src="" alt="" loading="lazy" />
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3></h3>
+            <span class="card-price"></span>
+          </div>
+          <div class="card-cuisine"></div>
+          <div class="card-footer">
+            <span class="rating">
+              <i class="fa-solid fa-star"></i>
+              <span class="value"></span>
+            </span>
+            <span class="tag">
+              <i class="fa-solid fa-location-dot"></i>
+              <span class="value"></span>
+            </span>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-modal-template">
+      <img src="" alt="" class="modal-img" />
+      <div class="modal-info">
+        <div class="modal-header-row">
+          <h2></h2>
+          <span class="status-badge"></span>
+        </div>
+        <div class="modal-meta">
+          <span class="rating">
+            <i class="fa-solid fa-star"></i>
+            <span class="value"></span>
+          </span>
+          <span class="meta-cuisine">
+            <i class="fa-solid fa-utensils"></i>
+            <span class="value"></span>
+          </span>
+          <span class="meta-location">
+            <i class="fa-solid fa-location-dot"></i>
+            <span class="value"></span>
+          </span>
+        </div>
+        <div class="modal-description">
+          <p class="desc-text"></p>
+          <p class="specialty-text">
+            <strong>Specialty:</strong>
+            <span class="value"></span>
+          </p>
+        </div>
+        <div class="modal-footer modal-footer-content">
+          <span class="card-price card-price-large"></span>
+          <button class="btn btn-outline btn-website hidden">
+            <i class="fa-solid fa-globe"></i> Website
+          </button>
+          <button class="btn btn-outline btn-call hidden">
+            <i class="fa-solid fa-phone"></i> Call
+          </button>
+          <button class="btn btn-primary btn-map">
+            <i class="fa-solid fa-map-location-dot"></i>
+            Visit Spot
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <template id="no-results-template">
+      <div class="no-results">No restaurants found matching your criteria.</div>
+    </template>
+
+    <script type="module" src="/js/script.js"></script>
+    <script type="module" src="/js/explore.js"></script>
+  </body>
+</html>

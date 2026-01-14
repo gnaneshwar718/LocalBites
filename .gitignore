@@ -8,9 +8,5 @@ Thumbs.db
 # Logs
 *.log
 
-# Node
+# Node (if added later)
 node_modules/
-
-# Playwright
-playwright-report/
-test-results/
