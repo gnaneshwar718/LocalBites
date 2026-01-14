@@ -19,11 +19,14 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
+        process: 'readonly',
+        google: 'readonly',
       },
     },
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+      strict: ['error', 'global'],
       'no-console': 'off',
     },
   },
@@ -49,7 +52,7 @@ export default [
     files: ['server.js', 'commitlint.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.node,
       },
@@ -60,7 +63,6 @@ export default [
       strict: ['error', 'global'],
     },
   },
-
 
   {
     files: ['**/*.mjs'],
@@ -74,6 +76,22 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+    },
+  },
+
+  {
+    files: ['**/*.test.mjs'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
+
+  {
+    files: ['src/js/auth.js', 'src/js/script.js'],
+    rules: {
+      strict: 'off',
     },
   },
 ];
