@@ -1,8 +1,12 @@
-'use strict';
+import 'dotenv/config';
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { ROUTES, API_ENDPOINTS } from './src/js/routes.js';
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,20 +18,12 @@ const PATHS = {
   JS: path.join(__dirname, 'src', 'js'),
 };
 
-const ROUTES = {
-  HOME: '/',
-  AUTH: '/auth',
-  SIGNUP: '/signup',
-  SIGNIN: '/signin',
-};
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
-app.use('/data', express.static(PATHS.DATA));
 
 const users = [];
 
@@ -44,9 +40,10 @@ app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
 });
 
-app.get(ROUTES.CONFIG, (req, res) => {
+app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   res.json({
     contactEmail: process.env.CONTACT_EMAIL,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
   });
 });
 
@@ -72,12 +69,6 @@ app.post(ROUTES.SIGNUP, (req, res) => {
   users.push({ name, email, password });
 
   res.status(201).json({ message: 'User created successfully' });
-});
-
-app.get(API_ENDPOINTS.CONFIG, (req, res) => {
-  res.json({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
-  });
 });
 
 app.post(ROUTES.SIGNIN, (req, res) => {
