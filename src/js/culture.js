@@ -1,361 +1,219 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const headerPlaceholder = document.getElementById('header-placeholder');
-  const footerPlaceholder = document.getElementById('footer-placeholder');
+  const get = (id) => document.getElementById(id);
+  const q = (sel) => document.querySelector(sel);
+  const qa = (sel) => document.querySelectorAll(sel);
 
-  let dishData = {};
-  let restaurantData = {};
+  let dishData = {},
+    restaurantData = {},
+    allDishes = [],
+    filtered = [];
+  let page = 0;
+  const LIMIT = 6;
 
   try {
-    const [headerResponse, footerResponse, cultureResponse] = await Promise.all(
-      [
-        fetch('/partials/header.html'),
-        fetch('/partials/footer.html'),
-        fetch('/data/culture-data.json'),
-      ]
-    );
-
-    if (headerResponse.ok) {
-      headerPlaceholder.innerHTML = await headerResponse.text();
+    const [h, f, c] = await Promise.all([
+      fetch('/partials/header.html'),
+      fetch('/partials/footer.html'),
+      fetch('/data/culture-data.json'),
+    ]);
+    if (h.ok) get('header-placeholder').innerHTML = await h.text();
+    if (f.ok) get('footer-placeholder').innerHTML = await f.text();
+    if (c.ok) {
+      const d = await c.json();
+      dishData = d.dishes;
+      restaurantData = d.restaurants;
+      allDishes = Object.entries(dishData).map(([id, val]) => ({ id, ...val }));
+      filtered = [...allDishes];
     }
 
-    if (footerResponse.ok) {
-      footerPlaceholder.innerHTML = await footerResponse.text();
-    }
+    const nav = q('.hamburger');
+    if (nav) nav.onclick = () => q('.nav-links').classList.toggle('active');
 
-    if (cultureResponse.ok) {
-      const data = await cultureResponse.json();
-      dishData = data.dishes;
-      restaurantData = data.restaurants;
-    }
-
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (hamburger && navLinks) {
-      hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-    }
-
-    const dishCarouselData = [
+    const heroData = [
       {
-        tagline: 'The Iconic Breakfast',
-        title: 'Masala Dosa',
-        description:
-          "A crispy, golden fermented crepe filled with spiced potatoes. Bengaluru's iconic breakfast, served with coconut chutney and sambar.",
+        t: 'The Iconic Breakfast',
+        h: 'Masala Dosa',
+        d: 'A crispy, golden fermented crepe filled with spiced potatoes.',
       },
       {
-        tagline: 'The Spicy Comfort',
-        title: 'Bisi Bele Bath',
-        description:
-          "A wholesome 'hot lentil rice' dish with vegetables and aromatic spices. A cornerstone of Karnataka's culinary heritage.",
+        t: 'The Spicy Comfort',
+        h: 'Bisi Bele Bath',
+        d: "A wholesome 'hot lentil rice' dish with vegetables and spices.",
       },
       {
-        tagline: 'The Royal Feast',
-        title: 'Biryani',
-        description:
-          "Fragrant rice layered with spiced meat or vegetables. Bengaluru's version features both Hyderabadi and unique Donne styles.",
+        t: 'The Royal Feast',
+        h: 'Biryani',
+        d: 'Fragrant rice layered with spiced meat or vegetables.',
       },
       {
-        tagline: 'The Rural Roots',
-        title: 'Ragi Mudde',
-        description:
-          'Nutritious finger millet balls paired with spicy curries. A traditional staple of rural Karnataka cuisine.',
+        t: 'The Rural Roots',
+        h: 'Ragi Mudde',
+        d: 'Nutritious finger millet balls paired with spicy curries.',
       },
       {
-        tagline: 'The Perfect Duo',
-        title: 'Idli Vada',
-        description:
-          "Soft steamed rice cakes paired with crispy lentil donuts. The perfect contrast of textures in South India's beloved breakfast.",
+        t: 'The Perfect Duo',
+        h: 'Idli Vada',
+        d: 'Soft steamed rice cakes paired with crispy lentil donuts.',
       },
       {
-        tagline: 'The Soul',
-        title: 'Filter Coffee',
-        description:
-          "Strong, aromatic coffee brewed in traditional filters. Served in brass tumblers, it's an integral part of Bengaluru's culture.",
+        t: 'The Soul',
+        h: 'Filter Coffee',
+        d: 'Strong, aromatic coffee brewed in traditional filters.',
       },
     ];
 
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const heroTagline = document.querySelector('.hero-tagline');
-    const heroTitle = document.querySelector('.culture-hero-text h1');
-    const heroDescription = document.querySelector('.culture-hero-text p');
-    let currentIndex = 0;
+    const slides = qa('.carousel-item');
+    const [tag, tit, desc] = [
+      q('.hero-tagline'),
+      q('.culture-hero-text h1'),
+      q('.culture-hero-text p'),
+    ];
+    let curIdx = 0;
 
-    function showSlide(index) {
-      const currentActive = document.querySelector('.carousel-item.active');
+    const showSlide = (i) => {
+      const active = q('.carousel-item.active');
+      if (active) {
+        active.classList.replace('active', 'slide-out');
+      }
+      slides[i].classList.remove('slide-out');
+      slides[i].classList.add('active');
 
-      carouselItems.forEach((item) => {
-        if (item !== currentActive && item !== carouselItems[index]) {
-          item.classList.remove('active', 'slide-out');
-        }
+      [tag, tit, desc].forEach((el) => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateX(-50px)';
       });
-
-      if (currentActive && currentActive !== carouselItems[index]) {
-        currentActive.classList.remove('active');
-        currentActive.classList.add('slide-out');
-      }
-
-      carouselItems[index].classList.remove('slide-out');
-      carouselItems[index].classList.add('active');
-
-      if (
-        heroTagline &&
-        heroTitle &&
-        heroDescription &&
-        dishCarouselData[index]
-      ) {
-        const textElements = [heroTagline, heroTitle, heroDescription];
-
-        textElements.forEach((el) => {
-          el.style.opacity = '0';
-          el.style.transform = 'translateX(-50px)';
+      setTimeout(() => {
+        const item = heroData[i];
+        tag.textContent = item.t;
+        tit.textContent = item.h;
+        desc.textContent = item.d;
+        [tag, tit, desc].forEach((el, idx) => {
+          el.style.transition = 'none';
+          el.style.transform = 'translateX(50px)';
+          void el.offsetHeight;
+          el.style.transition = `all 0.6s ease-out ${idx * 0.1}s`;
+          el.style.opacity = 1;
+          el.style.transform = 'translateX(0)';
         });
+      }, 500);
+      curIdx = i;
+    };
 
-        setTimeout(() => {
-          heroTagline.textContent = dishCarouselData[index].tagline;
-          heroTitle.textContent = dishCarouselData[index].title;
-          heroDescription.textContent = dishCarouselData[index].description;
+    setInterval(() => showSlide((curIdx + 1) % slides.length), 4000);
 
-          textElements.forEach((el) => {
-            el.style.transition = 'none';
-            el.style.transform = 'translateX(50px)';
-          });
+    const updateUI = () => {
+      const grid = q('.dishes-grid');
+      const start = page * LIMIT;
+      const slice = filtered.slice(start, start + LIMIT);
 
-          void heroTagline.offsetHeight;
-
-          textElements.forEach((el, i) => {
-            el.style.transition = `opacity 0.6s ease-out ${i * 0.1}s, transform 0.6s ease-out ${i * 0.1}s`;
-            el.style.opacity = '1';
-            el.style.transform = 'translateX(0)';
-          });
-        }, 500);
-      }
-
-      currentIndex = index;
-    }
-
-    function nextSlide() {
-      const newIndex = (currentIndex + 1) % carouselItems.length;
-      showSlide(newIndex);
-    }
-
-    function startAutoPlay() {
-      setInterval(nextSlide, 4000);
-    }
-
-    startAutoPlay();
-
-    const ITEMS_PER_PAGE = 6;
-    let pageNumber = 0;
-
-    const allDishes = Object.entries(dishData).map(([key, value]) => ({
-      ...value,
-      id: key,
-    }));
-
-    let currentFilteredDishes = [...allDishes];
-
-    const dishesGrid = document.querySelector('.dishes-grid');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const pageDotsContainer = document.querySelector('.page-dots');
-    const searchInput = document.getElementById('dish-search');
-
-    function createDishCard(dish) {
-      const restaurantsHtml = dish.restaurants
-        .map((rId) => {
-          const rData = restaurantData[rId];
-          if (!rData) return '';
-
-          return `
-            <li class="restaurant-item">
-              <div class="restaurant-header">
-                <span class="restaurant-name">${rData.name}</span>
-                ${
-                  rData.location && rData.location !== '#'
-                    ? `
-                <a href="${rData.location}" target="_blank" class="location-icon" aria-label="View ${rData.name} on map">
-                  <i class="fas fa-map-marker-alt"></i>
-                </a>`
-                    : ''
-                }
-                <a href="/pages/restaurant.html?id=${dish.id}#${rData.id}" class="place-link" aria-label="Learn more about ${rData.name}">
-                   <i class="fas fa-chevron-right"></i>
-                </a>
-              </div>
-            </li>
-          `;
-        })
-        .join('');
-
-      const imgSrc =
-        dish.image || 'https://via.placeholder.com/400x300?text=No+Image';
-
-      return `
-        <article class="dish-card" id="${dish.id}" data-dish-id="${dish.id}">
-          <a href="/pages/restaurant.html?id=${dish.id}" class="dish-image-link" aria-label="View restaurants for ${dish.name}">
-            <div class="dish-image">
-              <img src="${imgSrc}" alt="${dish.name}" loading="lazy" />
-            </div>
+      grid.innerHTML = slice.length
+        ? slice
+            .map(
+              (d) => `
+        <article class="dish-card" id="${d.id}">
+          <a href="/pages/restaurant.html?id=${d.id}" class="dish-image-link">
+            <div class="dish-image"><img src="${d.image || 'https://via.placeholder.com/400x300'}" alt="${d.name}" loading="lazy"></div>
           </a>
           <div class="dish-content">
-            <h3>${dish.name}</h3>
-            <p>${dish.description}</p>
+            <h3>${d.name}</h3>
+            <p>${d.description}</p>
             <div class="famous-restaurants">
               <h4>Iconic places to try</h4>
               <ul class="restaurant-list">
-                ${restaurantsHtml}
+                ${d.restaurants
+                  .map((rId) => {
+                    const r = restaurantData[rId];
+                    return r
+                      ? `<li class="restaurant-item"><div class="restaurant-header">
+                    <span class="restaurant-name">${r.name}</span>
+                    ${r.location && r.location !== '#' ? `<a href="${r.location}" target="_blank" class="location-icon"><i class="fas fa-map-marker-alt"></i></a>` : ''}
+                    <a href="/pages/restaurant.html?id=${d.id}#${r.id}" class="place-link"><i class="fas fa-chevron-right"></i></a>
+                  </div></li>`
+                      : '';
+                  })
+                  .join('')}
               </ul>
             </div>
           </div>
-        </article>
-      `;
-    }
+        </article>`
+            )
+            .join('')
+        : '<p style="grid-column: 1/-1; text-align: center;">No dishes found.</p>';
 
-    function renderGrid() {
-      const start = pageNumber * ITEMS_PER_PAGE;
-      const end = start + ITEMS_PER_PAGE;
-      const dishesToShow = currentFilteredDishes.slice(start, end);
+      const total = Math.ceil(filtered.length / LIMIT);
+      if (q('.prev-btn')) q('.prev-btn').disabled = page === 0;
+      if (q('.next-btn')) q('.next-btn').disabled = page >= total - 1;
 
-      if (dishesToShow.length === 0) {
-        if (dishesGrid) {
-          dishesGrid.innerHTML =
-            '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: #666;">No dishes found matching your search.</p>';
-        }
-        return;
-      }
-
-      if (dishesGrid) {
-        dishesGrid.innerHTML = dishesToShow.map(createDishCard).join('');
-
-        dishesGrid.style.opacity = '0';
-        requestAnimationFrame(() => {
-          dishesGrid.style.transition = 'opacity 0.3s ease';
-          dishesGrid.style.opacity = '1';
-        });
-      }
-    }
-
-    function updatePagination() {
-      const totalPages = Math.ceil(
-        currentFilteredDishes.length / ITEMS_PER_PAGE
-      );
-
-      if (prevBtn) prevBtn.disabled = pageNumber === 0;
-      if (nextBtn) nextBtn.disabled = pageNumber >= totalPages - 1;
-
-      if (pageDotsContainer) {
-        pageDotsContainer.innerHTML = '';
-        if (totalPages > 1) {
-          for (let i = 0; i < totalPages; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === pageNumber) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-              pageNumber = i;
-              renderGrid();
-              updatePagination();
-            });
-            pageDotsContainer.appendChild(dot);
-          }
-        }
-      }
-    }
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        if (pageNumber > 0) {
-          pageNumber--;
-          renderGrid();
-          updatePagination();
-        }
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(
-          currentFilteredDishes.length / ITEMS_PER_PAGE
+      const dots = q('.page-dots');
+      if (dots) {
+        dots.innerHTML =
+          total > 1
+            ? Array.from(
+                { length: total },
+                (_, i) =>
+                  `<div class="dot ${i === page ? 'active' : ''}" data-idx="${i}"></div>`
+              ).join('')
+            : '';
+        qa('.dot').forEach(
+          (d) =>
+            (d.onclick = () => {
+              page = +d.dataset.idx;
+              updateUI();
+            })
         );
-        if (pageNumber < totalPages - 1) {
-          pageNumber++;
-          renderGrid();
-          updatePagination();
-        }
-      });
-    }
+      }
+    };
 
-    carouselItems.forEach((item) => {
-      item.addEventListener('click', () => {
-        const dishId = item.getAttribute('data-dish');
-
-        const dishIndex = currentFilteredDishes.findIndex(
-          (d) => d.id === dishId
-        );
-
-        if (dishIndex !== -1) {
-          const page = Math.floor(dishIndex / ITEMS_PER_PAGE);
-          if (page !== pageNumber) {
-            pageNumber = page;
-            renderGrid();
-            updatePagination();
-          }
-          setTimeout(() => {
-            const card = document.getElementById(dishId);
-            if (card) {
-              document
-                .querySelectorAll('.dish-card')
-                .forEach((c) => c.classList.remove('active'));
-              card.classList.add('active');
-              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              setTimeout(() => card.classList.remove('active'), 3000);
-            }
-          }, 150);
-        }
-      });
+    q('.prev-btn')?.addEventListener('click', () => {
+      if (page > 0) {
+        page--;
+        updateUI();
+      }
+    });
+    q('.next-btn')?.addEventListener('click', () => {
+      if (page < Math.ceil(filtered.length / LIMIT) - 1) {
+        page++;
+        updateUI();
+      }
     });
 
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
+    slides.forEach(
+      (s) =>
+        (s.onclick = () => {
+          const id = s.dataset.dish;
+          const idx = filtered.findIndex((d) => d.id === id);
+          if (idx !== -1) {
+            page = Math.floor(idx / LIMIT);
+            updateUI();
+            setTimeout(() => {
+              const el = get(id);
+              if (el) {
+                qa('.dish-card').forEach((c) => c.classList.remove('active'));
+                el.classList.add('active');
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => el.classList.remove('active'), 3000);
+              }
+            }, 150);
+          }
+        })
+    );
 
-        currentFilteredDishes = allDishes.filter((dish) => {
-          const dishName = dish.name.toLowerCase();
-          const dishDescription = dish.description.toLowerCase();
+    get('dish-search')?.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      filtered = allDishes.filter(
+        (d) =>
+          d.name.toLowerCase().includes(term) ||
+          d.description.toLowerCase().includes(term) ||
+          d.restaurants.some((rId) =>
+            (restaurantData[rId]?.name || '').toLowerCase().includes(term)
+          )
+      );
+      page = 0;
+      updateUI();
+    });
 
-          const restaurantNames = dish.restaurants
-            .map((rId) => {
-              return (restaurantData[rId]?.name || rId).toLowerCase();
-            })
-            .join(' ');
-
-          return (
-            dishName.includes(searchTerm) ||
-            dishDescription.includes(searchTerm) ||
-            restaurantNames.includes(searchTerm)
-          );
-        });
-
-        pageNumber = 0;
-        renderGrid();
-        updatePagination();
-      });
-    }
-
-    if (cultureResponse.ok) {
-      const updatedDishes = Object.entries(dishData).map(([key, value]) => ({
-        ...value,
-        id: key,
-      }));
-      allDishes.length = 0;
-      allDishes.push(...updatedDishes);
-      currentFilteredDishes = [...allDishes];
-
-      renderGrid();
-      updatePagination();
-    }
-  } catch (error) {
-    console.error('Error loading data:', error);
+    if (c.ok) updateUI();
+  } catch (e) {
+    console.error('Error:', e);
   }
 });
