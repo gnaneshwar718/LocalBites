@@ -1,0 +1,300 @@
+/* Main container for the restaurant details page */
+.restaurant-main {
+  width: 100%;
+  max-width: 100%;
+
+  /* Full width for parallax */
+  margin: 0;
+  padding: 0;
+
+  /* Remove padding to allow hero/parallax to touch edges */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Content Container - holds hero and dish explanation */
+.content-container {
+  display: flex !important;
+
+  /* Force flex */
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Hero Image Section (Dish Image) */
+.hero-image-container {
+  width: 100%;
+  height: 60vh;
+
+  /* Taller hero */
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Details Section (Dish Title/Desc) */
+.restaurant-details {
+  width: 100%;
+  max-width: 100%;
+  background-color: #fff;
+  padding: 4rem 2rem;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.restaurant-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.restaurant-description {
+  font-size: 1.5rem;
+
+  /* Increased from 1.25rem */
+  line-height: 1.8;
+  color: var(--color-text-light);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.restaurant-desc {
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: #2c3e50;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Georgia, serif;
+  text-align: left;
+}
+
+/* Action Buttons (Back button) */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* --- Parallax Sections (Overlapping Layout) --- */
+
+/* 1. The Image Banner (Restaurant Name Only) */
+.parallax-banner {
+  width: 100%;
+  height: 90vh;
+
+  /* Almost full screen */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+
+  /* Behind content */
+}
+
+.banner-overlay {
+  background: rgb(0 0 0 / 30%);
+
+  /* Lighter overlay */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-title {
+  color: #fff;
+  font-size: 6rem;
+
+  /* Even bigger */
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  text-align: center;
+  padding: 0 1rem;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fade-up 1s ease forwards 0.3s;
+}
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Title inside the content card */
+.content-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #000;
+
+  /* Black as requested */
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* 2. The Text Content (Floating White Card) */
+.content-block {
+  background-color: #fff;
+  color: #333;
+  padding: 5rem 3rem;
+  width: 85%;
+
+  /* Floating card width */
+  max-width: 1000px;
+  margin: -100px auto 50px;
+
+  /* Negative Top Margin for Overlap */
+  position: relative;
+  z-index: 10;
+
+  /* Above banner */
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 15%);
+
+  /* Deep shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 800px;
+
+  /* Constrain width for readability */
+  margin: 0 auto;
+}
+
+.text-content {
+  text-align: left;
+}
+
+/* Remove side-by-side grid logic */
+.content-wrapper p {
+  font-size: 1.5rem;
+
+  /* Increased from 1.35rem */
+  line-height: 1.8;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-family: Georgia, serif;
+  font-style: normal;
+  text-align: left;
+}
+
+.feature-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
+  transition: transform 0.4s ease;
+}
+
+.feature-img:hover {
+  transform: scale(1.02);
+}
+
+/* Button inside content block */
+.location-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem 2.5rem;
+  border-radius: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.location-btn:hover {
+  background-color: var(--color-brand);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgb(0 0 0 / 20%);
+}
+
+/* Not Found Message */
+.not-found-message {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  text-align: center;
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (width <=900px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+
+    /* Stack on mobile */
+    gap: 2rem;
+  }
+
+  .feature-img {
+    height: 300px;
+    order: -1;
+
+    /* Image on top on mobile */
+  }
+
+  .restaurant-title {
+    font-size: 2.5rem;
+  }
+
+  /* Disable fixed attachment on mobile */
+  .parallax-banner {
+    background-attachment: scroll;
+    height: 60vh;
+  }
+
+  .banner-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+
+  .content-block {
+    width: 95%;
+    margin-top: -50px;
+    padding: 2rem 1.5rem;
+  }
+
+  .content-wrapper p {
+    font-size: 1.1rem;
+  }
+}

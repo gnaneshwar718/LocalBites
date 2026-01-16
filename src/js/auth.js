@@ -1,5 +1,3 @@
-'use strict';
-
 const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
 };
