@@ -207,7 +207,6 @@
   color: #999;
 }
 
-/* --- Dish Cards --- */
 .dishes-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -234,6 +233,12 @@
     0 20px 25px -5px rgb(0 0 0 / 10%),
     0 8px 10px -6px rgb(0 0 0 / 10%);
   border-color: var(--color-brand);
+}
+
+.dish-image-link {
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
 }
 
 .dish-image {
@@ -359,8 +364,6 @@
   background-color: #fff;
   color: #666;
   border-radius: 50%;
-
-  /* Circle */
   text-decoration: none;
   transition: all 0.2s ease;
   box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
@@ -389,7 +392,6 @@
   transform: translateX(2px);
 }
 
-/* --- Pagination Controls --- */
 .pagination-controls {
   display: flex;
   align-items: center;

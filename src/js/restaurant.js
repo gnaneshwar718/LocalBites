@@ -1,36 +1,44 @@
-import { dishData } from './dish-data.js';
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Get the 'id' query parameter from the URL (now expected to be a dish ID, e.g., 'masala-dosa')
+document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const dishId = urlParams.get('id');
 
-  // DOM Elements
   const contentContainer = document.getElementById('content-container');
   const notFoundMessage = document.getElementById('not-found-message');
 
-  // New container for the restaurant list (we will append sections here)
+  let dishData = {};
+  let restaurantData = {};
+
+  try {
+    const response = await fetch('/data/culture-data.json');
+    if (response.ok) {
+      const data = await response.json();
+      dishData = data.dishes;
+      restaurantData = data.restaurants;
+    }
+  } catch (error) {
+    console.error('Error loading culture data:', error);
+  }
+
   let restaurantListContainer = document.getElementById(
     'restaurant-list-container'
   );
   if (!restaurantListContainer) {
-    // Create it if it doesn't exist (it won't initially)
     restaurantListContainer = document.createElement('div');
     restaurantListContainer.id = 'restaurant-list-container';
-    // Append it after the main details
-    document
-      .querySelector('.restaurant-details')
-      .after(restaurantListContainer);
+    const details = document.querySelector('.restaurant-details');
+    if (details) {
+      details.after(restaurantListContainer);
+    }
   }
 
   if (dishId && dishData[dishId]) {
     const data = dishData[dishId];
 
-    // Clear the container completely to build our new layout
-    contentContainer.innerHTML = '';
-    contentContainer.style.display = 'block'; // Block layout for scaffolding
+    if (contentContainer) {
+      contentContainer.innerHTML = '';
+      contentContainer.style.display = 'block';
+    }
 
-    // Helper to create a specific section
     const createSection = (
       image,
       title,
@@ -39,16 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
       id = null,
       isMainDish = false
     ) => {
-      // Wrapper for the whole block to target scrolling
       const wrapper = document.createElement('div');
       if (id) wrapper.id = id;
 
-      // 1. Banner
       const banner = document.createElement('section');
       banner.className = 'parallax-banner';
       banner.style.backgroundImage = `url('${image}')`;
 
-      // If main dish, show title in banner. Else empty overlay.
       let bannerContent = '<div class="banner-overlay"></div>';
       if (isMainDish) {
         bannerContent = `
@@ -60,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
       banner.innerHTML = bannerContent;
       wrapper.appendChild(banner);
 
-      // 2. Content
       const content = document.createElement('section');
       content.className = 'content-block';
 
@@ -72,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </a>`;
       }
 
-      // Only show title in content card if it's NOT the main dish
       let contentTitleHtml = '';
       if (!isMainDish) {
         contentTitleHtml = `<h2 class="content-title">${title}</h2>`;
@@ -87,26 +90,27 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       wrapper.appendChild(content);
 
-      contentContainer.appendChild(wrapper);
+      if (contentContainer) {
+        contentContainer.appendChild(wrapper);
+      }
     };
 
-    // A. Render MAIN DISH Section
     createSection(data.image, data.name, data.description, null, null, true);
 
-    // B. Render RESTAURANT Sections
-    data.restaurants.forEach((restaurant) => {
-      // Pass false for isMainDish (default, but explicit here for clarity)
-      createSection(
-        restaurant.image,
-        restaurant.name,
-        restaurant.description,
-        restaurant.location,
-        restaurant.id,
-        false
-      );
+    data.restaurants.forEach((rId) => {
+      const rData = restaurantData[rId];
+      if (rData) {
+        createSection(
+          rData.image,
+          rData.name,
+          rData.description,
+          rData.location,
+          rData.id,
+          false
+        );
+      }
     });
 
-    // C. Add Back navigation at the very bottom
     const footerNav = document.createElement('div');
     footerNav.style.cssText =
       'padding: 4rem 0 6rem; text-align: center; background: #fff; position: relative; z-index: 10;';
@@ -115,29 +119,28 @@ document.addEventListener('DOMContentLoaded', () => {
             <i class="fas fa-arrow-left"></i> Back to Dish Gallery
         </a>
     `;
-    // Add hover effect via JS since it's an inline-styled element
     const link = footerNav.querySelector('a');
-    link.onmouseover = () => (link.style.color = '#000');
-    link.onmouseout = () => (link.style.color = '#555');
+    if (link) {
+      link.onmouseover = () => (link.style.color = '#000');
+      link.onmouseout = () => (link.style.color = '#555');
+    }
 
-    contentContainer.appendChild(footerNav);
+    if (contentContainer) {
+      contentContainer.appendChild(footerNav);
+      if (notFoundMessage) notFoundMessage.style.display = 'none';
+    }
 
-    // Hide error
-    notFoundMessage.style.display = 'none';
-
-    // C. Handle Deep Linking (Scroll to specific restaurant if hash exists)
     if (window.location.hash) {
-      const hash = window.location.hash.substring(1); // Remove '#'
+      const hash = window.location.hash.substring(1);
       setTimeout(() => {
         const targetElement = document.getElementById(hash);
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100); // Small delay to ensure rendering
+      }, 100);
     }
   } else {
-    // Show error, hide content
     if (contentContainer) contentContainer.style.display = 'none';
-    notFoundMessage.style.display = 'flex';
+    if (notFoundMessage) notFoundMessage.style.display = 'flex';
   }
 });
