@@ -54,3 +54,9 @@ export const MOCK_CULTURE_DATA = {
 };
 
 export const TEST_WAIT_TIME = 50;
+
+export const TEST_USER = {
+  name: 'Test User',
+  email: 'test@example.com',
+  password: 'Password123!',
+};
