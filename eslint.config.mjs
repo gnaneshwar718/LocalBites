@@ -11,6 +11,7 @@ export default [
       'coverage/**',
       'playwright.config.js',
       'tests/**/*.spec.js',
+      'commitlint.config.js',
     ],
   },
 
