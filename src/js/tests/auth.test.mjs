@@ -5,6 +5,10 @@ import { jest, describe, test, expect, beforeEach, afterEach, beforeAll } from "
 import { CLASSNAMES, ENDPOINTS, MESSAGES, PATHS, TEST_LOCATION_URL } from "./constants.js";
 import { TEST_USER } from "../constants/test-constants.js";
 import { AuthManager } from "./auth.js";
+import { CLASSNAMES, MESSAGES } from "../constants/constants.js";
+import { ENDPOINTS } from "../../../route.js";
+import { PATHS } from "../constants/paths.js";
+import { TEST_LOCATION_URL, TEST_USER } from "../constants/test-constants.js";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import fs from "fs";
@@ -29,7 +33,7 @@ describe("AuthManager", () => {
   let htmlContent;
 
   beforeAll(() => {
-    htmlContent = fs.readFileSync(path.join(__dirname, PATHS.AUTH_HTML), "utf-8");
+    htmlContent = fs.readFileSync(path.join(__dirname, '..', PATHS.AUTH_HTML), "utf-8");
   });
 
   beforeEach(() => {

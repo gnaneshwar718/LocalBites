@@ -1,4 +1,4 @@
-import { CAROUSEL_INTERVAL } from './constants.js';
+import { CAROUSEL_INTERVAL } from './constants/constants.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const slides = document.querySelectorAll('.carousel-item');

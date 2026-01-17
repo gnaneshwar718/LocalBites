@@ -76,8 +76,3 @@ export const TEST_DIMENSIONS = {
 export const TEST_DEFAULTS = {
   MIN_COUNT: 1,
 };
-
-export const PLAYWRIGHT_CONFIG = {
-  TEST_DIR: './tests',
-  TEST_MATCH: '**/*.spec.js',
-};

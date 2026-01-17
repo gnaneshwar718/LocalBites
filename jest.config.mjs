@@ -4,5 +4,6 @@ export default {
         "^.+\\.(js|jsx|mjs)$": "babel-jest"
     },
     moduleFileExtensions: ["js", "mjs", "jsx", "json", "node"],
-    testPathIgnorePatterns: ["/node_modules/", ".*\\.spec\\.js$"],
+    testPathIgnorePatterns: ["/node_modules/"],
+    testMatch: ["**/*.test.mjs"],
 };
