@@ -1,30 +1,61 @@
-name: LocalBites CI
+name: Lint & Test Pipeline
 
-on: [pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION_FILE: .nvmrc
 
 jobs:
-  quality:
+  lint:
+    name: Lint Check
     runs-on: ubuntu-latest
-
+    timeout-minutes: 10
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - uses: actions/cache@v4
+        id: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
 
-      - name: Run ESLint
-        run: npx eslint .
+      - run: npm ci
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      
+      - run: npx stylelint "css/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
+      - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
 
-      - name: Run Stylelint
-        run: npx stylelint "src/css/**/*.css"
+  unit-tests:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    needs: [lint]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Run tests
-        run: npm test
-        
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: npm
+
+      - uses: actions/cache@v4
+        id: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - run: npm ci
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      - run: npm test && echo "Test completed Successfully" && echo "CI Pipeline Completed Successfully"

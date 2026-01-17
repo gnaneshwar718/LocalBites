@@ -1,15 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
+import 'dotenv/config';
+import { BASE_URL as CONSTANT_BASE_URL } from './src/js/constants/constants.js';
+import { PLAYWRIGHT_CONFIG } from './src/js/constants/test-constants.js';
+
+const baseURL = process.env.PLAYWRIGHT_BASE_URL || CONSTANT_BASE_URL;
 
 export default defineConfig({
-  testDir: './tests',
-  testMatch: '**/*.spec.js',
+  testDir: PLAYWRIGHT_CONFIG.TEST_DIR,
+  testMatch: PLAYWRIGHT_CONFIG.TEST_MATCH,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL,
     trace: 'on-first-retry',
   },
   projects: [
@@ -20,7 +25,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm start',
-    url: 'http://localhost:3000',
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
   },
 });

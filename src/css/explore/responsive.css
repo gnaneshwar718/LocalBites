@@ -1,0 +1,76 @@
+@media (width <=768px) {
+  .explore-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .explore-title-group h1 {
+    font-size: 2rem;
+  }
+
+  .explore-actions {
+    flex-direction: column;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .btn-outline {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+}
+
+@media (width <=480px) {
+  .modal-img {
+    height: 10rem;
+  }
+
+  .modal-info {
+    padding: 1rem;
+  }
+
+  .modal-info h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .modal-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .filter-options {
+    gap: 0.4rem;
+  }
+
+  .filter-chip {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .btn-map {
+    width: auto;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .budget-grid {
+    flex-direction: row;
+  }
+
+  .modal-close {
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+  }
+}

@@ -86,6 +86,10 @@ This project follows the **Conventional Commits** specification.
 <type>: <short description>
 ```
 
+## Documentation
+
+- For full contribution workflow, see the [LocalBites Wiki](https://github.com/gnaneshwar718/LocalBites/wiki).
+
 ### Examples
 
 ```

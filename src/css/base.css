@@ -22,6 +22,9 @@
   --spacing-xl: 8rem;
   --container-width: 95%;
   --color-footer-bg: #0f172a;
+  --color-bg-light: #f6f5f7;
+  --color-input-bg: #eee;
+  --color-border-light: #ddd;
 }
 
 body {

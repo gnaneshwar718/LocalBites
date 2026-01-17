@@ -1,13 +1,15 @@
+import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { ROUTES, API_ENDPOINTS } from './src/js/routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const PATHS = {
   PUBLIC: path.join(__dirname, 'public'),
@@ -16,21 +18,12 @@ const PATHS = {
   JS: path.join(__dirname, 'src', 'js'),
 };
 
-const ROUTES = {
-  HOME: '/',
-  AUTH: '/auth',
-  CULTURE: '/culture',
-  SIGNUP: '/signup',
-  SIGNIN: '/signin',
-};
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
-app.use('/assets', express.static(path.join(__dirname, 'src', 'Assets')));
 
 const users = [];
 
@@ -47,12 +40,19 @@ app.get(ROUTES.HOME, (req, res) => {
   sendPage(res, 'index.html');
 });
 
+app.get(API_ENDPOINTS.CONFIG, (req, res) => {
+  res.json({
+    contactEmail: process.env.CONTACT_EMAIL,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+  });
+});
+
 app.get(ROUTES.AUTH, (req, res) => {
   sendPage(res, 'auth.html');
 });
 
-app.get(ROUTES.CULTURE, (req, res) => {
-  sendPage(res, 'culture.html');
+app.get(ROUTES.EXPLORE, (req, res) => {
+  sendPage(res, 'explore.html');
 });
 
 app.post(ROUTES.SIGNUP, (req, res) => {
@@ -67,7 +67,6 @@ app.post(ROUTES.SIGNUP, (req, res) => {
   }
 
   users.push({ name, email, password });
-  console.log('New user signed up:', email);
 
   res.status(201).json({ message: 'User created successfully' });
 });
@@ -80,8 +79,6 @@ app.post(ROUTES.SIGNIN, (req, res) => {
   if (!user || user.password !== password) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
-
-  console.log('User signed in:', email);
 
   res.status(200).json({
     message: 'Sign in successful',

@@ -14,6 +14,7 @@ export default [
     ],
   },
 
+
   {
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
     languageOptions: {
@@ -21,6 +22,8 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
+        process: 'readonly',
+        google: 'readonly',
       },
     },
     rules: {
@@ -64,7 +67,6 @@ export default [
     },
   },
 
-
   {
     files: ['**/*.mjs'],
     languageOptions: {
@@ -77,6 +79,22 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...prettier.rules,
+    },
+  },
+
+  {
+    files: ['**/*.test.mjs'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
+
+  {
+    files: ['src/js/auth.js', 'src/js/script.js'],
+    rules: {
+      strict: 'off',
     },
   },
 ];

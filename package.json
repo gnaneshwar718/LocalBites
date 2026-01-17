@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
+    "start": "node server.js",
     "format:check": "prettier --check .",
     "test:auto": "chokidar \"src/js/**/*.js\" -c \"npm test\"",
     "lint": "eslint .",
@@ -15,10 +16,10 @@
     "lint:all": "npm run lint && npm run lint:css",
     "format": "npm run lint:fix && npm run lint:css:fix",
     "prepare": "husky",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
     "test:ui": "playwright test",
     "test:ui:headed": "playwright test --headed",
     "test:ui:debug": "playwright test --debug",
+    "test": "node --experimental-vm-modules -r dotenv/config node_modules/jest/bin/jest.js --passWithNoTests",
     "test:watch": "node watch-tests.mjs",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "validate": "npm run lint:all && npm test",
@@ -32,6 +33,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/gnaneshwar718/LocalBites/issues"
   },
@@ -48,12 +50,14 @@
     "@testing-library/user-event": "^14.6.1",
     "babel-jest": "^30.2.0",
     "chokidar-cli": "^3.0.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
+    "jsdom": "^26.1.0",
     "lint-staged": "^16.2.7",
     "nodemon": "^3.1.11",
     "playwright-core": "^1.57.0",
@@ -74,6 +78,7 @@
   },
   "dependencies": {
     "body-parser": "^2.2.1",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   }
 }

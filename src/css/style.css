@@ -1,0 +1,263 @@
+.hero {
+  padding: var(--spacing-lg) var(--spacing-sm);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.hero-text h1 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary);
+  font-weight: 400;
+}
+
+.hero-text p {
+  font-size: 1.5rem;
+  max-width: 40rem;
+}
+
+.hero-image {
+  background-color: #d9d9d9;
+  height: 35rem;
+  width: 100%;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.hero-image.carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  background: none;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.discover-section {
+  background-color: var(--color-discover);
+  color: var(--color-primary);
+  padding: var(--spacing-xl) 0;
+  text-align: center;
+}
+
+.discover-section h2 {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.discover-section p {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-size: 1.5rem;
+  max-width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.discover-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.features-section {
+  padding: var(--spacing-xl) var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.feature-card {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-primary);
+}
+
+.feature-card .subtitle {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.3;
+}
+
+.feature-image {
+  height: 22rem;
+  width: 100%;
+  margin-top: var(--spacing-md);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 12%);
+}
+
+.feature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.feature-card:hover .feature-image img {
+  transform: scale(1.08);
+}
+
+.feature-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin-top: auto;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+.questions-section {
+  padding: var(--spacing-lg) 0 var(--spacing-xl);
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+@media (width <=1100px) {
+  .questions-section {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+  }
+}
+
+.questions-section h2 {
+  color: var(--color-primary);
+}
+
+.faq-list {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.faq-item h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.questions-footer {
+  text-align: center;
+  margin-top: var(--spacing-md);
+}
+
+.questions-footer h3 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.questions-subtext {
+  margin: 0.25rem 0 0.75rem;
+  color: var(--color-text-light);
+}
+
+.contact-link {
+  margin: 0;
+}
+
+.contact-link a {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.contact-link a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (width <=780px) {
+  .discover-section h2 {
+    font-size: 2.4rem;
+  }
+
+  .discover-section p {
+    font-size: 1.1rem;
+    max-width: 100%;
+  }
+
+  .hero-image {
+    height: 20rem;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--spacing-md);
+  }
+
+  .hero-text p {
+    font-size: 1.15rem;
+    margin: 0 auto var(--spacing-md);
+    max-width: 100%;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
