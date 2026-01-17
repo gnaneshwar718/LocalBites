@@ -1,3 +1,5 @@
+import { PATHS } from '../constants/paths.js';
+
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const dishId = urlParams.get('id');
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let restaurantData = {};
 
   try {
-    const response = await fetch('/data/culture-data.json');
+    const response = await fetch(PATHS.CULTURE_DATA);
     if (response.ok) {
       const data = await response.json();
       dishData = data.dishes;
@@ -115,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     footerNav.style.cssText =
       'padding: 4rem 0 6rem; text-align: center; background: #fff; position: relative; z-index: 10;';
     footerNav.innerHTML = `
-        <a href="/pages/culture.html" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #555; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: color 0.3s ease;">
+        <a href="${PATHS.CULTURE_PAGE}" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #555; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: color 0.3s ease;">
             <i class="fas fa-arrow-left"></i> Back to Dish Gallery
         </a>
     `;

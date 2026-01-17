@@ -1,3 +1,6 @@
+import { LIMIT, CAROUSEL_INTERVAL, HERO_DATA } from '../constants/constants.js';
+import { PATHS } from '../constants/paths.js';
+
 document.addEventListener('DOMContentLoaded', async () => {
   const get = (id) => document.getElementById(id);
   const q = (sel) => document.querySelector(sel);
@@ -8,13 +11,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     allDishes = [],
     filtered = [];
   let page = 0;
-  const LIMIT = 6;
 
   try {
     const [h, f, c] = await Promise.all([
-      fetch('/partials/header.html'),
-      fetch('/partials/footer.html'),
-      fetch('/data/culture-data.json'),
+      fetch(PATHS.HEADER),
+      fetch(PATHS.FOOTER),
+      fetch(PATHS.CULTURE_DATA),
     ]);
     if (h.ok) get('header-placeholder').innerHTML = await h.text();
     if (f.ok) get('footer-placeholder').innerHTML = await f.text();
@@ -29,38 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const nav = q('.hamburger');
     if (nav) nav.onclick = () => q('.nav-links').classList.toggle('active');
 
-    const heroData = [
-      {
-        t: 'The Iconic Breakfast',
-        h: 'Masala Dosa',
-        d: 'A crispy, golden fermented crepe filled with spiced potatoes.',
-      },
-      {
-        t: 'The Spicy Comfort',
-        h: 'Bisi Bele Bath',
-        d: "A wholesome 'hot lentil rice' dish with vegetables and spices.",
-      },
-      {
-        t: 'The Royal Feast',
-        h: 'Biryani',
-        d: 'Fragrant rice layered with spiced meat or vegetables.',
-      },
-      {
-        t: 'The Rural Roots',
-        h: 'Ragi Mudde',
-        d: 'Nutritious finger millet balls paired with spicy curries.',
-      },
-      {
-        t: 'The Perfect Duo',
-        h: 'Idli Vada',
-        d: 'Soft steamed rice cakes paired with crispy lentil donuts.',
-      },
-      {
-        t: 'The Soul',
-        h: 'Filter Coffee',
-        d: 'Strong, aromatic coffee brewed in traditional filters.',
-      },
-    ];
+    const heroData = HERO_DATA;
 
     const slides = qa('.carousel-item');
     const [tag, tit, desc] = [
@@ -99,7 +70,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       curIdx = i;
     };
 
-    setInterval(() => showSlide((curIdx + 1) % slides.length), 4000);
+    setInterval(
+      () => showSlide((curIdx + 1) % slides.length),
+      CAROUSEL_INTERVAL
+    );
 
     const updateUI = () => {
       const grid = q('.dishes-grid');
@@ -111,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             .map(
               (d) => `
         <article class="dish-card" id="${d.id}">
-          <a href="/pages/restaurant.html?id=${d.id}" class="dish-image-link">
+          <a href="${PATHS.RESTAURANT_PAGE}?id=${d.id}" class="dish-image-link">
             <div class="dish-image"><img src="${d.image || 'https://via.placeholder.com/400x300'}" alt="${d.name}" loading="lazy"></div>
           </a>
           <div class="dish-content">
@@ -127,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                       ? `<li class="restaurant-item"><div class="restaurant-header">
                     <span class="restaurant-name">${r.name}</span>
                     ${r.location && r.location !== '#' ? `<a href="${r.location}" target="_blank" class="location-icon"><i class="fas fa-map-marker-alt"></i></a>` : ''}
-                    <a href="/pages/restaurant.html?id=${d.id}#${r.id}" class="place-link"><i class="fas fa-chevron-right"></i></a>
+                    <a href="${PATHS.RESTAURANT_PAGE}?id=${d.id}#${r.id}" class="place-link"><i class="fas fa-chevron-right"></i></a>
                   </div></li>`
                       : '';
                   })
