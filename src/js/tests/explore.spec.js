@@ -18,6 +18,9 @@ const createHelpers = (page) => {
   const verifyVisible = async (selector) =>
     expect(locate(selector)).toBeVisible();
 
+  const verifyHidden = async (selector) =>
+    expect(locate(selector)).toBeHidden();
+
   const verifyText = async (selector, text) =>
     expect(locate(selector)).toContainText(text);
 
@@ -49,6 +52,19 @@ const createHelpers = (page) => {
     });
   };
 
+  const getValidFilterCuisine = async () => {
+    const cuisines = await locate(SELECTORS.CARD_CUISINE).allTextContents();
+    const validFilters = ['South Indian', 'Andhra'];
+    for (const text of cuisines) {
+      for (const filter of validFilters) {
+        if (text.toLowerCase().includes(filter.toLowerCase())) {
+          return filter;
+        }
+      }
+    }
+    return null;
+  };
+
   return {
     navigate: async () => {
       await page.goto(ROUTES.EXPLORE);
@@ -62,9 +78,16 @@ const createHelpers = (page) => {
       if (open) await locate(SELECTORS.FILTER_BTN).click();
       else await locate(SELECTORS.FILTER_CLOSE).evaluate((el) => el.click());
       if (verify) {
-        if (!open) await verifyVisible(SELECTORS.FILTER_MODAL, false);
-        else
+        if (!open) {
+          await verifyHidden(SELECTORS.FILTER_MODAL);
+          await verifyClass(
+            SELECTORS.FILTER_MODAL,
+            STRINGS.CLASS_ACTIVE,
+            false
+          );
+        } else {
           await verifyClass(SELECTORS.FILTER_MODAL, STRINGS.CLASS_ACTIVE, true);
+        }
       }
     },
 
@@ -147,9 +170,9 @@ const createHelpers = (page) => {
         STRINGS.SEARCH_PLACEHOLDER
       ),
 
-    verifyActiveFilter: async () =>
+    verifyActiveFilter: async (cuisine) =>
       verifyClass(
-        SELECTORS.CUISINE_OPTION(FILTERS.CUISINE_SOUTH),
+        SELECTORS.CUISINE_OPTION(cuisine || FILTERS.CUISINE_SOUTH),
         STRINGS.CLASS_ACTIVE,
         true
       ),
@@ -159,13 +182,62 @@ const createHelpers = (page) => {
         ATTRIBUTES.ARIA_LABEL,
         STRINGS.CLOSE_MODAL_LABEL
       ),
+    getValidFilterCuisine,
   };
 };
 
-test.describe('Explore Page (Real API)', () => {
+const MOCK_RESTAURANTS = {
+  places: [
+    {
+      name: 'resources/places/12345',
+      id: '12345',
+      types: [
+        'restaurant',
+        'south_indian_restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: 'Basavanagudi, Bengaluru',
+      location: { latitude: 12.9431, longitude: 77.5736 },
+      rating: 4.5,
+      userRatingCount: 2500,
+      displayName: { text: 'Vidyarthi Bhavan', languageCode: 'en' },
+      priceLevel: 'PRICE_LEVEL_INEXPENSIVE',
+    },
+    {
+      name: 'resources/places/67890',
+      id: '67890',
+      types: [
+        'restaurant',
+        'indian_restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: 'Lalbagh Road, Bengaluru',
+      location: { latitude: 12.9566, longitude: 77.5869 },
+      rating: 4.4,
+      userRatingCount: 1800,
+      displayName: { text: 'MTR', languageCode: 'en' },
+      priceLevel: 'PRICE_LEVEL_MODERATE',
+    },
+  ],
+};
+
+test.describe('Explore Page (Mocked API)', () => {
   let act;
 
   test.beforeEach(async ({ page }) => {
+    // Intercept Google Places API calls
+    await page.route('**/places:searchNearby', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(MOCK_RESTAURANTS),
+      });
+    });
+
     act = createHelpers(page);
     await act.navigate();
   });
@@ -183,8 +255,6 @@ test.describe('Explore Page (Real API)', () => {
     await act.verifySearchOutcome({ noResults: true });
   });
 
-  const SOUTH_FILTER = [{ type: 'cuisine', value: FILTERS.CUISINE_SOUTH }];
-
   test.describe('Filter Modal', () => {
     test.beforeEach(async () => await act.toggleFilterModal(true, true));
 
@@ -193,14 +263,18 @@ test.describe('Explore Page (Real API)', () => {
     });
 
     test('should apply cuisine filter', async () => {
-      await act.applyFilters(SOUTH_FILTER);
-      await act.verifyFilterLogic(DEFAULTS.MIN_COUNT);
+      // With mocked data, we know 'South Indian' (Vidyarthi Bhavan) is available
+      const cuisine = 'South Indian';
+
+      await act.applyFilters([{ type: 'cuisine', value: cuisine }]);
+      await act.verifyFilterLogic(1);
     });
 
     test('should verify UI elements', async () => {
-      await act.applyFilters(SOUTH_FILTER);
+      const cuisine = 'South Indian';
+      await act.applyFilters([{ type: 'cuisine', value: cuisine }]);
       await act.toggleFilterModal(true);
-      await act.verifyActiveFilter();
+      await act.verifyActiveFilter(cuisine);
       await act.verifyCloseLabel();
     });
   });
