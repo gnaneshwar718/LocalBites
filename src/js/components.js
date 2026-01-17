@@ -40,6 +40,16 @@ class AppHeader extends HTMLElement {
         navLinks.classList.toggle('active');
       });
     }
+
+    const currentPath = window.location.pathname;
+    const links = this.querySelectorAll(`${SELECTORS.NAV_LINKS} a`);
+    links.forEach((link) => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   }
 }
 

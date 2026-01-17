@@ -114,6 +114,13 @@ const createHelpers = (page) => {
       expect(hasCurrency).toBeTruthy();
       const styles = await getCompStyle(SELECTORS.GRID);
       expect(styles.display).toBe(STRINGS.GRID_DISPLAY);
+      await expect(page.locator('app-header')).toBeVisible();
+      await expect(page.locator('nav.nav-links')).toBeVisible();
+      await expect(page.locator('nav.nav-links a.active')).toHaveAttribute(
+        'href',
+        ROUTES.EXPLORE
+      );
+      await expect(page.locator('.logo a')).toHaveAttribute('href', '/');
     },
 
     verifySearchOutcome: async ({
