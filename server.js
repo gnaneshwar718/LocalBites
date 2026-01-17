@@ -16,6 +16,7 @@ const PATHS = {
   PAGES: path.join(__dirname, 'public', 'pages'),
   CSS: path.join(__dirname, 'src', 'css'),
   JS: path.join(__dirname, 'src', 'js'),
+  CONSTANTS: path.join(__dirname, 'src', 'constants'),
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
+app.use('/constants', express.static(PATHS.CONSTANTS));
 
 const users = [];
 
@@ -53,6 +55,10 @@ app.get(ROUTES.AUTH, (req, res) => {
 
 app.get(ROUTES.EXPLORE, (req, res) => {
   sendPage(res, 'explore.html');
+});
+
+app.get(ROUTES.CULTURE, (req, res) => {
+  sendPage(res, 'culture.html');
 });
 
 app.post(ROUTES.SIGNUP, (req, res) => {

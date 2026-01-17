@@ -13,15 +13,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   let page = 0;
 
   try {
-    const [h, f, c] = await Promise.all([
-      fetch(PATHS.HEADER),
-      fetch(PATHS.FOOTER),
-      fetch(PATHS.CULTURE_DATA),
-    ]);
-    if (h.ok) get('header-placeholder').innerHTML = await h.text();
-    if (f.ok) get('footer-placeholder').innerHTML = await f.text();
-    if (c.ok) {
-      const d = await c.json();
+    const response = await fetch(PATHS.CULTURE_DATA);
+    if (response.ok) {
+      const d = await response.json();
       dishData = d.dishes;
       restaurantData = d.restaurants;
       allDishes = Object.entries(dishData).map(([id, val]) => ({ id, ...val }));
@@ -186,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       updateUI();
     });
 
-    if (c.ok) updateUI();
+    if (response.ok) updateUI();
   } catch (e) {
     console.error('Error:', e);
   }

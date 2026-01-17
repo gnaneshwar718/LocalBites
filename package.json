@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "start": "node server.js",
     "format:check": "prettier --check .",
     "test:auto": "chokidar \"src/js/**/*.js\" -c \"npm test\"",
     "lint": "eslint .",
@@ -33,7 +32,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/gnaneshwar718/LocalBites/issues"
   },

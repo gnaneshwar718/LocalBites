@@ -4,6 +4,7 @@ export const ROUTES = {
   SIGNUP: '/signup',
   SIGNIN: '/signin',
   EXPLORE: '/explore',
+  CULTURE: '/culture',
 };
 
 export const API_ENDPOINTS = {
