@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { jest } from '@jest/globals';
-import fs from 'fs';
 
 describe('Culture Page', () => {
     let mockCultureData;
