@@ -2,8 +2,12 @@ const LOCAL_ORIGIN = typeof process !== 'undefined' && process.env.LOCAL_ORIGIN;
 const PORT = typeof process !== 'undefined' && process.env.PORT;
 
 export const BASE_URL = `${LOCAL_ORIGIN}:${PORT}`;
+export const TEST_LOCATION_URL = LOCAL_ORIGIN;
 
 export const GOOGLE_MAPS_CHECK_INTERVAL = 100;
+export const CAROUSEL_INTERVAL = 4000;
+export const COPYRIGHT_TEXT =
+  'Copyright &copy; 2026 by LocalBites, All Rights Reserved';
 
 export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
@@ -14,6 +18,13 @@ export const MESSAGES = {
   SIGNUP_SUCCESS: 'Sign up successful! Please sign in.',
   SIGNUP_ERROR: 'An error occurred during sign up.',
   SIGNIN_ERROR: 'An error occurred during sign in.',
+};
+
+export const SELECTORS = {
+  CONTACT_LINKS: '#footer-contact-link, #faq-contact-link',
+  COPYRIGHT: '#footer-copyright',
+  HAMBURGER: '.hamburger',
+  NAV_LINKS: '.nav-links',
 };
 
 export const EXPLORE_SELECTORS = {

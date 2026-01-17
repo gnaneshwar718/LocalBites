@@ -8,9 +8,9 @@ import {
     EVENTS,
     EXPLORE_ATTRIBUTES as ATTRIBUTES,
     EXPLORE_TEXTS as TEXTS
-} from './constants/constants.js';
-import { PATHS } from './constants/paths.js';
-import { PlacesApi } from './services/placesApi.js';
+} from '../constants/constants.js';
+import { PATHS } from '../constants/paths.js';
+import { PlacesApi } from '../services/placesApi.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -85,7 +85,7 @@ const verifyContentMatch = (selector, text) => {
 describe("Explore Page Comprehensive Tests", () => {
     let exploreInstance;
     beforeAll(() => {
-        const htmlPath = path.join(__dirname, ...PATHS.EXPLORE_HTML);
+        const htmlPath = path.join(__dirname, '..', ...PATHS.EXPLORE_HTML);
         global.htmlContent = fs.readFileSync(htmlPath, "utf-8");
     });
 
@@ -104,7 +104,7 @@ describe("Explore Page Comprehensive Tests", () => {
         });
         jest.spyOn(PlacesApi, 'fetchRestaurants').mockResolvedValue(RESTAURANTS);
         jest.spyOn(PlacesApi, 'setApiKey').mockImplementation(() => { });
-        const module = await import('./explore.js');
+        const module = await import('../explore.js');
         exploreInstance = new module.ExplorePage();
         await exploreInstance.initPromise;
     });

@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import 'dotenv/config';
 import '@testing-library/jest-dom';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { CAROUSEL_INTERVAL } from '../src/js/constants.js';
+import { CAROUSEL_INTERVAL } from '../constants.js';
 
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
 const CACHE_BUST_OFFSET_FOOTER = 4;
@@ -66,7 +66,7 @@ describe('HomePage DOM Unit Tests', () => {
     });
 
     test('carousel should change slides automatically', async () => {
-        await import('../src/js/script.js?t=' + Date.now());
+        await import('../script.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         const slides = container.querySelectorAll('.carousel-item');
         expect(slides[0]).toHaveClass('active');
@@ -79,7 +79,7 @@ describe('HomePage DOM Unit Tests', () => {
     });
 
     test('AppHeader should toggle hamburger menu and contain navigation links', async () => {
-        await import('../src/js/components.js?t=' + Date.now());
+        await import('../components.js?t=' + Date.now());
         await waitFor(() => expect(container.querySelector('.hamburger')).toBeInTheDocument());
         const hamburger = container.querySelector('.hamburger');
         const navLinks = container.querySelector('.nav-links');
@@ -95,7 +95,7 @@ describe('HomePage DOM Unit Tests', () => {
 
     test('AppFooter should render correctly and have dynamic content', async () => {
         document.body.innerHTML = '<app-footer></app-footer>';
-        await import('../src/js/components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FOOTER));
+        await import('../components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FOOTER));
         await waitFor(() => expect(document.querySelector('footer')).toBeInTheDocument());
         const copyright = document.querySelector('#footer-copyright');
         await waitFor(() => expect(copyright).toHaveTextContent('Copyright © 2026 by LocalBites, All Rights Reserved'));
@@ -103,7 +103,7 @@ describe('HomePage DOM Unit Tests', () => {
 
     test('FaqSection should render correctly and have dynamic email', async () => {
         document.body.innerHTML = '<faq-section></faq-section>';
-        await import('../src/js/components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FAQ));
+        await import('../components.js?t=' + (Date.now() + CACHE_BUST_OFFSET_FAQ));
         await waitFor(() => expect(document.querySelector('#faq')).toBeInTheDocument());
         expect(document.querySelector('#faq h2')).toHaveTextContent('Questions');
         expect(document.querySelector('faq-item')).toBeInTheDocument();

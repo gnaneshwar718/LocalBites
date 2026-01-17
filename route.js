@@ -11,3 +11,9 @@ export const API_ENDPOINTS = {
   SIGNIN: '/signin',
   CONFIG: '/api/config',
 };
+
+export const ENDPOINTS = {
+  SIGNUP: '/signup',
+  SIGNIN: '/signin',
+  CONFIG: '/api/config',
+};

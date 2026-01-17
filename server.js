@@ -3,13 +3,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { ROUTES, API_ENDPOINTS } from './src/js/routes.js';
+import { ROUTES, API_ENDPOINTS } from './route.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const PATHS = {
   PUBLIC: path.join(__dirname, 'public'),

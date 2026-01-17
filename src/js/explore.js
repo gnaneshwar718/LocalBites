@@ -1,7 +1,7 @@
 import { PlacesApi } from './services/placesApi.js';
 import { $, byId, on } from './utils/dom.js';
 import { ModalManager } from './utils/modal.js';
-import { API_ENDPOINTS } from './routes.js';
+import { API_ENDPOINTS } from '../../route.js';
 import { GOOGLE_MAPS_CHECK_INTERVAL } from './constants/constants.js';
 
 class ExplorePage {

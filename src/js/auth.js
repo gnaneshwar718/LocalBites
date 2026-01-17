@@ -1,4 +1,5 @@
-import { CLASSNAMES, ENDPOINTS, MESSAGES } from './constants.js';
+import { CLASSNAMES, MESSAGES } from './constants/constants.js';
+import { ENDPOINTS } from '../../route.js';
 
 const $ = (id) => document.getElementById(id);
 const $$ = (selector) => document.querySelectorAll(selector);

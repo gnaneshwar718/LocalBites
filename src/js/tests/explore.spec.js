@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { ROUTES } from '../src/js/routes.js';
+import { ROUTES } from '../../../route.js';
 import {
   TEST_SELECTORS as SELECTORS,
   TEST_ATTRIBUTES as ATTRIBUTES,
@@ -8,7 +8,7 @@ import {
   TEST_TIMEOUTS as TIMEOUTS,
   TEST_DIMENSIONS as DIMENSIONS,
   TEST_DEFAULTS as DEFAULTS,
-} from '../src/js/constants/test-constants.js';
+} from '../constants/test-constants.js';
 
 const createHelpers = (page) => {
   const locate = (selector) => page.locator(selector);
