@@ -5,7 +5,7 @@
 }
 
 body {
-  background: var(--color-bg-light);
+  background: #f6f5f7;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ span {
 }
 
 a {
-  color: var(--color-text);
+  color: #333;
   font-size: 0.875rem;
   text-decoration: none;
   margin: 0.9375rem 0;
@@ -45,9 +45,9 @@ a {
 
 button {
   border-radius: 1.25rem;
-  border: 0.0625rem solid var(--color-logo);
-  background-color: var(--color-logo);
-  color: var(--color-secondary);
+  border: 0.0625rem solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #fff;
   font-size: 0.75rem;
   font-weight: bold;
   padding: 0.75rem 2.8125rem;
@@ -67,11 +67,11 @@ button:focus {
 
 button.ghost {
   background-color: transparent;
-  border-color: var(--color-secondary);
+  border-color: #fff;
 }
 
 form {
-  background-color: var(--color-secondary);
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ form {
 }
 
 input {
-  background-color: var(--color-input-bg);
+  background-color: #eee;
   border: none;
   padding: 0.75rem 0.9375rem;
   margin: 0.5rem 0;
@@ -119,7 +119,7 @@ input {
 }
 
 .container {
-  background-color: var(--color-secondary);
+  background-color: #fff;
   border-radius: 0.625rem;
   position: relative;
   overflow: hidden;
@@ -190,12 +190,12 @@ input {
 
 .overlay {
   background: #ff416c;
-  background: linear-gradient(to right, var(--color-logo), #ff416c);
-  background: linear-gradient(to right, var(--color-logo), #ff416c);
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
-  color: var(--color-secondary);
+  color: #fff;
   position: relative;
   left: -100%;
   height: 100%;
@@ -244,8 +244,13 @@ input {
   margin: 1.25rem 0;
 }
 
+footer a {
+  color: #3c97bf;
+  text-decoration: none;
+}
+
 .social-container a {
-  border: 0.0625rem solid var(--color-border-light);
+  border: 0.0625rem solid #ddd;
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
@@ -257,7 +262,7 @@ input {
 
 footer {
   background-color: #222;
-  color: var(--color-secondary);
+  color: #fff;
   font-size: 0.875rem;
   bottom: 0;
   position: fixed;
@@ -333,7 +338,7 @@ footer i {
   }
 
   .mobile-only a {
-    color: var(--color-logo);
+    color: #ff4b2b;
     font-weight: bold;
     margin: 0;
   }
