@@ -1,7 +1,44 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-const RESTAURANTS = [];
+const RESTAURANTS = [
+    {
+        id: '1',
+        name: 'Vidyarthi Bhavan',
+        cuisine: 'South Indian',
+        mealType: ['breakfast', 'lunch'],
+        price: 150,
+        rating: 4.5,
+        reviews: 2000,
+        location: 'Basavanagudi',
+        image: 'vb.jpg',
+        priceString: '₹150'
+    },
+    {
+        id: '2',
+        name: 'MTR',
+        cuisine: 'South Indian',
+        mealType: ['breakfast', 'lunch', 'dinner'],
+        price: 250,
+        rating: 4.4,
+        reviews: 1500,
+        location: 'Lalbagh',
+        image: 'mtr.jpg',
+        priceString: '₹250'
+    },
+    {
+        id: '3',
+        name: 'Truffles',
+        cuisine: 'Burger',
+        mealType: ['lunch', 'dinner'],
+        price: 350,
+        rating: 4.3,
+        reviews: 1200,
+        location: 'Koramangala',
+        image: 'truffles.jpg',
+        priceString: '₹350'
+    }
+];
 import {
     EXPLORE_SELECTORS as SELECTORS,
     EXPLORE_CLASSES as CLASSES,
@@ -109,7 +146,7 @@ describe("Explore Page Comprehensive Tests", () => {
         await exploreInstance.initPromise;
     });
 
-    describe.skip("Initial State", () => {
+    describe("Initial State", () => {
         test("renders all initial restaurants", () => {
             expectElementCount(RESTAURANTS.length);
             verifyContentMatch(SELECTORS.PAGE_TITLE, TEXTS.PAGE_HEADER);
@@ -119,7 +156,7 @@ describe("Explore Page Comprehensive Tests", () => {
         });
     });
 
-    describe.skip("Search Functionality", () => {
+    describe("Search Functionality", () => {
         const target = RESTAURANTS[0];
         test("filters by name", () => {
             verifySearch(target.name.split(' ')[0], 1);
@@ -135,7 +172,7 @@ describe("Explore Page Comprehensive Tests", () => {
         });
     });
 
-    describe.skip("Filter Modal", () => {
+    describe("Filter Modal", () => {
         test("toggles filter modal", () => {
             const { filterBtn, filterModal } = getElements();
             verifyModalToggle(filterBtn, filterModal);
@@ -152,7 +189,7 @@ describe("Explore Page Comprehensive Tests", () => {
         });
     });
 
-    describe.skip("Combined Multi-Filtering", () => {
+    describe("Combined Multi-Filtering", () => {
         test("search + cuisine + meal type", () => {
             const target = RESTAURANTS.find(r => r.name.includes(TEXTS.MTR));
             if (!target) return;
@@ -167,7 +204,7 @@ describe("Explore Page Comprehensive Tests", () => {
         });
     });
 
-    describe.skip("Detail Modal", () => {
+    describe("Detail Modal", () => {
         test("opens detail modal with correct content", () => {
             const { detailModal } = getElements();
             verifyModalToggle(querySelector(SELECTORS.RESTAURANT_CARD), detailModal);

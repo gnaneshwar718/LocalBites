@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import 'dotenv/config';
 import '@testing-library/jest-dom';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { CAROUSEL_INTERVAL } from '../constants.js';
+import { CAROUSEL_INTERVAL } from '../constants/constants.js';
 
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
 const CACHE_BUST_OFFSET_FOOTER = 4;
