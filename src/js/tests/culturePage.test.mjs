@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { jest } from '@jest/globals';
+import fs from 'fs';
 
 describe('Culture Page', () => {
     let mockCultureData;
@@ -65,7 +66,7 @@ describe('Culture Page', () => {
     });
 
     const setupAndLoad = async () => {
-        await import('../src/js/culture.js?t=' + Date.now());
+        await import('../culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         if (setTimeout.clock === undefined) {
             await new Promise(resolve => setTimeout(resolve, 50));
@@ -148,7 +149,7 @@ describe('Culture Page', () => {
 
     test('should update carousel slides automatically', async () => {
         jest.useFakeTimers();
-        await import('../src/js/culture.js?t=' + Date.now());
+        await import('../culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         for (let i = 0; i < 20; i++) await Promise.resolve();
         jest.advanceTimersByTime(4000);

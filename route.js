@@ -11,4 +11,4 @@ export const API_ENDPOINTS = {
   CONFIG: '/api/config',
 };
 
-export const ENDPOINTS = ROUTES;
+export const ENDPOINTS = { ...ROUTES, ...API_ENDPOINTS };
