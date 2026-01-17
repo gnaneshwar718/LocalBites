@@ -53,7 +53,6 @@ export const EXPLORE_TEXTS = {
   PAGE_HEADER: 'Popular Local Discoveries',
   CURRENCY: '₹',
   NO_EXISTENT: 'NonExistentPlaceXYZ123',
-  MTR: 'MTR',
   SOUTH_INDIAN: 'South Indian',
   BREAKFAST: 'breakfast',
 };

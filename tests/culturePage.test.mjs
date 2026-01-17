@@ -1,45 +1,52 @@
+/**
+ * @jest-environment jsdom
+ */
 import { jest } from '@jest/globals';
 
 describe('Culture Page', () => {
     let mockCultureData;
 
     beforeEach(() => {
-        // Mock data with 7 dishes to trigger pagination (LIMIT=6)
         mockCultureData = {
             restaurants: {
                 mtr: { id: 'mtr', name: 'Mavalli Tiffin Rooms', location: 'https://maps.google.com/?q=MTR' },
-                ctr: { id: 'ctr', name: 'CTR - Shri Sagar', location: 'loc2' },
+                ctr: { id: 'ctr', name: 'CTR - Shri Sagar', location: 'https://maps.google.com/?q=CTR' },
+                'vidyarthi-bhavan': { id: 'vidyarthi-bhavan', name: 'Vidyarthi Bhavan', location: 'https://maps.google.com/?q=vidyarthi' },
+                'halli-mane': { id: 'halli-mane', name: 'Halli Mane', location: 'https://maps.google.com/?q=hallimane' },
+                maiyas: { id: 'maiyas', name: 'Maiyas', location: 'https://maps.google.com/?q=maiyas' },
+                'meghana-foods': { id: 'meghana-foods', name: 'Meghana Foods', location: 'https://maps.google.com/?q=meghana' },
+                nagarjuna: { id: 'nagarjuna', name: 'Nagarjuna', location: 'https://maps.google.com/?q=nagarjuna' },
             },
             dishes: {
                 'd1': { id: 'd1', name: 'Dish 1', description: 'Desc 1', restaurants: ['mtr'] },
-                'd2': { id: 'd2', name: 'Dish 2', description: 'Desc 2', restaurants: ['mtr'] },
-                'd3': { id: 'd3', name: 'Dish 3', description: 'Desc 3', restaurants: ['mtr'] },
-                'd4': { id: 'd4', name: 'Dish 4', description: 'Desc 4', restaurants: ['mtr'] },
-                'd5': { id: 'd5', name: 'Dish 5', description: 'Desc 5', restaurants: ['mtr'] },
-                'd6': { id: 'd6', name: 'Dish 6', description: 'Desc 6', restaurants: ['mtr'] },
-                'd7': { id: 'd7', name: 'Dish 7', description: 'Desc 7', restaurants: ['mtr'] },
+                'd2': { id: 'd2', name: 'Dish 2', description: 'Desc 2', restaurants: ['ctr'] },
+                'd3': { id: 'd3', name: 'Dish 3', description: 'Desc 3', restaurants: ['vidyarthi-bhavan'] },
+                'd4': { id: 'd4', name: 'Dish 4', description: 'Desc 4', restaurants: ['halli-mane'] },
+                'd5': { id: 'd5', name: 'Dish 5', description: 'Desc 5', restaurants: ['maiyas'] },
+                'd6': { id: 'd6', name: 'Dish 6', description: 'Desc 6', restaurants: ['meghana-foods'] },
+                'd7': { id: 'd7', name: 'Dish 7', description: 'Desc 7', restaurants: ['nagarjuna'] },
             },
         };
 
         document.body.innerHTML = `
-      <div id="header-placeholder"></div>
-      <div class="hamburger"></div>
-      <div class="nav-links"></div>
-      <div class="hero-tagline"></div>
-      <div class="culture-hero-text"><h1></h1><p></p></div>
-      <div class="carousel-inner">
-        <div class="carousel-item active" data-dish="d1"></div>
-        <div class="carousel-item" data-dish="d7"></div>
-      </div>
-      <input type="text" id="dish-search" />
-      <div class="dishes-grid"></div>
-      <div class="pagination-controls">
-        <button class="prev-btn"></button>
-        <div class="page-dots"></div>
-        <button class="next-btn"></button>
-      </div>
-      <div id="footer-placeholder"></div>
-    `;
+            <div id="header-placeholder"></div>
+            <div class="hamburger"></div>
+            <div class="nav-links"></div>
+            <div class="hero-tagline"></div>
+            <div class="culture-hero-text"><h1></h1><p></p></div>
+            <div class="carousel-inner">
+            <div class="carousel-item active" data-dish="d1"></div>
+            <div class="carousel-item" data-dish="d7"></div>
+            </div>
+            <input type="text" id="dish-search" />
+            <div class="dishes-grid"></div>
+            <div class="pagination-controls">
+            <button class="prev-btn"></button>
+            <div class="page-dots"></div>
+            <button class="next-btn"></button>
+            </div>
+            <div id="footer-placeholder"></div>
+        `;
 
         global.fetch = jest.fn((url) => {
             if (url.includes('header.html')) return Promise.resolve({ ok: true, text: () => Promise.resolve('<header></header>') });
@@ -47,10 +54,7 @@ describe('Culture Page', () => {
             if (url.includes('culture-data.json')) return Promise.resolve({ ok: true, json: () => Promise.resolve(mockCultureData) });
             return Promise.reject(new Error('Unknown URL: ' + url));
         });
-
-        // Mock scrollIntoView as it's not in JSDOM
         window.HTMLElement.prototype.scrollIntoView = jest.fn();
-
         jest.useRealTimers();
     });
 
@@ -84,24 +88,16 @@ describe('Culture Page', () => {
         const nextBtn = document.querySelector('.next-btn');
         const prevBtn = document.querySelector('.prev-btn');
         const dotsContainer = document.querySelector('.page-dots');
-
-        // Check dots
         expect(dotsContainer.children.length).toBe(2);
         expect(dotsContainer.children[0].classList.contains('active')).toBe(true);
-
-        // Click Next
         nextBtn.click();
         const grid = document.querySelector('.dishes-grid');
         expect(grid.children.length).toBe(1);
         expect(grid.innerHTML).toContain('Dish 7');
         expect(dotsContainer.children[1].classList.contains('active')).toBe(true);
-
-        // Click Prev
         prevBtn.click();
         expect(grid.children.length).toBe(6);
         expect(grid.innerHTML).toContain('Dish 1');
-
-        // Click Dot 2
         dotsContainer.children[1].click();
         expect(grid.innerHTML).toContain('Dish 7');
     });
@@ -111,11 +107,8 @@ describe('Culture Page', () => {
         const searchInput = document.getElementById('dish-search');
         searchInput.value = 'NonExistentDish';
         searchInput.dispatchEvent(new Event('input'));
-
         const grid = document.querySelector('.dishes-grid');
         expect(grid.innerHTML).toContain('No dishes found.');
-
-        // Pagination should be hidden or empty
         const dotsContainer = document.querySelector('.page-dots');
         expect(dotsContainer.innerHTML).toBe('');
     });
@@ -123,17 +116,11 @@ describe('Culture Page', () => {
     test('should verify dish and restaurant links are correctly formatted', async () => {
         await setupAndLoad();
         const grid = document.querySelector('.dishes-grid');
-
-        // Dish image link
         const imgLink = grid.querySelector('.dish-image-link');
         expect(imgLink.getAttribute('href')).toBe('/pages/restaurant.html?id=d1');
-
-        // Restaurant location icon link
         const locIcon = grid.querySelector('.location-icon');
         expect(locIcon.getAttribute('href')).toBe('https://maps.google.com/?q=MTR');
         expect(locIcon.getAttribute('target')).toBe('_blank');
-
-        // Restaurant detail link
         const placeLink = grid.querySelector('.place-link');
         expect(placeLink.getAttribute('href')).toBe('/pages/restaurant.html?id=d1#mtr');
     });
@@ -141,16 +128,10 @@ describe('Culture Page', () => {
     test('should jump to specific dish when carousel item is clicked', async () => {
         await setupAndLoad();
         const carouselItem = document.querySelector('.carousel-item[data-dish="d7"]');
-
         carouselItem.click();
-
-        // Should have navigated to second page (Dish 7 is on page 1, zero-indexed)
         const grid = document.querySelector('.dishes-grid');
         expect(grid.innerHTML).toContain('Dish 7');
-
-        // Wait for the timeout that scrolls and highlights
         await new Promise(resolve => setTimeout(resolve, 200));
-
         const card = document.getElementById('d7');
         expect(card.classList.contains('active')).toBe(true);
         expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled();
@@ -159,13 +140,10 @@ describe('Culture Page', () => {
     test('should filter by restaurant name in search', async () => {
         await setupAndLoad();
         const searchInput = document.getElementById('dish-search');
-
-        // All dishes in mock have "Mavalli Tiffin Rooms"
         searchInput.value = 'Mavalli';
         searchInput.dispatchEvent(new Event('input'));
-
         const grid = document.querySelector('.dishes-grid');
-        expect(grid.children.length).toBe(6); // First page still 6
+        expect(grid.children.length).toBe(1);
     });
 
     test('should update carousel slides automatically', async () => {
@@ -173,10 +151,8 @@ describe('Culture Page', () => {
         await import('../src/js/culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         for (let i = 0; i < 20; i++) await Promise.resolve();
-
         jest.advanceTimersByTime(4000);
         for (let i = 0; i < 20; i++) await Promise.resolve();
-
         const slides = document.querySelectorAll('.carousel-item');
         expect(slides[0].classList.contains('slide-out')).toBe(true);
         expect(slides[1].classList.contains('active')).toBe(true);

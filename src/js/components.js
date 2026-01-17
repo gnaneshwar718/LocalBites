@@ -57,9 +57,15 @@ class FaqSection extends HTMLElement {
   }
 }
 
-customElements.define('app-header', AppHeader);
-customElements.define('app-footer', AppFooter);
-customElements.define('faq-section', FaqSection);
+if (!customElements.get('app-header')) {
+  customElements.define('app-header', AppHeader);
+}
+if (!customElements.get('app-footer')) {
+  customElements.define('app-footer', AppFooter);
+}
+if (!customElements.get('faq-section')) {
+  customElements.define('faq-section', FaqSection);
+}
 
 class FeatureCard extends HTMLElement {
   connectedCallback() {
@@ -83,7 +89,9 @@ class FeatureCard extends HTMLElement {
     `;
   }
 }
-customElements.define('feature-card', FeatureCard);
+if (!customElements.get('feature-card')) {
+  customElements.define('feature-card', FeatureCard);
+}
 
 class FaqItem extends HTMLElement {
   connectedCallback() {
@@ -97,7 +105,9 @@ class FaqItem extends HTMLElement {
     `;
   }
 }
-customElements.define('faq-item', FaqItem);
+if (!customElements.get('faq-item')) {
+  customElements.define('faq-item', FaqItem);
+}
 
 class CarouselSlide extends HTMLElement {
   connectedCallback() {
@@ -110,4 +120,6 @@ class CarouselSlide extends HTMLElement {
     `;
   }
 }
-customElements.define('carousel-slide', CarouselSlide);
+if (!customElements.get('carousel-slide')) {
+  customElements.define('carousel-slide', CarouselSlide);
+}

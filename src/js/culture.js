@@ -2,100 +2,105 @@ import { LIMIT, CAROUSEL_INTERVAL, HERO_DATA } from '../constants/constants.js';
 import { PATHS } from '../constants/paths.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const get = (id) => document.getElementById(id);
-  const q = (sel) => document.querySelector(sel);
-  const qa = (sel) => document.querySelectorAll(sel);
+  const getById = (id) => document.getElementById(id);
+  const select = (selector) => document.querySelector(selector);
+  const selectAll = (selector) => document.querySelectorAll(selector);
 
   let dishData = {},
     restaurantData = {},
     allDishes = [],
-    filtered = [];
-  let page = 0;
+    filteredDishes = [];
+  let currentPage = 0;
 
   try {
     const response = await fetch(PATHS.CULTURE_DATA);
     if (response.ok) {
-      const d = await response.json();
-      dishData = d.dishes;
-      restaurantData = d.restaurants;
-      allDishes = Object.entries(dishData).map(([id, val]) => ({ id, ...val }));
-      filtered = [...allDishes];
+      const data = await response.json();
+      dishData = data.dishes;
+      restaurantData = data.restaurants;
+      allDishes = Object.entries(dishData).map(([id, value]) => ({
+        id,
+        ...value,
+      }));
+      filteredDishes = [...allDishes];
     }
 
-    const nav = q('.hamburger');
-    if (nav) nav.onclick = () => q('.nav-links').classList.toggle('active');
+    const hamburger = select('.hamburger');
+    if (hamburger) {
+      hamburger.onclick = () => select('.nav-links').classList.toggle('active');
+    }
 
     const heroData = HERO_DATA;
+    const slides = selectAll('.carousel-item');
+    const heroTagline = select('.hero-tagline');
+    const heroTitle = select('.culture-hero-text h1');
+    const heroDescription = select('.culture-hero-text p');
 
-    const slides = qa('.carousel-item');
-    const [tag, tit, desc] = [
-      q('.hero-tagline'),
-      q('.culture-hero-text h1'),
-      q('.culture-hero-text p'),
-    ];
-    let curIdx = 0;
+    let currentSlideIndex = 0;
 
-    const showSlide = (i) => {
-      const active = q('.carousel-item.active');
-      if (active) {
-        active.classList.replace('active', 'slide-out');
+    const showSlide = (index) => {
+      const activeSlide = select('.carousel-item.active');
+      if (activeSlide) {
+        activeSlide.classList.replace('active', 'slide-out');
       }
-      slides[i].classList.remove('slide-out');
-      slides[i].classList.add('active');
+      slides[index].classList.remove('slide-out');
+      slides[index].classList.add('active');
 
-      [tag, tit, desc].forEach((el) => {
-        el.style.opacity = 0;
-        el.style.transform = 'translateX(-50px)';
+      [heroTagline, heroTitle, heroDescription].forEach((element) => {
+        element.style.opacity = 0;
+        element.style.transform = 'translateX(-50px)';
       });
+
       setTimeout(() => {
-        const item = heroData[i];
-        tag.textContent = item.t;
-        tit.textContent = item.h;
-        desc.textContent = item.d;
-        [tag, tit, desc].forEach((el, idx) => {
-          el.style.transition = 'none';
-          el.style.transform = 'translateX(50px)';
-          void el.offsetHeight;
-          el.style.transition = `all 0.6s ease-out ${idx * 0.1}s`;
-          el.style.opacity = 1;
-          el.style.transform = 'translateX(0)';
+        const item = heroData[index];
+        heroTagline.textContent = item.t;
+        heroTitle.textContent = item.h;
+        heroDescription.textContent = item.d;
+
+        [heroTagline, heroTitle, heroDescription].forEach((element, idx) => {
+          element.style.transition = 'none';
+          element.style.transform = 'translateX(50px)';
+          void element.offsetHeight;
+          element.style.transition = `all 0.6s ease-out ${idx * 0.1}s`;
+          element.style.opacity = 1;
+          element.style.transform = 'translateX(0)';
         });
       }, 500);
-      curIdx = i;
+      currentSlideIndex = index;
     };
 
     setInterval(
-      () => showSlide((curIdx + 1) % slides.length),
+      () => showSlide((currentSlideIndex + 1) % slides.length),
       CAROUSEL_INTERVAL
     );
 
     const updateUI = () => {
-      const grid = q('.dishes-grid');
-      const start = page * LIMIT;
-      const slice = filtered.slice(start, start + LIMIT);
+      const dishesGrid = select('.dishes-grid');
+      const start = currentPage * LIMIT;
+      const visibleDishes = filteredDishes.slice(start, start + LIMIT);
 
-      grid.innerHTML = slice.length
-        ? slice
+      dishesGrid.innerHTML = visibleDishes.length
+        ? visibleDishes
             .map(
-              (d) => `
-        <article class="dish-card" id="${d.id}">
-          <a href="${PATHS.RESTAURANT_PAGE}?id=${d.id}" class="dish-image-link">
-            <div class="dish-image"><img src="${d.image || 'https://via.placeholder.com/400x300'}" alt="${d.name}" loading="lazy"></div>
+              (dish) => `
+        <article class="dish-card" id="${dish.id}">
+          <a href="${PATHS.RESTAURANT_PAGE}?id=${dish.id}" class="dish-image-link">
+            <div class="dish-image"><img src="${dish.image || ''}" alt="${dish.name}" loading="lazy"></div>
           </a>
           <div class="dish-content">
-            <h3>${d.name}</h3>
-            <p>${d.description}</p>
+            <h3>${dish.name}</h3>
+            <p>${dish.description}</p>
             <div class="famous-restaurants">
               <h4>Iconic places to try</h4>
               <ul class="restaurant-list">
-                ${d.restaurants
-                  .map((rId) => {
-                    const r = restaurantData[rId];
-                    return r
+                ${dish.restaurants
+                  .map((restaurantId) => {
+                    const restaurant = restaurantData[restaurantId];
+                    return restaurant
                       ? `<li class="restaurant-item"><div class="restaurant-header">
-                    <span class="restaurant-name">${r.name}</span>
-                    ${r.location && r.location !== '#' ? `<a href="${r.location}" target="_blank" class="location-icon"><i class="fas fa-map-marker-alt"></i></a>` : ''}
-                    <a href="${PATHS.RESTAURANT_PAGE}?id=${d.id}#${r.id}" class="place-link"><i class="fas fa-chevron-right"></i></a>
+                    <span class="restaurant-name">${restaurant.name}</span>
+                    ${restaurant.location && restaurant.location !== '#' ? `<a href="${restaurant.location}" target="_blank" class="location-icon"><i class="fas fa-map-marker-alt"></i></a>` : ''}
+                    <a href="${PATHS.RESTAURANT_PAGE}?id=${dish.id}#${restaurant.id}" class="place-link"><i class="fas fa-chevron-right"></i></a>
                   </div></li>`
                       : '';
                   })
@@ -108,80 +113,91 @@ document.addEventListener('DOMContentLoaded', async () => {
             .join('')
         : '<p style="grid-column: 1/-1; text-align: center;">No dishes found.</p>';
 
-      const total = Math.ceil(filtered.length / LIMIT);
-      if (q('.prev-btn')) q('.prev-btn').disabled = page === 0;
-      if (q('.next-btn')) q('.next-btn').disabled = page >= total - 1;
+      const totalPages = Math.ceil(filteredDishes.length / LIMIT);
+      const prevBtn = select('.prev-btn');
+      const nextBtn = select('.next-btn');
 
-      const dots = q('.page-dots');
-      if (dots) {
-        dots.innerHTML =
-          total > 1
+      if (prevBtn) prevBtn.disabled = currentPage === 0;
+      if (nextBtn) nextBtn.disabled = currentPage >= totalPages - 1;
+
+      const dotsContainer = select('.page-dots');
+      if (dotsContainer) {
+        dotsContainer.innerHTML =
+          totalPages > 1
             ? Array.from(
-                { length: total },
+                { length: totalPages },
                 (_, i) =>
-                  `<div class="dot ${i === page ? 'active' : ''}" data-idx="${i}"></div>`
+                  `<div class="dot ${i === currentPage ? 'active' : ''}" data-idx="${i}"></div>`
               ).join('')
             : '';
-        qa('.dot').forEach(
-          (d) =>
-            (d.onclick = () => {
-              page = +d.dataset.idx;
+        selectAll('.dot').forEach(
+          (dot) =>
+            (dot.onclick = () => {
+              currentPage = +dot.dataset.idx;
               updateUI();
             })
         );
       }
     };
 
-    q('.prev-btn')?.addEventListener('click', () => {
-      if (page > 0) {
-        page--;
+    select('.prev-btn')?.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
         updateUI();
       }
     });
-    q('.next-btn')?.addEventListener('click', () => {
-      if (page < Math.ceil(filtered.length / LIMIT) - 1) {
-        page++;
+
+    select('.next-btn')?.addEventListener('click', () => {
+      if (currentPage < Math.ceil(filteredDishes.length / LIMIT) - 1) {
+        currentPage++;
         updateUI();
       }
     });
 
     slides.forEach(
-      (s) =>
-        (s.onclick = () => {
-          const id = s.dataset.dish;
-          const idx = filtered.findIndex((d) => d.id === id);
-          if (idx !== -1) {
-            page = Math.floor(idx / LIMIT);
+      (slide) =>
+        (slide.onclick = () => {
+          const dishId = slide.dataset.dish;
+          const dishIndex = filteredDishes.findIndex((d) => d.id === dishId);
+          if (dishIndex !== -1) {
+            currentPage = Math.floor(dishIndex / LIMIT);
             updateUI();
             setTimeout(() => {
-              const el = get(id);
-              if (el) {
-                qa('.dish-card').forEach((c) => c.classList.remove('active'));
-                el.classList.add('active');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('active'), 3000);
+              const dishElement = getById(dishId);
+              if (dishElement) {
+                selectAll('.dish-card').forEach((card) =>
+                  card.classList.remove('active')
+                );
+                dishElement.classList.add('active');
+                dishElement.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center',
+                });
+                setTimeout(() => dishElement.classList.remove('active'), 3000);
               }
             }, 150);
           }
         })
     );
 
-    get('dish-search')?.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      filtered = allDishes.filter(
-        (d) =>
-          d.name.toLowerCase().includes(term) ||
-          d.description.toLowerCase().includes(term) ||
-          d.restaurants.some((rId) =>
-            (restaurantData[rId]?.name || '').toLowerCase().includes(term)
+    getById('dish-search')?.addEventListener('input', (event) => {
+      const searchTerm = event.target.value.toLowerCase();
+      filteredDishes = allDishes.filter(
+        (dish) =>
+          dish.name.toLowerCase().includes(searchTerm) ||
+          dish.description.toLowerCase().includes(searchTerm) ||
+          dish.restaurants.some((restaurantId) =>
+            (restaurantData[restaurantId]?.name || '')
+              .toLowerCase()
+              .includes(searchTerm)
           )
       );
-      page = 0;
+      currentPage = 0;
       updateUI();
     });
 
     if (response.ok) updateUI();
-  } catch (e) {
-    console.error('Error:', e);
+  } catch (error) {
+    console.error('Error:', error);
   }
 });
