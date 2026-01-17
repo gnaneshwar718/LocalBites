@@ -6,6 +6,8 @@ export const TEST_LOCATION_URL = LOCAL_ORIGIN;
 
 export const GOOGLE_MAPS_CHECK_INTERVAL = 100;
 export const CAROUSEL_INTERVAL = 4000;
+export const REDIRECT_DELAY = 1500;
+export const PANEL_TOGGLE_DELAY = 2000;
 export const COPYRIGHT_TEXT =
   'Copyright &copy; 2026 by LocalBites, All Rights Reserved';
 

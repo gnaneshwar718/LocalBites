@@ -1,4 +1,9 @@
-import { CLASSNAMES, MESSAGES } from './constants/constants.js';
+import {
+  CLASSNAMES,
+  MESSAGES,
+  PANEL_TOGGLE_DELAY,
+  REDIRECT_DELAY,
+} from './constants/constants.js';
 import { ENDPOINTS } from '../../route.js';
 
 const $ = (id) => document.getElementById(id);
@@ -105,7 +110,7 @@ export const AuthManager = {
 
       if (response.ok) {
         this.showMessage('signup', MESSAGES.SIGNUP_SUCCESS, 'success');
-        setTimeout(() => this.togglePanel(false), 2000);
+        setTimeout(() => this.togglePanel(false), PANEL_TOGGLE_DELAY);
       } else {
         this.showMessage('signup', data.message || 'Sign up failed', 'error');
       }
@@ -132,7 +137,7 @@ export const AuthManager = {
           `Welcome back, ${data.user.name}!`,
           'success'
         );
-        setTimeout(() => (window.location.href = '/'), 1500);
+        setTimeout(() => (window.location.href = '/'), REDIRECT_DELAY);
       } else {
         this.showMessage('signin', data.message || 'Sign in failed', 'error');
       }
