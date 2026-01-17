@@ -69,3 +69,36 @@ export const EXPLORE_TEXTS = {
   SOUTH_INDIAN: 'South Indian',
   BREAKFAST: 'breakfast',
 };
+
+export const LIMIT = 6;
+export const HERO_DATA = [
+  {
+    t: 'Bengaluru Flavors',
+    h: 'Masala Dosa',
+    d: 'A crispy, golden crepe filled with spiced potato, served with coconut chutney and sambar.',
+  },
+  {
+    t: 'Traditional Delight',
+    h: 'Bisi Bele Bath',
+    d: 'A hearty one-pot meal combining rice, lentils, vegetables, and aromatic spices.',
+  },
+  {
+    t: 'Sweet Indulgence',
+    h: 'Mysore Pak',
+    d: 'A rich, melt-in-your-mouth sweet made from ghee, sugar, and gram flour.',
+  },
+];
+
+export const POPULAR_THRESHOLDS = {
+  MIN_RATING: 4.2,
+  MIN_REVIEWS: 1000,
+};
+
+export const ANIMATION_TIMINGS = {
+  HERO_TEXT_FADE_OUT: 500,
+  HERO_TEXT_TRANSITION_BASE: 0.6,
+  HERO_TEXT_TRANSITION_DELAY: 0.1,
+  DISH_HIGHLIGHT_DURATION: 3000,
+  DISH_SCROLL_DELAY: 150,
+  HASH_SCROLL_DELAY: 100,
+};

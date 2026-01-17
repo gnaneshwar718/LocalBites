@@ -1,4 +1,5 @@
-import { PATHS } from '../constants/paths.js';
+import { PATHS } from './constants/paths.js';
+import { ANIMATION_TIMINGS } from './constants/constants.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -139,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100);
+      }, ANIMATION_TIMINGS.HASH_SCROLL_DELAY);
     }
   } else {
     if (contentContainer) contentContainer.style.display = 'none';

@@ -1,5 +1,10 @@
-import { LIMIT, CAROUSEL_INTERVAL, HERO_DATA } from '../constants/constants.js';
-import { PATHS } from '../constants/paths.js';
+import {
+  LIMIT,
+  CAROUSEL_INTERVAL,
+  HERO_DATA,
+  ANIMATION_TIMINGS,
+} from './constants/constants.js';
+import { PATHS } from './constants/paths.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const getById = (id) => document.getElementById(id);
@@ -61,11 +66,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           element.style.transition = 'none';
           element.style.transform = 'translateX(50px)';
           void element.offsetHeight;
-          element.style.transition = `all 0.6s ease-out ${idx * 0.1}s`;
+          element.style.transition = `all ${ANIMATION_TIMINGS.HERO_TEXT_TRANSITION_BASE}s ease-out ${idx * ANIMATION_TIMINGS.HERO_TEXT_TRANSITION_DELAY}s`;
           element.style.opacity = 1;
           element.style.transform = 'translateX(0)';
         });
-      }, 500);
+      }, ANIMATION_TIMINGS.HERO_TEXT_FADE_OUT);
       currentSlideIndex = index;
     };
 
@@ -173,9 +178,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                   behavior: 'smooth',
                   block: 'center',
                 });
-                setTimeout(() => dishElement.classList.remove('active'), 3000);
+                setTimeout(
+                  () => dishElement.classList.remove('active'),
+                  ANIMATION_TIMINGS.DISH_HIGHLIGHT_DURATION
+                );
               }
-            }, 150);
+            }, ANIMATION_TIMINGS.DISH_SCROLL_DELAY);
           }
         })
     );

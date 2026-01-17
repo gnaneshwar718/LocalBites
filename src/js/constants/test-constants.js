@@ -76,3 +76,10 @@ export const TEST_DIMENSIONS = {
 export const TEST_DEFAULTS = {
   MIN_COUNT: 1,
 };
+
+export const TIMINGS = {
+  SETUP_DELAY: 50,
+  SCROLL_DELAY: 200,
+  CAROUSEL_ADVANCE: 4000,
+  LOOP_COUNT: 20,
+};

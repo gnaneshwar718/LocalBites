@@ -2,9 +2,21 @@
  * @jest-environment jsdom
  */
 import { jest } from '@jest/globals';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+
+
 
 describe('Culture Page', () => {
     let mockCultureData;
+    let TIMINGS;
+
+    beforeAll(async () => {
+        const constants = await import('../constants/test-constants.js');
+        TIMINGS = constants.TIMINGS;
+    });
 
     beforeEach(() => {
         mockCultureData = {
@@ -28,25 +40,19 @@ describe('Culture Page', () => {
             },
         };
 
-        document.body.innerHTML = `
-            <div id="header-placeholder"></div>
-            <div class="hamburger"></div>
-            <div class="nav-links"></div>
-            <div class="hero-tagline"></div>
-            <div class="culture-hero-text"><h1></h1><p></p></div>
-            <div class="carousel-inner">
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+        const htmlPath = path.resolve(__dirname, '../../../public/pages/culture.html');
+        const html = fs.readFileSync(htmlPath, 'utf8');
+        document.body.innerHTML = html;
+
+        const carouselInner = document.querySelector('.carousel-inner');
+        if (carouselInner) {
+            carouselInner.innerHTML = `
             <div class="carousel-item active" data-dish="d1"></div>
             <div class="carousel-item" data-dish="d7"></div>
-            </div>
-            <input type="text" id="dish-search" />
-            <div class="dishes-grid"></div>
-            <div class="pagination-controls">
-            <button class="prev-btn"></button>
-            <div class="page-dots"></div>
-            <button class="next-btn"></button>
-            </div>
-            <div id="footer-placeholder"></div>
-        `;
+            `;
+        }
 
         global.fetch = jest.fn((url) => {
             if (url.includes('header.html')) return Promise.resolve({ ok: true, text: () => Promise.resolve('<header></header>') });
@@ -68,48 +74,68 @@ describe('Culture Page', () => {
         await import('../culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         if (setTimeout.clock === undefined) {
-            await new Promise(resolve => setTimeout(resolve, 50));
+            await new Promise(resolve => setTimeout(resolve, TIMINGS.SETUP_DELAY));
         } else {
-            jest.advanceTimersByTime(50);
+            jest.advanceTimersByTime(TIMINGS.SETUP_DELAY);
             await Promise.resolve();
         }
     };
 
+    const verifyGridState = (expectedCount, includeText = null, excludeText = null) => {
+        const grid = document.querySelector('.dishes-grid');
+        expect(grid.children.length).toBe(expectedCount);
+        if (includeText) expect(grid.innerHTML).toContain(includeText);
+        if (excludeText) expect(grid.innerHTML).not.toContain(excludeText);
+    };
+
+    const getUI = () => ({
+        grid: document.querySelector('.dishes-grid'),
+        nextBtn: document.querySelector('.next-btn'),
+        prevBtn: document.querySelector('.prev-btn'),
+        dotsContainer: document.querySelector('.page-dots'),
+        searchInput: document.getElementById('dish-search'),
+        slides: document.querySelectorAll('.carousel-item'),
+    });
+
+    const triggerSearch = (term) => {
+        const { searchInput } = getUI();
+        searchInput.value = term;
+        searchInput.dispatchEvent(new Event('input'));
+    };
+
+    const verifyActiveDot = (index) => {
+        const { dotsContainer } = getUI();
+        expect(dotsContainer.children[index].classList.contains('active')).toBe(true);
+    };
+
     test('should load data and render 6 items on first page', async () => {
         await setupAndLoad();
-        const grid = document.querySelector('.dishes-grid');
-        expect(grid.children.length).toBe(6);
-        expect(grid.innerHTML).toContain('Dish 1');
-        expect(grid.innerHTML).not.toContain('Dish 7');
+        verifyGridState(6, 'Dish 1', 'Dish 7');
     });
 
     test('should handle pagination: next, prev, and dots', async () => {
         await setupAndLoad();
-        const nextBtn = document.querySelector('.next-btn');
-        const prevBtn = document.querySelector('.prev-btn');
-        const dotsContainer = document.querySelector('.page-dots');
+        const { nextBtn, prevBtn, dotsContainer } = getUI();
+
         expect(dotsContainer.children.length).toBe(2);
-        expect(dotsContainer.children[0].classList.contains('active')).toBe(true);
+        verifyActiveDot(0);
+
         nextBtn.click();
-        const grid = document.querySelector('.dishes-grid');
-        expect(grid.children.length).toBe(1);
-        expect(grid.innerHTML).toContain('Dish 7');
-        expect(dotsContainer.children[1].classList.contains('active')).toBe(true);
+        verifyGridState(1, 'Dish 7');
+        verifyActiveDot(1);
+
         prevBtn.click();
-        expect(grid.children.length).toBe(6);
-        expect(grid.innerHTML).toContain('Dish 1');
+        verifyGridState(6, 'Dish 1');
+
         dotsContainer.children[1].click();
-        expect(grid.innerHTML).toContain('Dish 7');
+        verifyGridState(1, 'Dish 7');
     });
 
     test('should display "No dishes found" on empty search', async () => {
         await setupAndLoad();
-        const searchInput = document.getElementById('dish-search');
-        searchInput.value = 'NonExistentDish';
-        searchInput.dispatchEvent(new Event('input'));
-        const grid = document.querySelector('.dishes-grid');
+        triggerSearch('NonExistentDish');
+        const { grid, dotsContainer } = getUI();
         expect(grid.innerHTML).toContain('No dishes found.');
-        const dotsContainer = document.querySelector('.page-dots');
         expect(dotsContainer.innerHTML).toBe('');
     });
 
@@ -131,7 +157,7 @@ describe('Culture Page', () => {
         carouselItem.click();
         const grid = document.querySelector('.dishes-grid');
         expect(grid.innerHTML).toContain('Dish 7');
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, TIMINGS.SCROLL_DELAY));
         const card = document.getElementById('d7');
         expect(card.classList.contains('active')).toBe(true);
         expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled();
@@ -139,10 +165,8 @@ describe('Culture Page', () => {
 
     test('should filter by restaurant name in search', async () => {
         await setupAndLoad();
-        const searchInput = document.getElementById('dish-search');
-        searchInput.value = 'Mavalli';
-        searchInput.dispatchEvent(new Event('input'));
-        const grid = document.querySelector('.dishes-grid');
+        triggerSearch('Mavalli');
+        const { grid } = getUI();
         expect(grid.children.length).toBe(1);
     });
 
@@ -150,10 +174,11 @@ describe('Culture Page', () => {
         jest.useFakeTimers();
         await import('../culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
-        for (let i = 0; i < 20; i++) await Promise.resolve();
-        jest.advanceTimersByTime(4000);
-        for (let i = 0; i < 20; i++) await Promise.resolve();
-        const slides = document.querySelectorAll('.carousel-item');
+        for (let i = 0; i < TIMINGS.LOOP_COUNT; i++) await Promise.resolve();
+        for (let i = 0; i < TIMINGS.LOOP_COUNT; i++) await Promise.resolve();
+        jest.advanceTimersByTime(TIMINGS.CAROUSEL_ADVANCE);
+        for (let i = 0; i < TIMINGS.LOOP_COUNT; i++) await Promise.resolve();
+        const { slides } = getUI();
         expect(slides[0].classList.contains('slide-out')).toBe(true);
         expect(slides[1].classList.contains('active')).toBe(true);
     });
