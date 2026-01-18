@@ -1,0 +1,35 @@
+@media (width <=900px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .feature-img {
+    height: 300px;
+    order: -1;
+  }
+
+  .restaurant-title {
+    font-size: 2.5rem;
+  }
+
+  .parallax-banner {
+    background-attachment: scroll;
+    height: 60vh;
+  }
+
+  .banner-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+
+  .content-block {
+    width: 95%;
+    margin-top: -50px;
+    padding: 2rem 1.5rem;
+  }
+
+  .content-wrapper p {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,46 @@
+.parallax-banner {
+  width: 100%;
+  height: 90vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-overlay {
+  background: rgb(0 0 0 / 30%);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-title {
+  color: #fff;
+  font-size: 6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  text-align: center;
+  padding: 0 1rem;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fade-up 1s ease forwards 0.3s;
+}
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
