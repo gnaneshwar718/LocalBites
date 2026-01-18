@@ -115,3 +115,42 @@ export const RESTAURANTS = [
     priceString: '₹350',
   },
 ];
+
+export const MOCK_RESTAURANTS = {
+  places: [
+    {
+      name: 'resources/places/12345',
+      id: '12345',
+      types: [
+        'restaurant',
+        'south_indian_restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: 'Basavanagudi, Bengaluru',
+      location: { latitude: 12.9431, longitude: 77.5736 },
+      rating: 4.5,
+      userRatingCount: 2500,
+      displayName: { text: 'Vidyarthi Bhavan', languageCode: 'en' },
+      priceLevel: 'PRICE_LEVEL_INEXPENSIVE',
+    },
+    {
+      name: 'resources/places/67890',
+      id: '67890',
+      types: [
+        'restaurant',
+        'indian_restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: 'Lalbagh Road, Bengaluru',
+      location: { latitude: 12.9566, longitude: 77.5869 },
+      rating: 4.4,
+      userRatingCount: 1800,
+      displayName: { text: 'MTR', languageCode: 'en' },
+      priceLevel: 'PRICE_LEVEL_MODERATE',
+    },
+  ],
+};

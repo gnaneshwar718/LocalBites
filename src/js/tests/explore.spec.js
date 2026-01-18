@@ -8,6 +8,7 @@ import {
   TEST_TIMEOUTS as TIMEOUTS,
   TEST_DIMENSIONS as DIMENSIONS,
   TEST_DEFAULTS as DEFAULTS,
+  MOCK_RESTAURANTS,
 } from '../constants/test-constants.js';
 
 const createHelpers = (page) => {
@@ -193,50 +194,10 @@ const createHelpers = (page) => {
   };
 };
 
-const MOCK_RESTAURANTS = {
-  places: [
-    {
-      name: 'resources/places/12345',
-      id: '12345',
-      types: [
-        'restaurant',
-        'south_indian_restaurant',
-        'food',
-        'point_of_interest',
-        'establishment',
-      ],
-      formattedAddress: 'Basavanagudi, Bengaluru',
-      location: { latitude: 12.9431, longitude: 77.5736 },
-      rating: 4.5,
-      userRatingCount: 2500,
-      displayName: { text: 'Vidyarthi Bhavan', languageCode: 'en' },
-      priceLevel: 'PRICE_LEVEL_INEXPENSIVE',
-    },
-    {
-      name: 'resources/places/67890',
-      id: '67890',
-      types: [
-        'restaurant',
-        'indian_restaurant',
-        'food',
-        'point_of_interest',
-        'establishment',
-      ],
-      formattedAddress: 'Lalbagh Road, Bengaluru',
-      location: { latitude: 12.9566, longitude: 77.5869 },
-      rating: 4.4,
-      userRatingCount: 1800,
-      displayName: { text: 'MTR', languageCode: 'en' },
-      priceLevel: 'PRICE_LEVEL_MODERATE',
-    },
-  ],
-};
-
 test.describe('Explore Page (Mocked API)', () => {
   let act;
 
   test.beforeEach(async ({ page }) => {
-    // Intercept Google Places API calls
     await page.route('**/places:searchNearby', async (route) => {
       await route.fulfill({
         status: 200,
@@ -270,7 +231,6 @@ test.describe('Explore Page (Mocked API)', () => {
     });
 
     test('should apply cuisine filter', async () => {
-      // With mocked data, we know 'South Indian' (Vidyarthi Bhavan) is available
       const cuisine = 'South Indian';
 
       await act.applyFilters([{ type: 'cuisine', value: cuisine }]);
