@@ -154,3 +154,23 @@ export const MOCK_RESTAURANTS = {
     },
   ],
 };
+
+export const AUTH_SELECTORS = {
+  CONTAINER: '#container',
+  SIGN_UP_BTN: '#signUp',
+  SIGN_IN_BTN: '#signIn',
+  MOBILE_SIGN_UP_BTN: '#mobile-signUp',
+  MOBILE_SIGN_IN_BTN: '#mobile-signIn',
+  PANEL_ACTIVE: '.right-panel-active',
+  SIGN_IN_FORM: '#signin-form',
+  SIGN_UP_FORM: '#signup-form',
+  SIGN_UP_NAME: '#signup-name',
+  SIGN_UP_EMAIL: '#signup-email',
+  SIGN_UP_PASSWORD: '#signup-password',
+  SIGN_UP_RETYPE: '#signup-retype-password',
+  SIGN_IN_EMAIL: '#signin-email',
+  SIGN_IN_PASSWORD: '#signin-password',
+  SUBMIT_BTN: 'button[type="submit"]',
+  SIGN_UP_MESSAGE: '#signup-message',
+  SIGN_IN_MESSAGE: '#signin-message',
+};

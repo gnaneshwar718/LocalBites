@@ -148,6 +148,13 @@ const createHelpers = (page) => {
 
     verifyFilterLogic: async (minCount) => await verifyCount(minCount),
 
+    filterAndVerify: async ({ type, value, minCount = 1 }) => {
+      await genericFilter(type, value);
+      await locate(SELECTORS.APPLY_FILTERS).click();
+      await page.waitForTimeout(TIMEOUTS.FILTER_APPLY);
+      await verifyCount(minCount);
+    },
+
     verifyDetailContent: async () => {
       const title = await locate(SELECTORS.CARD)
         .first()
@@ -233,13 +240,16 @@ test.describe('Explore Page (Mocked API)', () => {
     test('should apply cuisine filter', async () => {
       const cuisine = 'South Indian';
 
-      await act.applyFilters([{ type: 'cuisine', value: cuisine }]);
-      await act.verifyFilterLogic(1);
+      await act.filterAndVerify({
+        type: 'cuisine',
+        value: cuisine,
+        minCount: 1,
+      });
     });
 
     test('should verify UI elements', async () => {
       const cuisine = 'South Indian';
-      await act.applyFilters([{ type: 'cuisine', value: cuisine }]);
+      await act.filterAndVerify({ type: 'cuisine', value: cuisine });
       await act.toggleFilterModal(true);
       await act.verifyActiveFilter(cuisine);
       await act.verifyCloseLabel();
