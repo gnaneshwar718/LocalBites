@@ -64,13 +64,13 @@
     "stylelint-config-standard": "^39.0.1"
   },
   "lint-staged": {
-    "src/js/**/*.js": [
+    "src/js/**/*.{js,mjs}": [
       "eslint"
     ],
     "src/css/**/*.css": [
       "stylelint"
     ],
-    "**/*.{js,css,html,json,md}": [
+    "**/*.{js,mjs,css,html,json,md}": [
       "prettier --write"
     ]
   },
