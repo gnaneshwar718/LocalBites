@@ -52,33 +52,53 @@ app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   });
 });
 
-const users = [];
+import { createUser, findUserByEmail } from './src/js/db.js';
 
-app.post(ROUTES.SIGNUP, (req, res) => {
+app.post(ROUTES.SIGNUP, async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)
     return res
       .status(STATUS_CODES.BAD_REQUEST)
       .json({ message: MESSAGES.FIELDS_REQUIRED });
-  if (users.find((u) => u.email === email))
-    return res
-      .status(STATUS_CODES.BAD_REQUEST)
-      .json({ message: MESSAGES.USER_EXISTS });
-  users.push({ name, email, password });
-  res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.USER_CREATED });
+
+  try {
+    const existingUser = await findUserByEmail(email);
+    if (existingUser) {
+      return res
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ message: MESSAGES.USER_EXISTS });
+    }
+
+    await createUser(name, email, password);
+    res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.USER_CREATED });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal Server Error' });
+  }
 });
 
-app.post(ROUTES.SIGNIN, (req, res) => {
+app.post(ROUTES.SIGNIN, async (req, res) => {
   const { email, password } = req.body;
-  const user = users.find((u) => u.email === email);
-  if (!user || user.password !== password)
-    return res
-      .status(STATUS_CODES.UNAUTHORIZED)
-      .json({ message: MESSAGES.INVALID_CREDENTIALS });
-  res.status(STATUS_CODES.OK).json({
-    message: MESSAGES.SIGNIN_SUCCESS,
-    user: { name: user.name, email: user.email },
-  });
+
+  try {
+    const user = await findUserByEmail(email);
+    if (!user || user.password !== password)
+      return res
+        .status(STATUS_CODES.UNAUTHORIZED)
+        .json({ message: MESSAGES.INVALID_CREDENTIALS });
+
+    res.status(STATUS_CODES.OK).json({
+      message: MESSAGES.SIGNIN_SUCCESS,
+      user: { name: user.name, email: user.email },
+    });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal Server Error' });
+  }
 });
 
 app.listen(PORT, () => {
