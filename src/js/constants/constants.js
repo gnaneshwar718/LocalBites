@@ -134,3 +134,7 @@ export const ABOUT_SELECTORS = {
   VISION_TEXT: '#vision-text',
   FEATURES_GRID: '#features-grid',
 };
+
+export const ABOUT_CONSTANTS = {
+  ANIMATION_THRESHOLD: 0.1,
+};

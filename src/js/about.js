@@ -1,4 +1,8 @@
-import { ABOUT_DATA, ABOUT_SELECTORS } from './constants/constants.js';
+import {
+  ABOUT_DATA,
+  ABOUT_SELECTORS,
+  ABOUT_CONSTANTS,
+} from './constants/constants.js';
 
 const select = (selector) => document.querySelector(selector);
 const AboutPage = {
@@ -60,7 +64,7 @@ const AboutPage = {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: ABOUT_CONSTANTS.ANIMATION_THRESHOLD }
     );
 
     document.querySelectorAll('.feature-card, .team-card').forEach((card) => {
