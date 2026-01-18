@@ -17,7 +17,7 @@ import {
     EXPLORE_ATTRIBUTES as ATTRIBUTES,
     EXPLORE_TEXTS as TEXTS,
 } from '../constants/constants.js';
-import { API_ENDPOINTS } from '../../../route.js';
+
 import { RESTAURANTS } from '../constants/test-constants.js';
 import { PATHS } from '../constants/paths.js';
 import { PlacesApi } from '../services/placesApi.js';
