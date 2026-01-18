@@ -1,0 +1,133 @@
+.about-hero {
+  padding: var(--spacing-lg) 0 var(--spacing-md);
+  text-align: center;
+}
+
+.about-hero h1 {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary);
+}
+
+.about-info-section {
+  padding: var(--spacing-md) 0 var(--spacing-xl);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.info-block {
+  background: #f4f6f6;
+  padding: var(--spacing-md);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 5%);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.info-block:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 10%);
+  background: var(--color-secondary);
+}
+
+.info-block h2 {
+  font-size: 2.2rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-brand);
+}
+
+.info-block p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.features-section,
+.team-section,
+.discover-community-section {
+  padding: var(--spacing-xl) 0;
+}
+
+.features-grid,
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.feature-card,
+.team-card {
+  background: var(--color-secondary);
+  padding: var(--spacing-lg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 5%);
+  text-align: center;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.feature-card:hover,
+.team-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgb(0 0 0 / 10%);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: var(--color-logo);
+  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+.team-avatar {
+  font-size: 4rem;
+  color: var(--color-border);
+  margin-bottom: var(--spacing-md);
+}
+
+.team-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.team-card .role {
+  display: block;
+  color: var(--color-logo);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.discover-community-section {
+  background: #f4f6f6;
+  color: var(--color-text);
+}
+
+.discover-community-section h2 {
+  color: var(--color-primary);
+}
+
+.discover-community-section p {
+  color: var(--color-text-light);
+}
+
+.btn-primary {
+  background: var(--color-logo);
+  color: var(--color-secondary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 50px;
+  display: inline-block;
+  margin-top: var(--spacing-md);
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.text-center {
+  text-align: center;
+}
