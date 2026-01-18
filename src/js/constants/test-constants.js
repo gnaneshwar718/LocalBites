@@ -173,6 +173,7 @@ export const AUTH_SELECTORS = {
   SUBMIT_BTN: 'button[type="submit"]',
   SIGN_UP_MESSAGE: '#signup-message',
   SIGN_IN_MESSAGE: '#signin-message',
+};
 export const TIMINGS = {
   SETUP_DELAY: 50,
   SCROLL_DELAY: 200,
