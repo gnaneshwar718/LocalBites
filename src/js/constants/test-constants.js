@@ -76,3 +76,11 @@ export const TEST_DIMENSIONS = {
 export const TEST_DEFAULTS = {
   MIN_COUNT: 1,
 };
+export const TEST_CONSTANTS = {
+  FIRST_INDEX: 0,
+  UTF8: 'utf-8',
+  DOM_CONTENT_LOADED: 'DOMContentLoaded',
+  TEAM_CARD_SELECTOR: '.team-card',
+  FEATURE_CARD_SELECTOR: '.feature-card',
+  H3_TAG: 'h3',
+};

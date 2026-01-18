@@ -26,12 +26,10 @@ const AboutPage = {
     const template = select('#feature-template');
     if (!grid || !template) return;
 
-    const icons = ['fas fa-check-circle', 'fas fa-history', 'fas fa-users'];
-
-    ABOUT_DATA.FEATURES.forEach((feature, index) => {
+    ABOUT_DATA.FEATURES.forEach((feature) => {
       const clone = template.content.cloneNode(true);
       const icon = clone.querySelector('.feature-icon');
-      icon.className = `feature-icon ${icons[index]}`;
+      icon.className = `feature-icon ${feature.icon}`;
       clone.querySelector('h3').textContent = feature.title;
       clone.querySelector('p').textContent = feature.description;
       grid.appendChild(clone);
@@ -59,8 +57,7 @@ const AboutPage = {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('visible');
           }
         });
       },
@@ -68,9 +65,7 @@ const AboutPage = {
     );
 
     document.querySelectorAll('.feature-card, .team-card').forEach((card) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'all 0.6s ease-out';
+      card.classList.add('fade-in');
       observer.observe(card);
     });
   },

@@ -86,15 +86,18 @@ export const ABOUT_DATA = {
     {
       title: 'Authenticity',
       description: 'We focus on real local spots favored by residents.',
+      icon: 'fas fa-check-circle',
     },
     {
       title: 'Culture',
       description:
         'Learn the history and traditions behind your favorite meals.',
+      icon: 'fas fa-history',
     },
     {
       title: 'Community',
       description: 'Join a growing network of food enthusiasts.',
+      icon: 'fas fa-users',
     },
   ],
 };
