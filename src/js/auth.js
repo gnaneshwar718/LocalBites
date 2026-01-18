@@ -85,7 +85,15 @@ export const AuthManager = {
       body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error(
+        `Server Error: ${response.status} ${response.statusText}. Please check the console/logs.`
+      );
+    }
+
     return { response, data };
   },
 
@@ -116,7 +124,7 @@ export const AuthManager = {
       }
     } catch (err) {
       console.error(err);
-      this.showMessage('signup', MESSAGES.SIGNUP_ERROR, 'error');
+      this.showMessage('signup', err.message || MESSAGES.SIGNUP_ERROR, 'error');
     }
   },
 
