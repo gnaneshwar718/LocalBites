@@ -40,9 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const heroTagline = select('.hero-tagline');
     const heroTitle = select('.culture-hero-text h1');
     const heroDescription = select('.culture-hero-text p');
-
     let currentSlideIndex = 0;
-
     const showSlide = (index) => {
       const activeSlide = select('.carousel-item.active');
       if (activeSlide) {
@@ -50,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       slides[index].classList.remove('slide-out');
       slides[index].classList.add('active');
-
       [heroTagline, heroTitle, heroDescription].forEach((element) => {
         element.style.opacity = 0;
         element.style.transform = 'translateX(-50px)';
@@ -61,7 +58,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         heroTagline.textContent = item.t;
         heroTitle.textContent = item.h;
         heroDescription.textContent = item.d;
-
         [heroTagline, heroTitle, heroDescription].forEach((element, idx) => {
           element.style.transition = 'none';
           element.style.transform = 'translateX(50px)';
@@ -83,9 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const dishesGrid = select('.dishes-grid');
       const start = currentPage * LIMIT;
       const visibleDishes = filteredDishes.slice(start, start + LIMIT);
-
       dishesGrid.innerHTML = '';
-
       if (visibleDishes.length === 0) {
         const noDishesTemplate = getById('no-dishes-template');
         dishesGrid.appendChild(noDishesTemplate.content.cloneNode(true));
@@ -97,17 +91,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           const dishClone = dishTemplate.content.cloneNode(true);
           const dishCard = dishClone.querySelector('.dish-card');
           dishCard.id = dish.id;
-
           const imageLink = dishClone.querySelector('.dish-image-link');
           imageLink.href = `${PATHS.RESTAURANT_PAGE}?id=${dish.id}`;
-
           const img = dishClone.querySelector('.dish-image img');
           img.src = dish.image || '';
           img.alt = dish.name;
-
           dishClone.querySelector('h3').textContent = dish.name;
           dishClone.querySelector('p').textContent = dish.description;
-
           const restaurantList = dishClone.querySelector('.restaurant-list');
           dish.restaurants.forEach((restaurantId) => {
             const restaurant = restaurantData[restaurantId];
@@ -122,10 +112,8 @@ document.addEventListener('DOMContentLoaded', async () => {
               } else {
                 locationIcon.remove();
               }
-
               const placeLink = resClone.querySelector('.place-link');
               placeLink.href = `${PATHS.RESTAURANT_PAGE}?id=${dish.id}#${restaurant.id}`;
-
               restaurantList.appendChild(resClone);
             }
           });
@@ -137,10 +125,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const totalPages = Math.ceil(filteredDishes.length / LIMIT);
       const prevBtn = select('.prev-btn');
       const nextBtn = select('.next-btn');
-
       if (prevBtn) prevBtn.disabled = currentPage === 0;
       if (nextBtn) nextBtn.disabled = currentPage >= totalPages - 1;
-
       const dotsContainer = select('.page-dots');
       if (dotsContainer) {
         dotsContainer.innerHTML = '';

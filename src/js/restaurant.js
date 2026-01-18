@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const contentClone = contentTemplate.content.cloneNode(true);
       const contentSection = contentClone.querySelector('.content-block');
       if (id) contentSection.id = id;
-
       if (!isMainDish) {
         contentClone.querySelector('.content-title').textContent = title;
       } else {
@@ -89,7 +88,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     createSection(data.image, data.name, data.description, null, null, true);
-
     data.restaurants.forEach((rId) => {
       const rData = restaurantData[rId];
       if (rData) {
