@@ -2,13 +2,14 @@ import { jest } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { PATHS } from '../constants/paths.js';
 import { TIMINGS, MOCK_CULTURE_DATA as mockCultureData } from '../constants/test-constants.js';
 
 describe('Culture Page', () => {
     beforeEach(() => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
-        const htmlPath = path.resolve(__dirname, '../../../public/pages/culture.html');
+        const htmlPath = path.join(__dirname, '..', PATHS.CULTURE_HTML);
         const html = fs.readFileSync(htmlPath, 'utf8');
         document.body.innerHTML = html;
 

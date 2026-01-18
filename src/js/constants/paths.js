@@ -7,6 +7,7 @@ export const PATHS = {
   CULTURE_DATA: '/data/culture-data.json',
   RESTAURANT_PAGE: '/pages/restaurant.html',
   CULTURE_PAGE: '/pages/culture.html',
+  CULTURE_HTML: '../../public/pages/culture.html',
   HEADER: '/partials/header.html',
   FOOTER: '/partials/footer.html',
 };
