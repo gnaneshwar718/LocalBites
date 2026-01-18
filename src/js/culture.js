@@ -84,39 +84,55 @@ document.addEventListener('DOMContentLoaded', async () => {
       const start = currentPage * LIMIT;
       const visibleDishes = filteredDishes.slice(start, start + LIMIT);
 
-      dishesGrid.innerHTML = visibleDishes.length
-        ? visibleDishes
-            .map(
-              (dish) => `
-        <article class="dish-card" id="${dish.id}">
-          <a href="${PATHS.RESTAURANT_PAGE}?id=${dish.id}" class="dish-image-link">
-            <div class="dish-image"><img src="${dish.image || ''}" alt="${dish.name}" loading="lazy"></div>
-          </a>
-          <div class="dish-content">
-            <h3>${dish.name}</h3>
-            <p>${dish.description}</p>
-            <div class="famous-restaurants">
-              <h4>Iconic places to try</h4>
-              <ul class="restaurant-list">
-                ${dish.restaurants
-                  .map((restaurantId) => {
-                    const restaurant = restaurantData[restaurantId];
-                    return restaurant
-                      ? `<li class="restaurant-item"><div class="restaurant-header">
-                    <span class="restaurant-name">${restaurant.name}</span>
-                    ${restaurant.location && restaurant.location !== '#' ? `<a href="${restaurant.location}" target="_blank" class="location-icon"><i class="fas fa-map-marker-alt"></i></a>` : ''}
-                    <a href="${PATHS.RESTAURANT_PAGE}?id=${dish.id}#${restaurant.id}" class="place-link"><i class="fas fa-chevron-right"></i></a>
-                  </div></li>`
-                      : '';
-                  })
-                  .join('')}
-              </ul>
-            </div>
-          </div>
-        </article>`
-            )
-            .join('')
-        : '<p style="grid-column: 1/-1; text-align: center;">No dishes found.</p>';
+      dishesGrid.innerHTML = '';
+
+      if (visibleDishes.length === 0) {
+        const noDishesTemplate = getById('no-dishes-template');
+        dishesGrid.appendChild(noDishesTemplate.content.cloneNode(true));
+      } else {
+        const dishTemplate = getById('dish-card-template');
+        const restaurantTemplate = getById('restaurant-item-template');
+
+        visibleDishes.forEach((dish) => {
+          const dishClone = dishTemplate.content.cloneNode(true);
+          const dishCard = dishClone.querySelector('.dish-card');
+          dishCard.id = dish.id;
+
+          const imageLink = dishClone.querySelector('.dish-image-link');
+          imageLink.href = `${PATHS.RESTAURANT_PAGE}?id=${dish.id}`;
+
+          const img = dishClone.querySelector('.dish-image img');
+          img.src = dish.image || '';
+          img.alt = dish.name;
+
+          dishClone.querySelector('h3').textContent = dish.name;
+          dishClone.querySelector('p').textContent = dish.description;
+
+          const restaurantList = dishClone.querySelector('.restaurant-list');
+          dish.restaurants.forEach((restaurantId) => {
+            const restaurant = restaurantData[restaurantId];
+            if (restaurant) {
+              const resClone = restaurantTemplate.content.cloneNode(true);
+              resClone.querySelector('.restaurant-name').textContent =
+                restaurant.name;
+
+              const locationIcon = resClone.querySelector('.location-icon');
+              if (restaurant.location && restaurant.location !== '#') {
+                locationIcon.href = restaurant.location;
+              } else {
+                locationIcon.remove();
+              }
+
+              const placeLink = resClone.querySelector('.place-link');
+              placeLink.href = `${PATHS.RESTAURANT_PAGE}?id=${dish.id}#${restaurant.id}`;
+
+              restaurantList.appendChild(resClone);
+            }
+          });
+
+          dishesGrid.appendChild(dishClone);
+        });
+      }
 
       const totalPages = Math.ceil(filteredDishes.length / LIMIT);
       const prevBtn = select('.prev-btn');
@@ -127,21 +143,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const dotsContainer = select('.page-dots');
       if (dotsContainer) {
-        dotsContainer.innerHTML =
-          totalPages > 1
-            ? Array.from(
-                { length: totalPages },
-                (_, i) =>
-                  `<div class="dot ${i === currentPage ? 'active' : ''}" data-idx="${i}"></div>`
-              ).join('')
-            : '';
-        selectAll('.dot').forEach(
-          (dot) =>
-            (dot.onclick = () => {
-              currentPage = +dot.dataset.idx;
+        dotsContainer.innerHTML = '';
+        if (totalPages > 1) {
+          const dotTemplate = getById('pagination-dot-template');
+          for (let i = 0; i < totalPages; i++) {
+            const dotClone = dotTemplate.content.cloneNode(true);
+            const dot = dotClone.querySelector('.dot');
+            dot.dataset.idx = i;
+            if (i === currentPage) dot.classList.add('active');
+            dot.onclick = () => {
+              currentPage = i;
               updateUI();
-            })
-        );
+            };
+            dotsContainer.appendChild(dotClone);
+          }
+        }
       }
     };
 

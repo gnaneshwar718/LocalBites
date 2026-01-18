@@ -52,6 +52,33 @@
       </div>
     </main>
     <app-footer></app-footer>
+
+    <template id="parallax-banner-template">
+      <section class="parallax-banner">
+        <div class="banner-overlay"></div>
+      </section>
+    </template>
+
+    <template id="content-block-template">
+      <section class="content-block">
+        <div class="content-wrapper">
+          <h2 class="content-title"></h2>
+          <div class="restaurant-desc"></div>
+          <a href="" target="_blank" class="location-btn">
+            <i class="fas fa-map-marker-alt"></i> View Location
+          </a>
+        </div>
+      </section>
+    </template>
+
+    <template id="footer-nav-template">
+      <div class="restaurant-footer-nav">
+        <a href="/pages/culture.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to Dish Gallery
+        </a>
+      </div>
+    </template>
+
     <script src="/js/components.js"></script>
     <script type="module" src="/js/restaurant.js"></script>
   </body>

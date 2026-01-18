@@ -50,51 +50,44 @@ document.addEventListener('DOMContentLoaded', async () => {
       id = null,
       isMainDish = false
     ) => {
-      const wrapper = document.createElement('div');
-      if (id) wrapper.id = id;
+      const bannerTemplate = document.getElementById(
+        'parallax-banner-template'
+      );
+      const contentTemplate = document.getElementById('content-block-template');
 
-      const banner = document.createElement('section');
-      banner.className = 'parallax-banner';
-      banner.style.backgroundImage = `url('${image}')`;
+      const bannerClone = bannerTemplate.content.cloneNode(true);
+      const bannerSection = bannerClone.querySelector('.parallax-banner');
+      bannerSection.style.backgroundImage = `url('${image}')`;
 
-      let bannerContent = '<div class="banner-overlay"></div>';
       if (isMainDish) {
-        bannerContent = `
-            <div class="banner-overlay">
-                <h2 class="banner-title">${title}</h2>
-            </div>
-            `;
-      }
-      banner.innerHTML = bannerContent;
-      wrapper.appendChild(banner);
-
-      const content = document.createElement('section');
-      content.className = 'content-block';
-
-      let buttonHtml = '';
-      if (link) {
-        buttonHtml = `
-            <a href="${link}" target="_blank" class="location-btn">
-                <i class="fas fa-map-marker-alt"></i> View Location
-            </a>`;
+        const titleH2 = document.createElement('h2');
+        titleH2.className = 'banner-title';
+        titleH2.textContent = title;
+        bannerClone.querySelector('.banner-overlay').appendChild(titleH2);
       }
 
-      let contentTitleHtml = '';
+      const contentClone = contentTemplate.content.cloneNode(true);
+      const contentSection = contentClone.querySelector('.content-block');
+      if (id) contentSection.id = id;
+
       if (!isMainDish) {
-        contentTitleHtml = `<h2 class="content-title">${title}</h2>`;
+        contentClone.querySelector('.content-title').textContent = title;
+      } else {
+        contentClone.querySelector('.content-title').remove();
       }
 
-      content.innerHTML = `
-            <div class="content-wrapper">
-                ${contentTitleHtml}
-                <div class="restaurant-desc">${description}</div>
-                ${buttonHtml}
-            </div>
-        `;
-      wrapper.appendChild(content);
+      contentClone.querySelector('.restaurant-desc').innerHTML = description;
+
+      const locationBtn = contentClone.querySelector('.location-btn');
+      if (link) {
+        locationBtn.href = link;
+      } else {
+        locationBtn.remove();
+      }
 
       if (contentContainer) {
-        contentContainer.appendChild(wrapper);
+        contentContainer.appendChild(bannerClone);
+        contentContainer.appendChild(contentClone);
       }
     };
 
@@ -114,22 +107,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
-    const footerNav = document.createElement('div');
-    footerNav.style.cssText =
-      'padding: 4rem 0 6rem; text-align: center; background: #fff; position: relative; z-index: 10;';
-    footerNav.innerHTML = `
-        <a href="${PATHS.CULTURE_PAGE}" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #555; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: color 0.3s ease;">
-            <i class="fas fa-arrow-left"></i> Back to Dish Gallery
-        </a>
-    `;
-    const link = footerNav.querySelector('a');
-    if (link) {
-      link.onmouseover = () => (link.style.color = '#000');
-      link.onmouseout = () => (link.style.color = '#555');
-    }
-
-    if (contentContainer) {
-      contentContainer.appendChild(footerNav);
+    const footerNavTemplate = document.getElementById('footer-nav-template');
+    if (footerNavTemplate && contentContainer) {
+      const footerNavClone = footerNavTemplate.content.cloneNode(true);
+      contentContainer.appendChild(footerNavClone);
       if (notFoundMessage) notFoundMessage.style.display = 'none';
     }
 

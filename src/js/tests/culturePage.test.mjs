@@ -1,45 +1,11 @@
-/**
- * @jest-environment jsdom
- */
 import { jest } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-
-
+import { TIMINGS, MOCK_CULTURE_DATA as mockCultureData } from '../constants/test-constants.js';
 
 describe('Culture Page', () => {
-    let mockCultureData;
-    let TIMINGS;
-
-    beforeAll(async () => {
-        const constants = await import('../constants/test-constants.js');
-        TIMINGS = constants.TIMINGS;
-    });
-
     beforeEach(() => {
-        mockCultureData = {
-            restaurants: {
-                mtr: { id: 'mtr', name: 'Mavalli Tiffin Rooms', location: 'https://maps.google.com/?q=MTR' },
-                ctr: { id: 'ctr', name: 'CTR - Shri Sagar', location: 'https://maps.google.com/?q=CTR' },
-                'vidyarthi-bhavan': { id: 'vidyarthi-bhavan', name: 'Vidyarthi Bhavan', location: 'https://maps.google.com/?q=vidyarthi' },
-                'halli-mane': { id: 'halli-mane', name: 'Halli Mane', location: 'https://maps.google.com/?q=hallimane' },
-                maiyas: { id: 'maiyas', name: 'Maiyas', location: 'https://maps.google.com/?q=maiyas' },
-                'meghana-foods': { id: 'meghana-foods', name: 'Meghana Foods', location: 'https://maps.google.com/?q=meghana' },
-                nagarjuna: { id: 'nagarjuna', name: 'Nagarjuna', location: 'https://maps.google.com/?q=nagarjuna' },
-            },
-            dishes: {
-                'd1': { id: 'd1', name: 'Dish 1', description: 'Desc 1', restaurants: ['mtr'] },
-                'd2': { id: 'd2', name: 'Dish 2', description: 'Desc 2', restaurants: ['ctr'] },
-                'd3': { id: 'd3', name: 'Dish 3', description: 'Desc 3', restaurants: ['vidyarthi-bhavan'] },
-                'd4': { id: 'd4', name: 'Dish 4', description: 'Desc 4', restaurants: ['halli-mane'] },
-                'd5': { id: 'd5', name: 'Dish 5', description: 'Desc 5', restaurants: ['maiyas'] },
-                'd6': { id: 'd6', name: 'Dish 6', description: 'Desc 6', restaurants: ['meghana-foods'] },
-                'd7': { id: 'd7', name: 'Dish 7', description: 'Desc 7', restaurants: ['nagarjuna'] },
-            },
-        };
-
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
         const htmlPath = path.resolve(__dirname, '../../../public/pages/culture.html');

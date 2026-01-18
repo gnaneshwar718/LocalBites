@@ -7,6 +7,8 @@ export const PATHS = {
   CULTURE_DATA: '/data/culture-data.json',
   RESTAURANT_PAGE: '/pages/restaurant.html',
   CULTURE_PAGE: '/pages/culture.html',
+  HEADER: '/partials/header.html',
+  FOOTER: '/partials/footer.html',
 };
 export const PLAYWRIGHT_CONFIG = {
   TEST_DIR: './src/js/tests',
