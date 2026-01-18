@@ -127,6 +127,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       const nextBtn = select('.next-btn');
       if (prevBtn) prevBtn.disabled = currentPage === 0;
       if (nextBtn) nextBtn.disabled = currentPage >= totalPages - 1;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.classList.add('reveal');
+              }, index * ANIMATION_TIMINGS.STAGGER_DELAY);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: ANIMATION_TIMINGS.REVEAL_THRESHOLD }
+      );
+
+      selectAll('.dish-card').forEach((card) => observer.observe(card));
+
       const dotsContainer = select('.page-dots');
       if (dotsContainer) {
         dotsContainer.innerHTML = '';
