@@ -15,11 +15,28 @@ export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
 };
 
+export const STATUS_CODES = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+};
+
+export const SERVER_DEFAULTS = {
+  PORT: PORT,
+  KEEP_ALIVE_INTERVAL: 1000000,
+};
+
 export const MESSAGES = {
   PASSWORD_MISMATCH: 'Passwords do not match!',
   SIGNUP_SUCCESS: 'Sign up successful! Please sign in.',
   SIGNUP_ERROR: 'An error occurred during sign up.',
   SIGNIN_ERROR: 'An error occurred during sign in.',
+  FIELDS_REQUIRED: 'All fields are required',
+  USER_EXISTS: 'User already exists',
+  USER_CREATED: 'User created successfully',
+  INVALID_CREDENTIALS: 'Invalid credentials',
+  SIGNIN_SUCCESS: 'Sign in successful',
 };
 
 export const SELECTORS = {
@@ -116,4 +133,55 @@ export const ANIMATION_TIMINGS = {
   DISH_HIGHLIGHT_DURATION: 3000,
   DISH_SCROLL_DELAY: 150,
   HASH_SCROLL_DELAY: 100,
+};
+
+export const ABOUT_DATA = {
+  MISSION:
+    'Our mission is to bridge the gap between travelers and authentic local food experiences, celebrating the culture and stories behind every dish.',
+  STORY:
+    'LocalBites was born in the heart of Bengaluru, inspired by the bustling streets and hidden aromas of family-run eateries that have been serving generations. We realized that while mainstream maps show you where to eat, they often miss the places where the soul of the city truly resides.',
+  VISION:
+    'We envision a world where every meal is an opportunity for discovery and cultural connection. By putting local legends on the map, we strive to preserve culinary heritage and support the independent artisans who keep our food traditions alive.',
+  TEAM: [
+    {
+      name: 'Rakshitha Banapur',
+      role: 'Software developer engineer',
+      bio: 'Deeply passionate about preserving cultural narratives through digital design. Dedicated to crafting immersive experiences that bring the soul of local cuisine to life.',
+    },
+    {
+      name: 'Gnaneshwar P',
+      role: 'Software developer engineer',
+      bio: 'Driven by the power of technology to bridge communities. Focused on building seamless, accessible platforms that turn every search into a meaningful discovery.',
+    },
+  ],
+  FEATURES: [
+    {
+      title: 'Authenticity',
+      description: 'We focus on real local spots favored by residents.',
+      icon: 'fas fa-check-circle',
+    },
+    {
+      title: 'Culture',
+      description:
+        'Learn the history and traditions behind your favorite meals.',
+      icon: 'fas fa-history',
+    },
+    {
+      title: 'Explore',
+      description: 'Join a growing network of food enthusiasts.',
+      icon: 'fas fa-users',
+    },
+  ],
+};
+
+export const ABOUT_SELECTORS = {
+  TEAM_CONTAINER: '#team-container',
+  MISSION_TEXT: '#mission-text',
+  STORY_TEXT: '#story-text',
+  VISION_TEXT: '#vision-text',
+  FEATURES_GRID: '#features-grid',
+};
+
+export const ABOUT_CONSTANTS = {
+  ANIMATION_THRESHOLD: 0.1,
 };

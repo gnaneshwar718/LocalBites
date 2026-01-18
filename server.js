@@ -4,10 +4,14 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { ROUTES, API_ENDPOINTS } from './route.js';
+import {
+  STATUS_CODES,
+  MESSAGES,
+  SERVER_DEFAULTS,
+} from './src/js/constants/constants.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const app = express();
 const PORT = process.env.PORT;
 
@@ -21,31 +25,23 @@ const PATHS = {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
 app.use('/constants', express.static(PATHS.CONSTANTS));
-
 app.get('/route.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'route.js'));
 });
-
-const users = [];
 
 const sendPage = (res, fileName) => {
   res.sendFile(path.join(PATHS.PAGES, fileName));
 };
 
-const findUserByEmail = (email) => users.find((user) => user.email === email);
-
-const isValidSignup = ({ name, email, password }) =>
-  Boolean(name && email && password);
-
-app.get(ROUTES.HOME, (req, res) => {
-  sendPage(res, 'index.html');
-});
-
+app.get(ROUTES.HOME, (req, res) => sendPage(res, 'index.html'));
+app.get(ROUTES.AUTH, (req, res) => sendPage(res, 'auth.html'));
+app.get(ROUTES.EXPLORE, (req, res) => sendPage(res, 'explore.html'));
+app.get(ROUTES.CULTURE, (req, res) => sendPage(res, 'culture.html'));
+app.get(ROUTES.ABOUT, (req, res) => sendPage(res, 'about.html'));
 app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   res.json({
     contactEmail: process.env.CONTACT_EMAIL,
@@ -53,13 +49,7 @@ app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   });
 });
 
-app.get(ROUTES.AUTH, (req, res) => {
-  sendPage(res, 'auth.html');
-});
-
-app.get(ROUTES.EXPLORE, (req, res) => {
-  sendPage(res, 'explore.html');
-});
+const users = [];
 
 app.get(ROUTES.CULTURE, (req, res) => {
   sendPage(res, 'culture.html');
@@ -67,38 +57,33 @@ app.get(ROUTES.CULTURE, (req, res) => {
 
 app.post(ROUTES.SIGNUP, (req, res) => {
   const { name, email, password } = req.body;
-
-  if (!isValidSignup(req.body)) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  if (findUserByEmail(email)) {
-    return res.status(400).json({ message: 'User already exists' });
-  }
-
+  if (!name || !email || !password)
+    return res
+      .status(STATUS_CODES.BAD_REQUEST)
+      .json({ message: MESSAGES.FIELDS_REQUIRED });
+  if (users.find((u) => u.email === email))
+    return res
+      .status(STATUS_CODES.BAD_REQUEST)
+      .json({ message: MESSAGES.USER_EXISTS });
   users.push({ name, email, password });
-
-  res.status(201).json({ message: 'User created successfully' });
+  res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.USER_CREATED });
 });
 
 app.post(ROUTES.SIGNIN, (req, res) => {
   const { email, password } = req.body;
-
-  const user = findUserByEmail(email);
-
-  if (!user || user.password !== password) {
-    return res.status(401).json({ message: 'Invalid credentials' });
-  }
-
-  res.status(200).json({
-    message: 'Sign in successful',
-    user: {
-      name: user.name,
-      email: user.email,
-    },
+  const user = users.find((u) => u.email === email);
+  if (!user || user.password !== password)
+    return res
+      .status(STATUS_CODES.UNAUTHORIZED)
+      .json({ message: MESSAGES.INVALID_CREDENTIALS });
+  res.status(STATUS_CODES.OK).json({
+    message: MESSAGES.SIGNIN_SUCCESS,
+    user: { name: user.name, email: user.email },
   });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
+setInterval(() => {}, SERVER_DEFAULTS.KEEP_ALIVE_INTERVAL);
