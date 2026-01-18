@@ -140,6 +140,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             dot.onclick = () => {
               currentPage = i;
               updateUI();
+              select('.must-try-section')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              });
             };
             dotsContainer.appendChild(dotClone);
           }
@@ -151,13 +155,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (currentPage > 0) {
         currentPage--;
         updateUI();
+        select('.must-try-section')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
       }
     });
 
     select('.next-btn')?.addEventListener('click', () => {
-      if (currentPage < Math.ceil(filteredDishes.length / LIMIT) - 1) {
+      const totalPages = Math.ceil(filteredDishes.length / LIMIT);
+      if (currentPage < totalPages - 1) {
         currentPage++;
         updateUI();
+        select('.must-try-section')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
       }
     });
 
