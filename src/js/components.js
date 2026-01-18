@@ -1,6 +1,6 @@
 import { COPYRIGHT_TEXT, SELECTORS } from './constants/constants.js';
 import { PATHS } from './constants/paths.js';
-import { ENDPOINTS } from '../../route.js';
+import { API_ENDPOINTS } from '../../route.js';
 
 async function loadPartial(url) {
   const response = await fetch(url);
@@ -9,7 +9,7 @@ async function loadPartial(url) {
 
 async function updateContactLinks(container) {
   try {
-    const response = await fetch(ENDPOINTS.CONFIG);
+    const response = await fetch(API_ENDPOINTS.CONFIG);
     const config = await response.json();
     const contactLinks = container.querySelectorAll(SELECTORS.CONTACT_LINKS);
     contactLinks.forEach((link) => {
@@ -40,6 +40,16 @@ class AppHeader extends HTMLElement {
         navLinks.classList.toggle('active');
       });
     }
+
+    const currentPath = window.location.pathname;
+    const links = this.querySelectorAll(`${SELECTORS.NAV_LINKS} a`);
+    links.forEach((link) => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   }
 }
 

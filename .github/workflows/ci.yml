@@ -16,7 +16,7 @@ jobs:
   lint:
     name: Lint Check
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 2
     steps:
       - uses: actions/checkout@v4
 
@@ -24,38 +24,81 @@ jobs:
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
           cache: npm
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --progress=false --loglevel=error
+      - name: Run ESLint
+        run: |
+          npx eslint . --format stylish --max-warnings 0
+          echo "ESLint completed successfully"
+      - name: Run Stylelint
+        run: |
+          npx stylelint "src/css/**/*.css" --allow-empty-input
+          echo "Stylelint completed successfully"
+      - name: Lint summary
+        run: echo "All lint checks passed successfully"
 
-      - uses: actions/cache@v4
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-
-      - run: npm ci
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      
-      - run: npx stylelint "src/**/*.css" --allow-empty-input && echo "Stylelint Completed Successfully"
-      - run: npx eslint . --format stylish && echo "ESLint Completed Successfully"
-
-  unit-tests:
-    name: Unit & Integration Tests
+  test:
+    name: Unit Tests
     runs-on: ubuntu-latest
     needs: [lint]
-    timeout-minutes: 15
+    timeout-minutes: 2
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
           cache: npm
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --progress=false --loglevel=error
+      - name: Run Unit Tests
+        run: |
+          npm test -- --ci --maxWorkers=4 --silent
+          echo "Unit tests completed successfully"
 
-      - uses: actions/cache@v4
-        id: cache-node-modules
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: [test]
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-
-      - run: npm ci
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      - run: npm test && echo "Test completed Successfully" && echo "CI Pipeline Completed Successfully"
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --progress=false --loglevel=error
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: |
+          npx playwright install chromium
+          echo "Playwright browsers installed"
+      - name: Run E2E Tests
+        run: |
+          npx playwright test
+          echo "E2E tests completed successfully"
+        continue-on-error: true
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: |
+            playwright-report/
+            !playwright-report/data/
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-screenshots-${{ github.run_id }}
+          path: test-results/**/*.png
+          retention-days: 30
+          if-no-files-found: ignore

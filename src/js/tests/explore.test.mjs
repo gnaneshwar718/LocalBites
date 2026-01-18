@@ -2,51 +2,16 @@ import { jest, describe, test, expect, beforeEach, beforeAll } from "@jest/globa
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-const RESTAURANTS = [
-    {
-        id: '1',
-        name: 'Vidyarthi Bhavan',
-        cuisine: 'South Indian',
-        mealType: ['breakfast', 'lunch'],
-        price: 150,
-        rating: 4.5,
-        reviews: 2000,
-        location: 'Basavanagudi',
-        image: 'vb.jpg',
-        priceString: '₹150'
-    },
-    {
-        id: '2',
-        name: 'MTR',
-        cuisine: 'South Indian',
-        mealType: ['breakfast', 'lunch', 'dinner'],
-        price: 250,
-        rating: 4.4,
-        reviews: 1500,
-        location: 'Lalbagh',
-        image: 'mtr.jpg',
-        priceString: '₹250'
-    },
-    {
-        id: '3',
-        name: 'Truffles',
-        cuisine: 'Burger',
-        mealType: ['lunch', 'dinner'],
-        price: 350,
-        rating: 4.3,
-        reviews: 1200,
-        location: 'Koramangala',
-        image: 'truffles.jpg',
-        priceString: '₹350'
-    }
-];
+
 import {
     EXPLORE_SELECTORS as SELECTORS,
     EXPLORE_CLASSES as CLASSES,
     EVENTS,
     EXPLORE_ATTRIBUTES as ATTRIBUTES,
-    EXPLORE_TEXTS as TEXTS
+    EXPLORE_TEXTS as TEXTS,
 } from '../constants/constants.js';
+
+import { RESTAURANTS } from '../constants/test-constants.js';
 import { PATHS } from '../constants/paths.js';
 import { PlacesApi } from '../services/placesApi.js';
 
@@ -65,11 +30,13 @@ const getElements = () => ({
     modalBody: getElementById(SELECTORS.MODAL_BODY),
     cuisineFilters: getElementById(SELECTORS.CUISINE_FILTERS),
     mealTypeFilters: getElementById(SELECTORS.MEAL_TYPE_FILTERS),
-    cards: () => querySelectorAll(SELECTORS.RESTAURANT_CARD)
+    cards: () => querySelectorAll(SELECTORS.RESTAURANT_CARD),
 });
 
 const triggerEvent = (element, eventType) => {
-    eventType === EVENTS.CLICK ? element.click() : element.dispatchEvent(new Event(eventType));
+    eventType === EVENTS.CLICK
+        ? element.click()
+        : element.dispatchEvent(new Event(eventType));
 };
 
 const pressKey = (key) => {
@@ -100,7 +67,8 @@ const verifySearch = (value, expectedCountOrSelector) => {
 };
 
 const verifyModalToggle = (triggerElement, modalElement, closeAction) => {
-    const checkActive = (state) => expectClassOnElement(modalElement, CLASSES.ACTIVE, state);
+    const checkActive = (state) =>
+        expectClassOnElement(modalElement, CLASSES.ACTIVE, state);
     checkActive(false);
     triggerEvent(triggerElement, EVENTS.CLICK);
     checkActive(true);
@@ -120,11 +88,11 @@ const verifyContentMatch = (selector, text) => {
     expect(querySelector(selector).textContent).toContain(text);
 };
 
-describe("Explore Page Comprehensive Tests", () => {
+describe('Explore Page Comprehensive Tests', () => {
     let exploreInstance;
     beforeAll(() => {
         const htmlPath = path.join(__dirname, '..', ...PATHS.EXPLORE_HTML);
-        global.htmlContent = fs.readFileSync(htmlPath, "utf-8");
+        global.htmlContent = fs.readFileSync(htmlPath, 'utf-8');
     });
 
     beforeEach(async () => {
@@ -135,84 +103,127 @@ describe("Explore Page Comprehensive Tests", () => {
             if (url.toString().includes('/api/config')) {
                 return Promise.resolve({
                     ok: true,
-                    json: () => Promise.resolve({ googleMapsApiKey: 'TEST_KEY' })
+                    json: () => Promise.resolve({ googleMapsApiKey: 'TEST_KEY' }),
                 });
             }
-            return Promise.resolve({ ok: false });
+            if (
+                url.toString().includes('partial') ||
+                url.toString().endsWith('.html')
+            ) {
+                return Promise.resolve({
+                    ok: true,
+                    text: () => Promise.resolve('<header></header>'),
+                });
+            }
+            return Promise.resolve({
+                ok: false,
+                text: () => Promise.resolve(''),
+                json: () => Promise.resolve({}),
+            });
         });
         jest.spyOn(PlacesApi, 'fetchRestaurants').mockResolvedValue(RESTAURANTS);
         jest.spyOn(PlacesApi, 'setApiKey').mockImplementation(() => { });
-        const module = await import('../explore.js');
+        const module = await import(PATHS.EXPLORE_JS);
         exploreInstance = new module.ExplorePage();
         await exploreInstance.initPromise;
     });
 
-    describe("Initial State", () => {
-        test("renders all initial restaurants", () => {
+    describe('Initial State', () => {
+        test('renders all initial restaurants', () => {
             expectElementCount(RESTAURANTS.length);
             verifyContentMatch(SELECTORS.PAGE_TITLE, TEXTS.PAGE_HEADER);
         });
-        test("prices use Indian Rupee symbol", () => {
-            RESTAURANTS.length > 0 && verifyContentMatch(SELECTORS.CARD_PRICE, TEXTS.CURRENCY);
+        test('prices use Indian Rupee symbol', () => {
+            RESTAURANTS.length > 0 &&
+                verifyContentMatch(SELECTORS.CARD_PRICE, TEXTS.CURRENCY);
         });
     });
 
-    describe("Search Functionality", () => {
+    describe('Search Functionality', () => {
         const target = RESTAURANTS[0];
-        test("filters by name", () => {
+        test('filters by name', () => {
             verifySearch(target.name.split(' ')[0], 1);
-            verifyContentMatch(`${SELECTORS.RESTAURANT_CARD} ${SELECTORS.CARD_TITLE}`, target.name);
+            verifyContentMatch(
+                `${SELECTORS.RESTAURANT_CARD} ${SELECTORS.CARD_TITLE}`,
+                target.name
+            );
         });
-        test("filters by cuisine", () => {
-            const count = RESTAURANTS.filter(r => r.cuisine.toLowerCase().includes(target.cuisine.toLowerCase())).length;
+        test('filters by cuisine', () => {
+            const count = RESTAURANTS.filter((r) =>
+                r.cuisine.toLowerCase().includes(target.cuisine.toLowerCase())
+            ).length;
             verifySearch(target.cuisine, count);
-            verifyContentMatch(`${SELECTORS.RESTAURANT_CARD} ${SELECTORS.CARD_CUISINE}`, target.cuisine);
+            verifyContentMatch(
+                `${SELECTORS.RESTAURANT_CARD} ${SELECTORS.CARD_CUISINE}`,
+                target.cuisine
+            );
         });
-        test("shows no-results message for invalid search", () => {
+        test('shows no-results message for invalid search', () => {
             verifySearch(TEXTS.NO_EXISTENT, SELECTORS.NO_RESULTS);
         });
     });
 
-    describe("Filter Modal", () => {
-        test("toggles filter modal", () => {
+    describe('Filter Modal', () => {
+        test('toggles filter modal', () => {
             const { filterBtn, filterModal } = getElements();
             verifyModalToggle(filterBtn, filterModal);
         });
-        test("filters by cuisine chip", () => {
+        test('filters by cuisine chip', () => {
             const { cuisineFilters } = getElements();
-            const count = RESTAURANTS.filter(r => r.cuisine === TEXTS.SOUTH_INDIAN).length;
-            verifyFilter(cuisineFilters, ATTRIBUTES.DATA_CUISINE, TEXTS.SOUTH_INDIAN, count);
+            const count = RESTAURANTS.filter(
+                (r) => r.cuisine === TEXTS.SOUTH_INDIAN
+            ).length;
+            verifyFilter(
+                cuisineFilters,
+                ATTRIBUTES.DATA_CUISINE,
+                TEXTS.SOUTH_INDIAN,
+                count
+            );
         });
-        test("filters by meal type", () => {
+        test('filters by meal type', () => {
             const { mealTypeFilters } = getElements();
-            const count = RESTAURANTS.filter(r => r.mealType.includes(TEXTS.BREAKFAST)).length;
-            verifyFilter(mealTypeFilters, ATTRIBUTES.DATA_MEALTYPE, TEXTS.BREAKFAST, count);
+            const count = RESTAURANTS.filter((r) =>
+                r.mealType.includes(TEXTS.BREAKFAST)
+            ).length;
+            verifyFilter(
+                mealTypeFilters,
+                ATTRIBUTES.DATA_MEALTYPE,
+                TEXTS.BREAKFAST,
+                count
+            );
         });
     });
 
-    describe("Combined Multi-Filtering", () => {
-        test("search + cuisine + meal type", () => {
-            const target = RESTAURANTS.find(r => r.name.includes(TEXTS.MTR));
+    describe('Combined Multi-Filtering', () => {
+        test('search + cuisine + meal type', () => {
+            const target = RESTAURANTS.find((r) => r.name.includes(TEXTS.MTR));
             if (!target) return;
             const { cuisineFilters, mealTypeFilters, searchInput } = getElements();
             searchInput.value = TEXTS.MTR;
             triggerEvent(searchInput, EVENTS.INPUT);
             selectFilterChip(cuisineFilters, ATTRIBUTES.DATA_CUISINE, target.cuisine);
-            selectFilterChip(mealTypeFilters, ATTRIBUTES.DATA_MEALTYPE, target.mealType[0]);
+            selectFilterChip(
+                mealTypeFilters,
+                ATTRIBUTES.DATA_MEALTYPE,
+                target.mealType[0]
+            );
             triggerEvent(getElements().applyBtn, EVENTS.CLICK);
             expectElementCount(1);
-            verifyContentMatch(`${SELECTORS.RESTAURANT_CARD} ${SELECTORS.CARD_TITLE}`, target.name);
+            verifyContentMatch(
+                `${SELECTORS.RESTAURANT_CARD} ${SELECTORS.CARD_TITLE}`,
+                target.name
+            );
         });
     });
 
-    describe("Detail Modal", () => {
-        test("opens detail modal with correct content", () => {
+    describe('Detail Modal', () => {
+        test('opens detail modal with correct content', () => {
             const { detailModal } = getElements();
             verifyModalToggle(querySelector(SELECTORS.RESTAURANT_CARD), detailModal);
             verifyContentMatch(`#${SELECTORS.MODAL_BODY}`, RESTAURANTS[0].name);
         });
 
-        test("closes modal via ESC key", () => {
+        test('closes modal via ESC key', () => {
             const { detailModal } = getElements();
             verifyModalToggle(
                 querySelector(SELECTORS.RESTAURANT_CARD),

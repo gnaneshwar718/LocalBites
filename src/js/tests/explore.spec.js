@@ -8,6 +8,7 @@ import {
   TEST_TIMEOUTS as TIMEOUTS,
   TEST_DIMENSIONS as DIMENSIONS,
   TEST_DEFAULTS as DEFAULTS,
+  MOCK_RESTAURANTS,
 } from '../constants/test-constants.js';
 
 const createHelpers = (page) => {
@@ -17,6 +18,9 @@ const createHelpers = (page) => {
 
   const verifyVisible = async (selector) =>
     expect(locate(selector)).toBeVisible();
+
+  const verifyHidden = async (selector) =>
+    expect(locate(selector)).toBeHidden();
 
   const verifyText = async (selector, text) =>
     expect(locate(selector)).toContainText(text);
@@ -49,6 +53,19 @@ const createHelpers = (page) => {
     });
   };
 
+  const getValidFilterCuisine = async () => {
+    const cuisines = await locate(SELECTORS.CARD_CUISINE).allTextContents();
+    const validFilters = ['South Indian', 'Andhra'];
+    for (const text of cuisines) {
+      for (const filter of validFilters) {
+        if (text.toLowerCase().includes(filter.toLowerCase())) {
+          return filter;
+        }
+      }
+    }
+    return null;
+  };
+
   return {
     navigate: async () => {
       await page.goto(ROUTES.EXPLORE);
@@ -62,9 +79,16 @@ const createHelpers = (page) => {
       if (open) await locate(SELECTORS.FILTER_BTN).click();
       else await locate(SELECTORS.FILTER_CLOSE).evaluate((el) => el.click());
       if (verify) {
-        if (!open) await verifyVisible(SELECTORS.FILTER_MODAL, false);
-        else
+        if (!open) {
+          await verifyHidden(SELECTORS.FILTER_MODAL);
+          await verifyClass(
+            SELECTORS.FILTER_MODAL,
+            STRINGS.CLASS_ACTIVE,
+            false
+          );
+        } else {
           await verifyClass(SELECTORS.FILTER_MODAL, STRINGS.CLASS_ACTIVE, true);
+        }
       }
     },
 
@@ -91,6 +115,13 @@ const createHelpers = (page) => {
       expect(hasCurrency).toBeTruthy();
       const styles = await getCompStyle(SELECTORS.GRID);
       expect(styles.display).toBe(STRINGS.GRID_DISPLAY);
+      await expect(page.locator('app-header')).toBeVisible();
+      await expect(page.locator('nav.nav-links')).toBeVisible();
+      await expect(page.locator('nav.nav-links a.active')).toHaveAttribute(
+        'href',
+        ROUTES.EXPLORE
+      );
+      await expect(page.locator('.logo a')).toHaveAttribute('href', '/');
     },
 
     verifySearchOutcome: async ({
@@ -116,6 +147,13 @@ const createHelpers = (page) => {
       verifyClass(selector, STRINGS.CLASS_ACTIVE, isOpen),
 
     verifyFilterLogic: async (minCount) => await verifyCount(minCount),
+
+    filterAndVerify: async ({ type, value, minCount = 1 }) => {
+      await genericFilter(type, value);
+      await locate(SELECTORS.APPLY_FILTERS).click();
+      await page.waitForTimeout(TIMEOUTS.FILTER_APPLY);
+      await verifyCount(minCount);
+    },
 
     verifyDetailContent: async () => {
       const title = await locate(SELECTORS.CARD)
@@ -147,9 +185,9 @@ const createHelpers = (page) => {
         STRINGS.SEARCH_PLACEHOLDER
       ),
 
-    verifyActiveFilter: async () =>
+    verifyActiveFilter: async (cuisine) =>
       verifyClass(
-        SELECTORS.CUISINE_OPTION(FILTERS.CUISINE_SOUTH),
+        SELECTORS.CUISINE_OPTION(cuisine || FILTERS.CUISINE_SOUTH),
         STRINGS.CLASS_ACTIVE,
         true
       ),
@@ -159,13 +197,22 @@ const createHelpers = (page) => {
         ATTRIBUTES.ARIA_LABEL,
         STRINGS.CLOSE_MODAL_LABEL
       ),
+    getValidFilterCuisine,
   };
 };
 
-test.describe('Explore Page (Real API)', () => {
+test.describe('Explore Page (Mocked API)', () => {
   let act;
 
   test.beforeEach(async ({ page }) => {
+    await page.route('**/places:searchNearby', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(MOCK_RESTAURANTS),
+      });
+    });
+
     act = createHelpers(page);
     await act.navigate();
   });
@@ -183,8 +230,6 @@ test.describe('Explore Page (Real API)', () => {
     await act.verifySearchOutcome({ noResults: true });
   });
 
-  const SOUTH_FILTER = [{ type: 'cuisine', value: FILTERS.CUISINE_SOUTH }];
-
   test.describe('Filter Modal', () => {
     test.beforeEach(async () => await act.toggleFilterModal(true, true));
 
@@ -193,14 +238,20 @@ test.describe('Explore Page (Real API)', () => {
     });
 
     test('should apply cuisine filter', async () => {
-      await act.applyFilters(SOUTH_FILTER);
-      await act.verifyFilterLogic(DEFAULTS.MIN_COUNT);
+      const cuisine = 'South Indian';
+
+      await act.filterAndVerify({
+        type: 'cuisine',
+        value: cuisine,
+        minCount: 1,
+      });
     });
 
     test('should verify UI elements', async () => {
-      await act.applyFilters(SOUTH_FILTER);
+      const cuisine = 'South Indian';
+      await act.filterAndVerify({ type: 'cuisine', value: cuisine });
       await act.toggleFilterModal(true);
-      await act.verifyActiveFilter();
+      await act.verifyActiveFilter(cuisine);
       await act.verifyCloseLabel();
     });
   });

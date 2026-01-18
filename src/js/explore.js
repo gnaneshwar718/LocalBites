@@ -3,6 +3,7 @@ import { $, byId, on } from './utils/dom.js';
 import { ModalManager } from './utils/modal.js';
 import { API_ENDPOINTS } from '../../route.js';
 import { GOOGLE_MAPS_CHECK_INTERVAL } from './constants/constants.js';
+import './components.js';
 
 class ExplorePage {
   constructor() {
@@ -38,17 +39,11 @@ class ExplorePage {
 
   async init() {
     try {
-      console.log('Initializing ExplorePage...');
       this.apiKey = await this.loadConfig();
       PlacesApi.setApiKey(this.apiKey);
-
-      console.log('Attempting to fetch from API...');
       const apiData = await PlacesApi.fetchRestaurants();
 
       if (apiData && apiData.length > 0) {
-        console.log(
-          `Successfully fetched ${apiData.length} restaurants from API.`
-        );
         this.restaurants = apiData;
       } else {
         console.warn('API returned empty or invalid data.');
@@ -58,7 +53,6 @@ class ExplorePage {
       console.error('Detailed error in ExplorePage init:', error);
       this.restaurants = [];
     } finally {
-      console.log('Rendering restaurants...');
       this.renderRestaurants();
       this.setupEventListeners();
     }

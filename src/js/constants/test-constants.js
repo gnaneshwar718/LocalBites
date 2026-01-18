@@ -77,6 +77,103 @@ export const TEST_DEFAULTS = {
   MIN_COUNT: 1,
 };
 
+export const RESTAURANTS = [
+  {
+    id: '1',
+    name: 'Vidyarthi Bhavan',
+    cuisine: 'South Indian',
+    mealType: ['breakfast', 'lunch'],
+    price: 150,
+    rating: 4.5,
+    reviews: 2000,
+    location: 'Basavanagudi',
+    image: 'vb.jpg',
+    priceString: '₹150',
+  },
+  {
+    id: '2',
+    name: 'MTR',
+    cuisine: 'South Indian',
+    mealType: ['breakfast', 'lunch', 'dinner'],
+    price: 250,
+    rating: 4.4,
+    reviews: 1500,
+    location: 'Lalbagh',
+    image: 'mtr.jpg',
+    priceString: '₹250',
+  },
+  {
+    id: '3',
+    name: 'Truffles',
+    cuisine: 'Burger',
+    mealType: ['lunch', 'dinner'],
+    price: 350,
+    rating: 4.3,
+    reviews: 1200,
+    location: 'Koramangala',
+    image: 'truffles.jpg',
+    priceString: '₹350',
+  },
+];
+
+export const MOCK_RESTAURANTS = {
+  places: [
+    {
+      name: 'resources/places/12345',
+      id: '12345',
+      types: [
+        'restaurant',
+        'south_indian_restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: 'Basavanagudi, Bengaluru',
+      location: { latitude: 12.9431, longitude: 77.5736 },
+      rating: 4.5,
+      userRatingCount: 2500,
+      displayName: { text: 'Vidyarthi Bhavan', languageCode: 'en' },
+      priceLevel: 'PRICE_LEVEL_INEXPENSIVE',
+    },
+    {
+      name: 'resources/places/67890',
+      id: '67890',
+      types: [
+        'restaurant',
+        'indian_restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: 'Lalbagh Road, Bengaluru',
+      location: { latitude: 12.9566, longitude: 77.5869 },
+      rating: 4.4,
+      userRatingCount: 1800,
+      displayName: { text: 'MTR', languageCode: 'en' },
+      priceLevel: 'PRICE_LEVEL_MODERATE',
+    },
+  ],
+};
+
+export const AUTH_SELECTORS = {
+  CONTAINER: '#container',
+  SIGN_UP_BTN: '#signUp',
+  SIGN_IN_BTN: '#signIn',
+  MOBILE_SIGN_UP_BTN: '#mobile-signUp',
+  MOBILE_SIGN_IN_BTN: '#mobile-signIn',
+  PANEL_ACTIVE: '.right-panel-active',
+  SIGN_IN_FORM: '#signin-form',
+  SIGN_UP_FORM: '#signup-form',
+  SIGN_UP_NAME: '#signup-name',
+  SIGN_UP_EMAIL: '#signup-email',
+  SIGN_UP_PASSWORD: '#signup-password',
+  SIGN_UP_RETYPE: '#signup-retype-password',
+  SIGN_IN_EMAIL: '#signin-email',
+  SIGN_IN_PASSWORD: '#signin-password',
+  SUBMIT_BTN: 'button[type="submit"]',
+  SIGN_UP_MESSAGE: '#signup-message',
+  SIGN_IN_MESSAGE: '#signin-message',
+};
 export const TIMINGS = {
   SETUP_DELAY: 50,
   SCROLL_DELAY: 200,

@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
+
+dotenvExpand.expand(dotenv.config());
 import { BASE_URL as CONSTANT_BASE_URL } from './src/js/constants/constants.js';
 import { PLAYWRIGHT_CONFIG } from './src/js/constants/paths.js';
 
@@ -16,6 +19,7 @@ export default defineConfig({
   use: {
     baseURL,
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
   projects: [
     {
