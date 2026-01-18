@@ -1,0 +1,43 @@
+.restaurant-details {
+  width: 100%;
+  max-width: 100%;
+  background-color: #fff;
+  padding: 4rem 2rem;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.restaurant-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.restaurant-description {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: var(--color-text-light);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.restaurant-desc {
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: #2c3e50;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Georgia, serif;
+  text-align: left;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}

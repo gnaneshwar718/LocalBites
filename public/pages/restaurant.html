@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant Details - LocalBites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/culture.css" />
+    <link rel="stylesheet" href="/css/restaurant.css" />
+  </head>
+
+  <body>
+    <app-header></app-header>
+    <main class="restaurant-main">
+      <div id="content-container" class="content-container">
+        <div class="hero-image-container">
+          <img id="hero-img" src="" alt="Restaurant Image" />
+        </div>
+
+        <div class="restaurant-details">
+          <h1 id="restaurant-title" class="restaurant-title"></h1>
+          <div id="restaurant-description" class="restaurant-description"></div>
+
+          <div class="action-buttons">
+            <a id="location-link" href="#" target="_blank" class="btn-primary">
+              <i class="fas fa-map-marker-alt"></i> View on Map
+            </a>
+            <a href="/pages/culture.html" class="btn-secondary">
+              <i class="fas fa-arrow-left"></i> Back to Culture
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="not-found-message" class="not-found-message">
+        <i class="fas fa-exclamation-circle not-found-icon"></i>
+        <h2 class="not-found-text">Restaurant not found</h2>
+        <a href="/pages/culture.html" class="return-link"
+          >Return to Culture Page</a
+        >
+      </div>
+    </main>
+    <app-footer></app-footer>
+
+    <template id="parallax-banner-template">
+      <section class="parallax-banner">
+        <div class="banner-overlay"></div>
+      </section>
+    </template>
+
+    <template id="content-block-template">
+      <section class="content-block">
+        <div class="content-wrapper">
+          <h2 class="content-title"></h2>
+          <div class="restaurant-desc"></div>
+          <a href="" target="_blank" class="location-btn">
+            <i class="fas fa-map-marker-alt"></i> View Location
+          </a>
+        </div>
+      </section>
+    </template>
+
+    <template id="footer-nav-template">
+      <div class="restaurant-footer-nav">
+        <a href="/pages/culture.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to Dish Gallery
+        </a>
+      </div>
+    </template>
+
+    <script src="/js/components.js"></script>
+    <script type="module" src="/js/restaurant.js"></script>
+  </body>
+</html>

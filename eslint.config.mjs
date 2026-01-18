@@ -8,9 +8,13 @@ export default [
       'node_modules/**',
       'dist/**',
       'build/**',
-      'coverage/**'
+      'coverage/**',
+      'playwright.config.js',
+      'tests/**/*.spec.js',
+      'commitlint.config.js',
     ],
   },
+
 
   {
     files: ['src/js/**/*.js', '!src/js/**/*.test.js'],
@@ -32,13 +36,13 @@ export default [
   },
 
   {
-    files: ['src/js/**/*.test.js'],
+    files: ['src/js/**/*.test.js', 'tests/**/*.test.mjs', 'tests/**/*.mjs'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.jest,
-        ...globals.node,
+        ...globals.browser,
       },
     },
     rules: {

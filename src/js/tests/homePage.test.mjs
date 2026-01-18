@@ -1,11 +1,4 @@
-import {
-  jest,
-  describe,
-  beforeEach,
-  afterEach,
-  test,
-  expect,
-} from '@jest/globals';
+import { jest, describe, test, expect, beforeEach, afterEach } from "@jest/globals";
 import 'dotenv/config';
 import '@testing-library/jest-dom';
 import { fireEvent, waitFor } from '@testing-library/dom';

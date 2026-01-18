@@ -1,0 +1,11 @@
+@media (width <=768px) {
+  .dishes-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .pagination-controls {
+    margin-top: 3rem;
+    gap: 1rem;
+  }
+}
