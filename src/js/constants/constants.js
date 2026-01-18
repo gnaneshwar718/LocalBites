@@ -23,7 +23,7 @@ export const STATUS_CODES = {
 };
 
 export const SERVER_DEFAULTS = {
-  PORT: 3000,
+  PORT: PORT,
   KEEP_ALIVE_INTERVAL: 1000000,
 };
 
