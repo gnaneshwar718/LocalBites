@@ -1,7 +1,6 @@
 import { ABOUT_DATA, ABOUT_SELECTORS } from './constants/constants.js';
 
 const select = (selector) => document.querySelector(selector);
-
 const AboutPage = {
   init() {
     this.renderMission();

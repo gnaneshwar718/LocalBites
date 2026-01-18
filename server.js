@@ -4,12 +4,16 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { ROUTES, API_ENDPOINTS } from './route.js';
+import {
+  STATUS_CODES,
+  MESSAGES,
+  SERVER_DEFAULTS,
+} from './src/js/constants/constants.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const PATHS = {
   PUBLIC: path.join(__dirname, 'public'),
@@ -20,13 +24,10 @@ const PATHS = {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.get('/about', (req, res) => sendPage(res, 'about.html'));
-
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
-
 app.get('/route.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'route.js'));
 });
@@ -38,9 +39,6 @@ const sendPage = (res, fileName) => {
 app.get(ROUTES.HOME, (req, res) => sendPage(res, 'index.html'));
 app.get(ROUTES.AUTH, (req, res) => sendPage(res, 'auth.html'));
 app.get(ROUTES.EXPLORE, (req, res) => sendPage(res, 'explore.html'));
-// Remove redundant /about and use constants if preferred, but keeping the one above for priority if needed.
-// Actually, let's keep it consistent.
-
 app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   res.json({
     contactEmail: process.env.CONTACT_EMAIL,
@@ -53,30 +51,32 @@ const users = [];
 app.post(ROUTES.SIGNUP, (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)
-    return res.status(400).json({ message: 'All fields are required' });
+    return res
+      .status(STATUS_CODES.BAD_REQUEST)
+      .json({ message: MESSAGES.FIELDS_REQUIRED });
   if (users.find((u) => u.email === email))
-    return res.status(400).json({ message: 'User already exists' });
+    return res
+      .status(STATUS_CODES.BAD_REQUEST)
+      .json({ message: MESSAGES.USER_EXISTS });
   users.push({ name, email, password });
-  res.status(201).json({ message: 'User created successfully' });
+  res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.USER_CREATED });
 });
 
 app.post(ROUTES.SIGNIN, (req, res) => {
   const { email, password } = req.body;
   const user = users.find((u) => u.email === email);
   if (!user || user.password !== password)
-    return res.status(401).json({ message: 'Invalid credentials' });
-  res
-    .status(200)
-    .json({
-      message: 'Sign in successful',
-      user: { name: user.name, email: user.email },
-    });
+    return res
+      .status(STATUS_CODES.UNAUTHORIZED)
+      .json({ message: MESSAGES.INVALID_CREDENTIALS });
+  res.status(STATUS_CODES.OK).json({
+    message: MESSAGES.SIGNIN_SUCCESS,
+    user: { name: user.name, email: user.email },
+  });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
 
-setInterval(() => {
-  // Keep alive
-}, 1000000);
+setInterval(() => {}, SERVER_DEFAULTS.KEEP_ALIVE_INTERVAL);

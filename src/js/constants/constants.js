@@ -15,11 +15,28 @@ export const CLASSNAMES = {
   ACTIVE: 'right-panel-active',
 };
 
+export const STATUS_CODES = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+};
+
+export const SERVER_DEFAULTS = {
+  PORT: 3000,
+  KEEP_ALIVE_INTERVAL: 1000000,
+};
+
 export const MESSAGES = {
   PASSWORD_MISMATCH: 'Passwords do not match!',
   SIGNUP_SUCCESS: 'Sign up successful! Please sign in.',
   SIGNUP_ERROR: 'An error occurred during sign up.',
   SIGNIN_ERROR: 'An error occurred during sign in.',
+  FIELDS_REQUIRED: 'All fields are required',
+  USER_EXISTS: 'User already exists',
+  USER_CREATED: 'User created successfully',
+  INVALID_CREDENTIALS: 'Invalid credentials',
+  SIGNIN_SUCCESS: 'Sign in successful',
 };
 
 export const SELECTORS = {
