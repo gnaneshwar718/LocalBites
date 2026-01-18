@@ -38,7 +38,7 @@
 .info-block h2 {
   font-size: 2.2rem;
   margin-bottom: var(--spacing-sm);
-  color: var(--color-brand);
+  color: #000;
 }
 
 .info-block p {

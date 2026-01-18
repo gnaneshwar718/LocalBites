@@ -120,7 +120,7 @@ export const ABOUT_DATA = {
       icon: 'fas fa-history',
     },
     {
-      title: 'Community',
+      title: 'Explore',
       description: 'Join a growing network of food enthusiasts.',
       icon: 'fas fa-users',
     },

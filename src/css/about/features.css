@@ -49,3 +49,24 @@
   margin-bottom: var(--spacing-md);
   display: block;
 }
+
+@media (width <=780px) {
+  .features-section {
+    padding: var(--spacing-md) 0;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .feature-card {
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+}

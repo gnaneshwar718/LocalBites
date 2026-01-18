@@ -105,3 +105,36 @@
   font-size: 1.15rem;
   line-height: 1.6;
 }
+
+@media (width <=780px) {
+  .team-section {
+    padding: var(--spacing-md) 0;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .team-card {
+    padding: var(--spacing-md);
+    padding-top: 60px;
+    margin-top: var(--spacing-md);
+  }
+
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+    top: -40px;
+  }
+
+  .team-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .team-card p {
+    font-size: 1rem;
+  }
+}

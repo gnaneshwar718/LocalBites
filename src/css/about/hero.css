@@ -7,4 +7,24 @@
   font-size: 4rem;
   margin-bottom: var(--spacing-md);
   color: var(--color-primary);
+  font-weight: 400;
+}
+
+.features-section h2,
+.team-section h2,
+.discover-community-section h2 {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary);
+  font-weight: 400;
+}
+
+@media (width <=780px) {
+  .about-hero h1,
+  .features-section h2,
+  .team-section h2,
+  .discover-community-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: var(--spacing-sm);
+  }
 }
