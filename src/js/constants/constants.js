@@ -96,8 +96,16 @@ export const ABOUT_DATA = {
   VISION:
     'We envision a world where every meal is an opportunity for discovery and cultural connection. By putting local legends on the map, we strive to preserve culinary heritage and support the independent artisans who keep our food traditions alive.',
   TEAM: [
-    { name: 'Rakshitha Banapur', role: 'Software developer engineer', bio: '' },
-    { name: 'Gnaneshwar P', role: 'Software developer engineer', bio: '' },
+    {
+      name: 'Rakshitha Banapur',
+      role: 'Software developer engineer',
+      bio: 'Deeply passionate about preserving cultural narratives through digital design. Dedicated to crafting immersive experiences that bring the soul of local cuisine to life.',
+    },
+    {
+      name: 'Gnaneshwar P',
+      role: 'Software developer engineer',
+      bio: 'Driven by the power of technology to bridge communities. Focused on building seamless, accessible platforms that turn every search into a meaningful discovery.',
+    },
   ],
   FEATURES: [
     {
