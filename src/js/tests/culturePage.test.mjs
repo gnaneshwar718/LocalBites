@@ -82,17 +82,13 @@ describe('Culture Page', () => {
     test('should handle pagination: next, prev, and dots', async () => {
         await setupAndLoad();
         const { nextBtn, prevBtn, dotsContainer } = getUI();
-
         expect(dotsContainer.children.length).toBe(2);
         verifyActiveDot(0);
-
         nextBtn.click();
         verifyGridState(1, 'Dish 7');
         verifyActiveDot(1);
-
         prevBtn.click();
         verifyGridState(6, 'Dish 1');
-
         dotsContainer.children[1].click();
         verifyGridState(1, 'Dish 7');
     });

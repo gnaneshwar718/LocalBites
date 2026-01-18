@@ -4,7 +4,6 @@ import { ANIMATION_TIMINGS } from './constants/constants.js';
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const dishId = urlParams.get('id');
-
   const contentContainer = document.getElementById('content-container');
   const notFoundMessage = document.getElementById('not-found-message');
 
@@ -54,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         'parallax-banner-template'
       );
       const contentTemplate = document.getElementById('content-block-template');
-
       const bannerClone = bannerTemplate.content.cloneNode(true);
       const bannerSection = bannerClone.querySelector('.parallax-banner');
       bannerSection.style.backgroundImage = `url('${image}')`;
@@ -77,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       contentClone.querySelector('.restaurant-desc').innerHTML = description;
-
       const locationBtn = contentClone.querySelector('.location-btn');
       if (link) {
         locationBtn.href = link;
