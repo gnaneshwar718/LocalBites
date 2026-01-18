@@ -54,10 +54,6 @@ app.get(API_ENDPOINTS.CONFIG, (req, res) => {
 
 const users = [];
 
-app.get(ROUTES.CULTURE, (req, res) => {
-  sendPage(res, 'culture.html');
-});
-
 app.post(ROUTES.SIGNUP, (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)

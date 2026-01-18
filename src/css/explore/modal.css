@@ -144,8 +144,39 @@
   gap: 0.5rem;
 }
 
+.modal-footer .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .card-price-large {
   font-size: 1.5rem;
   width: 100%;
   margin-bottom: 0.5rem;
+}
+
+@media (width <=640px) {
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .modal-img {
+    height: 10rem;
+  }
+
+  .modal-info {
+    padding: 1rem;
+  }
+
+  .modal-footer {
+    flex-wrap: wrap;
+  }
+
+  .modal-footer .btn {
+    flex: 1;
+    justify-content: center;
+    white-space: nowrap;
+  }
 }

@@ -228,6 +228,26 @@ class ExplorePage {
     });
   }
 
+  renderStars(rating) {
+    const stars = 5;
+    let color = '#ef4444';
+    if (rating >= 4.0) color = '#22c55e';
+    else if (rating >= 3.0) color = '#eab308';
+
+    let html = `<span style="color: ${color}; display: inline-flex; gap: 2px;">`;
+    for (let i = 0; i < stars; i++) {
+      if (i < Math.floor(rating)) {
+        html += '<i class="fa-solid fa-star"></i>';
+      } else if (i === Math.floor(rating) && rating % 1 >= 0.5) {
+        html += '<i class="fa-solid fa-star-half-stroke"></i>';
+      } else {
+        html += '<i class="fa-regular fa-star"></i>';
+      }
+    }
+    html += `</span> <span style="color: #666; font-size: 0.9em; margin-left: 4px;">(${rating})</span>`;
+    return html;
+  }
+
   createRestaurantCard(restaurant) {
     if (!this.cardTemplate) return document.createElement('div');
     const clone = this.cardTemplate.content.cloneNode(true);
@@ -240,8 +260,24 @@ class ExplorePage {
     clone.querySelector('.card-price').textContent =
       restaurant.priceString || `₹${restaurant.price}`;
     clone.querySelector('.card-cuisine').textContent = restaurant.cuisine;
-    clone.querySelector('.rating .value').textContent = ` ${restaurant.rating}`;
+    clone.querySelector('.rating').innerHTML = this.renderStars(
+      restaurant.rating
+    );
     clone.querySelector('.tag .value').textContent = ` ${restaurant.location}`;
+
+    const badge = clone.querySelector('.card-badge');
+    if (restaurant.openStatusText) {
+      badge.textContent = restaurant.openStatusText;
+      if (restaurant.isOpen) {
+        badge.style.background = '#d1fae5';
+        badge.style.color = '#065f46';
+      } else {
+        badge.style.background = '#fee2e2';
+        badge.style.color = '#991b1b';
+      }
+    } else {
+      badge.style.display = 'none';
+    }
     return article;
   }
 
@@ -260,10 +296,11 @@ class ExplorePage {
       statusBadge.textContent = res.openStatusText;
       statusBadge.style.background = res.isOpen ? '#d1fae5' : '#fee2e2';
       statusBadge.style.color = res.isOpen ? '#065f46' : '#991b1b';
+      statusBadge.style.display = '';
     } else {
       statusBadge.style.display = 'none';
     }
-    clone.querySelector('.rating .value').textContent = ` ${res.rating}`;
+    clone.querySelector('.rating').innerHTML = this.renderStars(res.rating);
     clone.querySelector('.meta-cuisine .value').textContent = ` ${res.cuisine}`;
     clone.querySelector('.meta-location .value').textContent =
       ` ${res.location}`;
