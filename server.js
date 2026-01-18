@@ -24,7 +24,6 @@ const PATHS = {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.get('/about', (req, res) => sendPage(res, 'about.html'));
 app.use(express.static(PATHS.PUBLIC));
 app.use('/css', express.static(PATHS.CSS));
 app.use('/js', express.static(PATHS.JS));
@@ -39,6 +38,8 @@ const sendPage = (res, fileName) => {
 app.get(ROUTES.HOME, (req, res) => sendPage(res, 'index.html'));
 app.get(ROUTES.AUTH, (req, res) => sendPage(res, 'auth.html'));
 app.get(ROUTES.EXPLORE, (req, res) => sendPage(res, 'explore.html'));
+app.get(ROUTES.CULTURE, (req, res) => sendPage(res, 'culture.html'));
+app.get(ROUTES.ABOUT, (req, res) => sendPage(res, 'about.html'));
 app.get(API_ENDPOINTS.CONFIG, (req, res) => {
   res.json({
     contactEmail: process.env.CONTACT_EMAIL,

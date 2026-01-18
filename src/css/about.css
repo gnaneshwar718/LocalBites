@@ -34,19 +34,14 @@
   border-color: var(--color-brand);
 }
 
-/* Specific styling for Info Blocks to give them distinct identity */
-
-/* Mission - Soft Blue/Teal */
 .info-block:nth-child(1) {
   background: linear-gradient(135deg, #fff 0%, #e0f2fe 100%);
 }
 
-/* Story - Soft Orange/Peach */
 .info-block:nth-child(2) {
   background: linear-gradient(135deg, #fff 0%, #ffedd5 100%);
 }
 
-/* Vision - Soft Green/Emerald */
 .info-block:nth-child(3) {
   background: linear-gradient(135deg, #fff 0%, #dcfce7 100%);
 }
@@ -89,64 +84,35 @@
   border: 1px solid rgb(255 255 255 / 50%);
   transition: all 0.3s ease;
   position: relative;
-
-  /* overflow: hidden; Removed to allow floating avatar */
   overflow: visible;
   margin-top: 60px;
-
-  /* Space for the floating avatar */
 }
 
-/* Specific styling for Team Card to support floating avatar */
 .team-card {
   padding-top: 70px;
-
-  /* Push content down */
   position: relative;
 }
 
-/* Feature card can keep overflow hidden if it wants the gradient line effect to stay contained, 
-   but for consistency let's handle them separately if needed. 
-   Actually, the ::before gradient line looks good. 
-   We just need to make sure the team card ::before doesn't look weird sticking out. 
-   Let's keep the gradient line inside the card by using a wrapper or just simple positioning. 
-   If overflow is visible, the ::before at top:0 is fine. 
-*/
-
-/* Add variety to gradients - intensified for visibility */
 .feature-card:nth-child(1) {
   background: linear-gradient(135deg, #fff 0%, #dcfce7 100%);
 }
-
-/* Greenish tint */
 
 .feature-card:nth-child(2) {
   background: linear-gradient(135deg, #fff 0%, #fef9c3 100%);
 }
 
-/* Yellowish tint */
-
 .feature-card:nth-child(3) {
   background: linear-gradient(135deg, #fff 0%, #dbeafe 100%);
 }
-
-/* Blueish tint */
 
 .team-card:nth-child(odd) {
   background: linear-gradient(135deg, #fff 0%, #f3e8ff 100%);
 }
 
-/* Purple tint */
-
 .team-card:nth-child(even) {
   background: linear-gradient(135deg, #fff 0%, #ffedd5 100%);
 }
 
-/* Orange tint */
-
-/* Orange tint */
-
-/* Only apply top line to team cards as requested */
 .team-card::before {
   content: '';
   position: absolute;
@@ -190,8 +156,6 @@
   color: var(--color-brand);
   border: 4px solid #fff;
   box-shadow: 0 10px 25px rgb(0 0 0 / 10%);
-
-  /* Floating positioning */
   position: absolute;
   top: -50px;
   left: 50%;
@@ -221,10 +185,6 @@
   font-weight: 600;
   margin-bottom: 1.5rem;
   background: rgb(var(--color-brand-rgb), 0.1);
-
-  /* Assuming brand color has RGB var, strictly strictly strictly strictly strict fallback to just color */
-
-  /* Since we don't have RGB vars, just use color */
 }
 
 .team-card p {
