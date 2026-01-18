@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../../../route.js';
+import { TEST_USER } from '../constants/test-constants.js';
 
 const SELECTORS = {
   CONTAINER: '#container',
@@ -29,6 +30,7 @@ test.describe('Auth Page', () => {
   test('should show sign in form by default', async ({ page }) => {
     await expect(page.locator(SELECTORS.CONTAINER)).toBeVisible();
     await expect(page.locator(SELECTORS.CONTAINER)).not.toHaveClass(
+      /right-panel-active/
     );
     await expect(page.locator(SELECTORS.SIGN_IN_FORM)).toBeVisible();
   });
@@ -36,18 +38,20 @@ test.describe('Auth Page', () => {
   test('should toggle between sign in and sign up panels', async ({ page }) => {
     await page.locator(SELECTORS.SIGN_UP_BTN).click();
     await expect(page.locator(SELECTORS.CONTAINER)).toHaveClass(
+      /right-panel-active/
     );
     await page.locator(SELECTORS.SIGN_IN_BTN).click();
     await expect(page.locator(SELECTORS.CONTAINER)).not.toHaveClass(
+      /right-panel-active/
     );
   });
   test('should show validation error for password mismatch', async ({
     page,
   }) => {
     await page.locator(SELECTORS.SIGN_UP_BTN).click();
-    await page.locator(SELECTORS.SIGN_UP_NAME).fill('Test User');
-    await page.locator(SELECTORS.SIGN_UP_EMAIL).fill('test@example.com');
-    await page.locator(SELECTORS.SIGN_UP_PASSWORD).fill('password123');
+    await page.locator(SELECTORS.SIGN_UP_NAME).fill(TEST_USER.name);
+    await page.locator(SELECTORS.SIGN_UP_EMAIL).fill(TEST_USER.email);
+    await page.locator(SELECTORS.SIGN_UP_PASSWORD).fill(TEST_USER.password);
     await page.locator(SELECTORS.SIGN_UP_RETYPE).fill('mismatch');
     await page
       .locator(SELECTORS.SIGN_UP_FORM)
@@ -67,10 +71,10 @@ test.describe('Auth Page', () => {
       });
     });
     await page.locator(SELECTORS.SIGN_UP_BTN).click();
-    await page.locator(SELECTORS.SIGN_UP_NAME).fill('New User');
-    await page.locator(SELECTORS.SIGN_UP_EMAIL).fill('new@example.com');
-    await page.locator(SELECTORS.SIGN_UP_PASSWORD).fill('password123');
-    await page.locator(SELECTORS.SIGN_UP_RETYPE).fill('password123');
+    await page.locator(SELECTORS.SIGN_UP_NAME).fill(TEST_USER.name);
+    await page.locator(SELECTORS.SIGN_UP_EMAIL).fill(TEST_USER.email);
+    await page.locator(SELECTORS.SIGN_UP_PASSWORD).fill(TEST_USER.password);
+    await page.locator(SELECTORS.SIGN_UP_RETYPE).fill(TEST_USER.password);
     await page
       .locator(SELECTORS.SIGN_UP_FORM)
       .locator(SELECTORS.SUBMIT_BTN)
@@ -93,10 +97,10 @@ test.describe('Auth Page', () => {
       });
     });
     await page.locator(SELECTORS.SIGN_UP_BTN).click();
-    await page.locator(SELECTORS.SIGN_UP_NAME).fill('Existing User');
-    await page.locator(SELECTORS.SIGN_UP_EMAIL).fill('exist@example.com');
-    await page.locator(SELECTORS.SIGN_UP_PASSWORD).fill('pass');
-    await page.locator(SELECTORS.SIGN_UP_RETYPE).fill('pass');
+    await page.locator(SELECTORS.SIGN_UP_NAME).fill(TEST_USER.name);
+    await page.locator(SELECTORS.SIGN_UP_EMAIL).fill(TEST_USER.email);
+    await page.locator(SELECTORS.SIGN_UP_PASSWORD).fill(TEST_USER.password);
+    await page.locator(SELECTORS.SIGN_UP_RETYPE).fill(TEST_USER.password);
     await page
       .locator(SELECTORS.SIGN_UP_FORM)
       .locator(SELECTORS.SUBMIT_BTN)
@@ -117,8 +121,8 @@ test.describe('Auth Page', () => {
         }),
       });
     });
-    await page.locator(SELECTORS.SIGN_IN_EMAIL).fill('user@example.com');
-    await page.locator(SELECTORS.SIGN_IN_PASSWORD).fill('password123');
+    await page.locator(SELECTORS.SIGN_IN_EMAIL).fill(TEST_USER.email);
+    await page.locator(SELECTORS.SIGN_IN_PASSWORD).fill(TEST_USER.password);
     await page
       .locator(SELECTORS.SIGN_IN_FORM)
       .locator(SELECTORS.SUBMIT_BTN)

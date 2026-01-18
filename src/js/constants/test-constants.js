@@ -76,3 +76,42 @@ export const TEST_DIMENSIONS = {
 export const TEST_DEFAULTS = {
   MIN_COUNT: 1,
 };
+
+export const RESTAURANTS = [
+  {
+    id: '1',
+    name: 'Vidyarthi Bhavan',
+    cuisine: 'South Indian',
+    mealType: ['breakfast', 'lunch'],
+    price: 150,
+    rating: 4.5,
+    reviews: 2000,
+    location: 'Basavanagudi',
+    image: 'vb.jpg',
+    priceString: '₹150',
+  },
+  {
+    id: '2',
+    name: 'MTR',
+    cuisine: 'South Indian',
+    mealType: ['breakfast', 'lunch', 'dinner'],
+    price: 250,
+    rating: 4.4,
+    reviews: 1500,
+    location: 'Lalbagh',
+    image: 'mtr.jpg',
+    priceString: '₹250',
+  },
+  {
+    id: '3',
+    name: 'Truffles',
+    cuisine: 'Burger',
+    mealType: ['lunch', 'dinner'],
+    price: 350,
+    rating: 4.3,
+    reviews: 1200,
+    location: 'Koramangala',
+    image: 'truffles.jpg',
+    priceString: '₹350',
+  },
+];

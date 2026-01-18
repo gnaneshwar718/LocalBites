@@ -10,6 +10,7 @@ import 'dotenv/config';
 import '@testing-library/jest-dom';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { CAROUSEL_INTERVAL } from '../constants/constants.js';
+import { API_ENDPOINTS } from '../../../route.js';
 
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
 const CACHE_BUST_OFFSET_FOOTER = 4;
@@ -62,7 +63,7 @@ describe('HomePage DOM Unit Tests', () => {
             ),
         });
       }
-      if (url.includes('/api/config')) {
+      if (url.includes(API_ENDPOINTS.CONFIG)) {
         return Promise.resolve({
           json: () =>
             Promise.resolve({
