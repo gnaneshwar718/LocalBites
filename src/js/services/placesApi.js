@@ -167,6 +167,35 @@ export const PlacesApi = {
     return Array.from(mealTypes);
   },
 
+  getConciseAddress(place) {
+    if (place.addressComponents) {
+      let sublocality = '';
+
+      for (const component of place.addressComponents) {
+        if (
+          component.types.includes('sublocality_level_1') ||
+          component.types.includes('sublocality')
+        ) {
+          sublocality = component.longText;
+        }
+      }
+      if (sublocality) return sublocality;
+    }
+
+    if (place.formattedAddress) {
+      const parts = place.formattedAddress.split(',').map((p) => p.trim());
+      const cityIndex = parts.findIndex((p) => p.includes('Bengaluru'));
+      if (cityIndex > 0) {
+        return parts[cityIndex - 1];
+      }
+      if (parts.length >= 4) {
+        return parts[parts.length - 4];
+      }
+    }
+
+    return 'Bengaluru';
+  },
+
   transformData(places) {
     return places.map((place) => {
       const photoUrl =
@@ -175,24 +204,24 @@ export const PlacesApi = {
           : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop';
 
       let price = 300;
-      let priceString = '₹200–400';
+      let priceString = '₹300';
 
       switch (place.priceLevel) {
         case 'PRICE_LEVEL_INEXPENSIVE':
           price = 150;
-          priceString = '₹1–200';
+          priceString = '₹150';
           break;
         case 'PRICE_LEVEL_MODERATE':
           price = 350;
-          priceString = '₹200–400';
+          priceString = '₹350';
           break;
         case 'PRICE_LEVEL_EXPENSIVE':
           price = 600;
-          priceString = '₹400–700';
+          priceString = '₹600';
           break;
         case 'PRICE_LEVEL_VERY_EXPENSIVE':
           price = 1000;
-          priceString = '₹700+';
+          priceString = '₹1000';
           break;
       }
 
@@ -211,7 +240,7 @@ export const PlacesApi = {
         image: photoUrl,
         description:
           place.editorialSummary?.text || 'No description available.',
-        location: place.formattedAddress || 'Bengaluru',
+        location: this.getConciseAddress(place),
         specialty: 'Variety of dishes',
         lat: place.location?.latitude,
         lng: place.location?.longitude,
