@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { PATHS } from '../constants/paths.js';
 import { TIMINGS, MOCK_CULTURE_DATA as mockCultureData } from '../constants/test-constants.js';
+import '../culture.js';
 
 describe('Culture Page', () => {
     beforeEach(() => {
@@ -38,7 +39,6 @@ describe('Culture Page', () => {
     });
 
     const setupAndLoad = async () => {
-        await import('../culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         if (setTimeout.clock === undefined) {
             await new Promise(resolve => setTimeout(resolve, TIMINGS.SETUP_DELAY));
@@ -135,7 +135,6 @@ describe('Culture Page', () => {
 
     test('should update carousel slides automatically', async () => {
         jest.useFakeTimers();
-        await import('../culture.js?t=' + Date.now());
         document.dispatchEvent(new Event('DOMContentLoaded'));
         for (let i = 0; i < TIMINGS.LOOP_COUNT; i++) await Promise.resolve();
         for (let i = 0; i < TIMINGS.LOOP_COUNT; i++) await Promise.resolve();
